@@ -7,212 +7,297 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="TrayCount">
-<meta name="theme-color" content="#0b1220">
+<meta name="theme-color" content="#07090f">
 <link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAAGpklEQVR4Xu2dPW4cRxBGKdNQ6EA5AQYOBJ9DoSMCPIQSX4eHMKCIIQ/iQIEA5T6AAQEOGhgMdjUzXb9dPfterK3u7Xrzdc/ucvTutz/+ugP4Gb+wLLAFcgBygBySA0gOkENyAMkBckgOIDlADskBJAfIITmA5AA5JAeQHCCH5ACSA+T8Kn+JA+8/fHSocmP89+8/ye84VQ6csLCsXpolGXLghC9plsTKgRahtOWNC5LAuxXMyCFunaPkiJsxXBO02v7bStBEYZ+ILcY5OTBjLL7r7ymH78xAh2MX3ORwnBMY8eqFmxxwPnzk8FIVvHDpiIMcLvMAd+x9scphnwHEYeyOVQ44MSY5jGJCApYemeSAc4McsIleDkteQSbqTunlgNPj/63sTfH19Xnr/f7+59+zL8U73aMm1Ul1DnacuKaIJYofjJEcMkRaNNpLiigiAjl6UWixZkZFppFj7O5uNGPh6+vzRBFS/cwh6krQuovm0EPQPPdRnDnqyqFuie/Sq6exj+8keziJHC79cFl9l5kUuddVyFHuQzCvftjr2CvsE13fTi05fNfLUs3y2n5yRlFTSI6IlYqoeTtUkSOui4rKipeoyRxLSgk5ohcouv5ZGS9HTuf6R+n/l17kj9jJeDmgLIPlyLxoMsc6B4PlqMYogUaNu89IOfJXJH/EqRkpBxQHOWCTYXKMSvhR487IMDmgPsgB9bYVqA/JASRHHy6/H1Mwatx9SA4gOUAOyXFJfsLnj9jJMDlGrciocWdkmByVyRQocywpyAElD6T5F03/iP3/0kLOKGpIjk2iOxdd385gOTIXSDGW4iWdxFV2ZLAc9YnoYkTNCMbLkbNSllEsr73Gt1oo4+VIeCSSvR/2Cg2vOjkUej5H0G+0fPuhnqTvNBQoHsFQSI7l2WqOBLVEpEjQHKRML4evHwld2bEkYXQRZ5DDy49qvRmOQo6KTxNsfRVF9xq08KKiHOuDvUgRtPClrhwX934T7e6nobocC6RCPtPIMS+PL/f7k//2+UfNd4ccURw6sbD8y2qWIIcz/U5cU80S5HDDosUFrdTwICnxxdsJcDTjersZBclhJUKLCz9GRQjJYSLUjOERQnLo6Tfj7eFpa5hP37/0zODx5T4/P2p9Za8m//PTHjN2nLimxxKLH4ov3uaWY9Q3L4dmiLRYc6iI2o8bkkOkxRr7x/D7Zqi16FdE58dNyKHWwkWRBDMa+xGi8EMhx2R3Ky5mWH4sssXbw5NLZiy8PTwpDPBlJjm8zGgoqm3Fhq8WC19fn7f8ODz0uDCNHIpeHiKqmdOPC3ZmmDCfOeQQdVGEvXJQbKz3F9E7cmQCOez926enfvKGcsGozaW6HD2ds5MzippR06suR2WiN5Q1Q+5cSsuRecWMPfodsjW90GNpaTkqkxkbjfzwqCtHZmw08kcsTl05ihCa2yLydxbk0JC/pwzZWYrKMSrhR41bk6JyQAWQAzZBDkAOkENyAMkBckiOabD/NFoKcmg4/AOCIJI/ri0qR/5V0rgeN//rLilxMywqB1ww5GpBDiX5O0vynnJ3V1iO/Gtla8S43O5kZylC50Zy6MkMj/zYKJ0cyf8BRX5QdTJwYiRHF1vpHR0ezYyt2AjdU6onR1p4WK7OOD/2zUhgguSwdK6Hzvo7l2lnBRGHNaNjY4Lk2PpsyovDHqzZ+cszUZ1DlmqjNpTGBMkR54djRx9f7r32l2U3GXKHsmYaOdzPHzoz9sP80/cvurLLBdBzzkjYUBrzPRPM5TfAlhbu3D4sfPv8QzTPw31kXflwV/opiif7zCdHQ7T0a4xaLPRkfrvEO5902F9Qxw3JoVDESwuRH42djaDHicMiPdycHAudV6c7/a01Yj9n3K4cA0nww27G3Z1GDh5vbaV1LkgRFy3UzHQrW5mILkbUFEFyuOEYIcO1aCCHM0tfFRtNEScWkCOKfkuqOYEceZTt/SEcSGET5ABvORQft8FAdP0iOcA7OeAW0CeHLqkgH3Wn9HLA6UEOiDlzqPMK0rD0iOSAmOTQ/YQE0rDEhs/frRhnAEHY++KzrdjnAb64dMRHDjglbnK4qAouePXCTQ4Op0XwMsPnQLrGcWagwHf9/X8m2Ob3/sNHxXsDNb5aNDy3FSJkFBFmBMrBESSNIDPC/zSBLSaUOC0a/meOa5b3wEHEhWgnFjLkWMASC2lOjJHj2hKoTNTdCpwA5IBNkAOQA+SQHEBygBySA0gOkENyAMkBckgOIDlADskBJAfIITmA5AA5/wOOxG6WoARBTwAAAABJRU5ErkJggg==">
 <link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAAGpklEQVR4Xu2dPW4cRxBGKdNQ6EA5AQYOBJ9DoSMCPIQSX4eHMKCIIQ/iQIEA5T6AAQEOGhgMdjUzXb9dPfterK3u7Xrzdc/ucvTutz/+ugP4Gb+wLLAFcgBygBySA0gOkENyAMkBckgOIDlADskBJAfIITmA5AA5JAeQHCCH5ACSA+T8Kn+JA+8/fHSocmP89+8/ye84VQ6csLCsXpolGXLghC9plsTKgRahtOWNC5LAuxXMyCFunaPkiJsxXBO02v7bStBEYZ+ILcY5OTBjLL7r7ymH78xAh2MX3ORwnBMY8eqFmxxwPnzk8FIVvHDpiIMcLvMAd+x9scphnwHEYeyOVQ44MSY5jGJCApYemeSAc4McsIleDkteQSbqTunlgNPj/63sTfH19Xnr/f7+59+zL8U73aMm1Ul1DnacuKaIJYofjJEcMkRaNNpLiigiAjl6UWixZkZFppFj7O5uNGPh6+vzRBFS/cwh6krQuovm0EPQPPdRnDnqyqFuie/Sq6exj+8keziJHC79cFl9l5kUuddVyFHuQzCvftjr2CvsE13fTi05fNfLUs3y2n5yRlFTSI6IlYqoeTtUkSOui4rKipeoyRxLSgk5ohcouv5ZGS9HTuf6R+n/l17kj9jJeDmgLIPlyLxoMsc6B4PlqMYogUaNu89IOfJXJH/EqRkpBxQHOWCTYXKMSvhR487IMDmgPsgB9bYVqA/JASRHHy6/H1Mwatx9SA4gOUAOyXFJfsLnj9jJMDlGrciocWdkmByVyRQocywpyAElD6T5F03/iP3/0kLOKGpIjk2iOxdd385gOTIXSDGW4iWdxFV2ZLAc9YnoYkTNCMbLkbNSllEsr73Gt1oo4+VIeCSSvR/2Cg2vOjkUej5H0G+0fPuhnqTvNBQoHsFQSI7l2WqOBLVEpEjQHKRML4evHwld2bEkYXQRZ5DDy49qvRmOQo6KTxNsfRVF9xq08KKiHOuDvUgRtPClrhwX934T7e6nobocC6RCPtPIMS+PL/f7k//2+UfNd4ccURw6sbD8y2qWIIcz/U5cU80S5HDDosUFrdTwICnxxdsJcDTjersZBclhJUKLCz9GRQjJYSLUjOERQnLo6Tfj7eFpa5hP37/0zODx5T4/P2p9Za8m//PTHjN2nLimxxKLH4ov3uaWY9Q3L4dmiLRYc6iI2o8bkkOkxRr7x/D7Zqi16FdE58dNyKHWwkWRBDMa+xGi8EMhx2R3Ky5mWH4sssXbw5NLZiy8PTwpDPBlJjm8zGgoqm3Fhq8WC19fn7f8ODz0uDCNHIpeHiKqmdOPC3ZmmDCfOeQQdVGEvXJQbKz3F9E7cmQCOez926enfvKGcsGozaW6HD2ds5MzippR06suR2WiN5Q1Q+5cSsuRecWMPfodsjW90GNpaTkqkxkbjfzwqCtHZmw08kcsTl05ihCa2yLydxbk0JC/pwzZWYrKMSrhR41bk6JyQAWQAzZBDkAOkENyAMkBckiOabD/NFoKcmg4/AOCIJI/ri0qR/5V0rgeN//rLilxMywqB1ww5GpBDiX5O0vynnJ3V1iO/Gtla8S43O5kZylC50Zy6MkMj/zYKJ0cyf8BRX5QdTJwYiRHF1vpHR0ezYyt2AjdU6onR1p4WK7OOD/2zUhgguSwdK6Hzvo7l2lnBRGHNaNjY4Lk2PpsyovDHqzZ+cszUZ1DlmqjNpTGBMkR54djRx9f7r32l2U3GXKHsmYaOdzPHzoz9sP80/cvurLLBdBzzkjYUBrzPRPM5TfAlhbu3D4sfPv8QzTPw31kXflwV/opiif7zCdHQ7T0a4xaLPRkfrvEO5902F9Qxw3JoVDESwuRH42djaDHicMiPdycHAudV6c7/a01Yj9n3K4cA0nww27G3Z1GDh5vbaV1LkgRFy3UzHQrW5mILkbUFEFyuOEYIcO1aCCHM0tfFRtNEScWkCOKfkuqOYEceZTt/SEcSGET5ABvORQft8FAdP0iOcA7OeAW0CeHLqkgH3Wn9HLA6UEOiDlzqPMK0rD0iOSAmOTQ/YQE0rDEhs/frRhnAEHY++KzrdjnAb64dMRHDjglbnK4qAouePXCTQ4Op0XwMsPnQLrGcWagwHf9/X8m2Ob3/sNHxXsDNb5aNDy3FSJkFBFmBMrBESSNIDPC/zSBLSaUOC0a/meOa5b3wEHEhWgnFjLkWMASC2lOjJHj2hKoTNTdCpwA5IBNkAOQA+SQHEBygBySA0gOkENyAMkBckgOIDlADskBJAfIITmA5AA5/wOOxG6WoARBTwAAAABJRU5ErkJggg==">
-<title>TrayCount — Pill Counter</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<title>TrayCount</title>
 <style>
-:root{--bg:#0b1220;--card:#121b2e;--card2:#18233a;--line:#26324d;--text:#e8eefc;--muted:#8fa0c3;--green:#22c55e;--blue:#3b82f6;--amber:#f59e0b;--red:#ef4444}
+:root{
+  --bg:#07090f;--s1:rgba(255,255,255,.045);--s2:rgba(255,255,255,.075);--s3:rgba(255,255,255,.11);
+  --line:rgba(255,255,255,.08);--line2:rgba(255,255,255,.14);
+  --text:#eef2fb;--muted:#8792aa;--dim:#5b647a;
+  --mint:#34d399;--mint2:#10b981;--blue:#60a5fa;--amber:#fbbf24;--red:#f87171;--violet:#a78bfa;
+  --r:18px;--font:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{margin:0;height:100%;background:var(--bg);color:var(--text);font:16px/1.35 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;overflow:hidden;-webkit-user-select:none;user-select:none}
-input,select,button{font:inherit}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--text);font:15px/1.35 var(--font);overflow:hidden;overscroll-behavior:none;-webkit-user-select:none;user-select:none;-webkit-font-smoothing:antialiased}
+body{background:radial-gradient(1200px 600px at 70% -10%,rgba(52,211,153,.07),transparent 60%),radial-gradient(900px 500px at -10% 110%,rgba(96,165,250,.06),transparent 60%),var(--bg)}
+button,input,select{font:inherit;color:inherit}
 input,select{-webkit-user-select:text;user-select:text}
-#app{display:flex;flex-direction:column;height:100%;padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
-header{display:flex;align-items:center;gap:10px;padding:8px 14px;border-bottom:1px solid var(--line)}
-header h1{font-size:18px;margin:0;font-weight:700;letter-spacing:.3px}
-header h1 span{color:var(--green)}
-header .sp{flex:1}
-.hbtn{background:var(--card2);border:1px solid var(--line);color:var(--text);border-radius:10px;padding:8px 14px;font-size:15px}
-main{flex:1;display:flex;min-height:0}
-#stageWrap{flex:1;display:flex;align-items:center;justify-content:center;padding:10px;min-width:0;min-height:0;position:relative}
-#stage{position:relative;background:#000;border-radius:14px;overflow:hidden;width:100%;height:100%}
+button{cursor:pointer;border:0;background:none}
+svg{display:block}
+.num{font-variant-numeric:tabular-nums;font-feature-settings:"tnum"}
+
+#app{display:grid;height:100%;grid-template-rows:auto minmax(0,1fr) auto;padding:env(safe-area-inset-top) env(safe-area-inset-right) 0 env(safe-area-inset-left)}
+header{display:flex;align-items:center;gap:10px;padding:10px 16px 6px}
+.logo{display:flex;align-items:center;gap:9px;font-weight:800;font-size:17px;letter-spacing:-.2px}
+.logo i{width:26px;height:26px;border-radius:8px;background:linear-gradient(135deg,#34d399,#3b82f6);display:grid;place-items:center;box-shadow:0 4px 14px rgba(52,211,153,.35)}
+.logo i::after{content:"";width:10px;height:10px;border-radius:50%;background:#fff;box-shadow:0 0 0 3px rgba(255,255,255,.25)}
+.store{color:var(--muted);font-size:13px;font-weight:500}
+.sp{flex:1}
+.ib{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:var(--s1);border:1px solid var(--line);transition:background .15s}
+.ib:active{background:var(--s3)}
+.ib svg{width:20px;height:20px;stroke:var(--text)}
+
+main{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:12px;padding:6px 14px 10px;min-height:0}
+#stageWrap{position:relative;min-height:0;min-width:0;display:grid;place-items:center}
+#stage{position:relative;border-radius:22px;overflow:hidden;background:#000;box-shadow:0 0 0 1px var(--line),0 20px 60px rgba(0,0,0,.5);transition:box-shadow .3s;width:100%;height:100%}
+#stage.match{box-shadow:0 0 0 2px var(--mint),0 0 40px rgba(52,211,153,.35),0 20px 60px rgba(0,0,0,.5)}
+#stage.over{box-shadow:0 0 0 2px var(--red),0 0 40px rgba(248,113,113,.3),0 20px 60px rgba(0,0,0,.5)}
 #stage video,#stage canvas{position:absolute;inset:0;width:100%;height:100%}
-#stage video{object-fit:fill}
-#banner{position:absolute;top:10px;left:50%;transform:translateX(-50%);background:rgba(11,18,32,.85);border:1px solid var(--line);padding:8px 16px;border-radius:999px;font-weight:600;white-space:nowrap;display:none;z-index:3}
-#stageBtns{position:absolute;bottom:14px;left:0;right:0;display:none;justify-content:center;gap:10px;z-index:3}
-#debug{position:absolute;left:10px;bottom:8px;font-size:12px;color:#cbd5e1;background:rgba(0,0,0,.45);padding:2px 8px;border-radius:6px;z-index:2}
-#startCover{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center;padding:30px;background:radial-gradient(circle at 50% 40%,#16213a,#05080f);z-index:4}
-#startCover p{color:var(--muted);max-width:460px;margin:0}
-.big{background:var(--green);color:#03210f;border:0;border-radius:14px;padding:16px 28px;font-size:20px;font-weight:800}
-aside{width:380px;flex:none;overflow-y:auto;padding:10px 12px 12px 2px;display:flex;flex-direction:column;gap:8px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 12px}
-#countCard{text-align:center;transition:background .25s,border-color .25s}
-#countCard.match{background:#0d2e1c;border-color:var(--green)}
-#countCard.over{background:#3a1010;border-color:var(--red)}
-#count{font-size:96px;font-weight:800;line-height:1;font-variant-numeric:tabular-nums;letter-spacing:-2px}
-#cstatus{color:var(--muted);font-weight:600;min-height:22px}
-#cstatus.warn{color:var(--amber)}
-#adjRow{display:flex;justify-content:center;gap:10px;margin-top:6px;align-items:center}
-.sq{width:52px;height:38px;border-radius:10px;border:1px solid var(--line);background:var(--card2);color:var(--text);font-size:22px;font-weight:700}
-#adjLbl{color:var(--amber);font-size:14px;min-width:70px}
-.row{display:flex;gap:8px;align-items:center}
-.row+.row{margin-top:8px}
-label.l{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;display:block;margin-bottom:3px}
-input.f{width:100%;background:#0b1220;border:1px solid var(--line);color:var(--text);border-radius:10px;padding:8px 10px;font-size:16px}
-input.f:focus{outline:2px solid var(--blue);border-color:transparent}
-#target{font-size:24px;font-weight:700;text-align:center;width:110px}
-#tstatus{flex:1;text-align:center;font-weight:800;font-size:19px;border-radius:10px;padding:8px 6px;background:var(--card2)}
-#tstatus.go{color:#93c5fd}#tstatus.ok{background:var(--green);color:#03210f}#tstatus.over{background:var(--red);color:#fff}
-.bar{height:8px;background:var(--card2);border-radius:99px;overflow:hidden;margin-top:8px}
-.bar>div{height:100%;width:0;background:var(--blue);transition:width .15s}
-.btn{flex:1;background:var(--card2);border:1px solid var(--line);color:var(--text);border-radius:12px;padding:10px 8px;font-size:15px;font-weight:600}
-.btn.on{border-color:var(--green);color:#86efac}
-.btn.primary{background:var(--blue);border-color:var(--blue);color:#fff}
-.btn.save{background:var(--green);border-color:var(--green);color:#03210f;font-size:19px;font-weight:800;padding:14px}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-#verify{margin-top:8px;padding:8px;border-radius:10px;font-weight:700;text-align:center;background:var(--card2);color:var(--muted)}
-#verify.ok{background:#0d2e1c;color:#86efac;border:1px solid var(--green)}
-#verify.bad{background:#3a1010;color:#fecaca;border:1px solid var(--red)}
-.small{font-size:13px;color:var(--muted)}
-#bottleInfo{font-size:14px;margin-top:6px;color:#cbd5e1;min-height:18px}
-/* modal */
-.modal{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;z-index:20;padding:20px}
-.modal.show{display:flex}
-.sheet{background:var(--card);border:1px solid var(--line);border-radius:16px;max-width:760px;width:100%;max-height:92vh;overflow:auto;padding:18px}
-.sheet h2{margin:0 0 10px;font-size:20px}
-.sheet.wide{max-width:1100px}
-table{width:100%;border-collapse:collapse;font-size:14px}
-th,td{text-align:left;padding:7px 6px;border-bottom:1px solid var(--line);vertical-align:middle}
-th{color:var(--muted);font-weight:600;font-size:12px;text-transform:uppercase}
-td img{width:72px;height:54px;object-fit:cover;border-radius:6px;cursor:pointer}
-.tag{display:inline-block;padding:2px 8px;border-radius:99px;font-size:12px;font-weight:700}
-.tag.ok{background:#0d2e1c;color:#86efac}.tag.bad{background:#3a1010;color:#fecaca}.tag.na{background:var(--card2);color:var(--muted)}
-.setgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.setgrid input[type=range]{width:100%}
-#toast{position:fixed;left:50%;bottom:30px;transform:translateX(-50%);background:#111827;border:1px solid var(--line);padding:12px 20px;border-radius:12px;font-weight:600;z-index:30;display:none;max-width:90vw;text-align:center}
-.help li{margin-bottom:6px}
-@media (orientation:portrait){
-  main{flex-direction:column}
-  #stageWrap{flex:none;height:52vh}
-  aside{width:auto;padding:0 10px 14px}
-  #count{font-size:96px}
+#overlay{touch-action:none}
+.chip{display:inline-flex;align-items:center;gap:7px;padding:7px 12px;border-radius:999px;background:rgba(10,13,22,.62);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid var(--line2);font-size:13px;font-weight:600;white-space:nowrap;color:var(--text)}
+.chip .dot{width:8px;height:8px;border-radius:50%;background:var(--muted)}
+.chip.ok .dot{background:var(--mint);box-shadow:0 0 0 4px rgba(52,211,153,.18)}
+.chip.warn .dot{background:var(--amber);box-shadow:0 0 0 4px rgba(251,191,36,.18)}
+.chip.edit{background:rgba(52,211,153,.18);border-color:rgba(52,211,153,.5)}
+.hudTL{position:absolute;top:12px;left:12px;display:flex;gap:8px;z-index:3;flex-wrap:wrap}
+.hudB{position:absolute;left:0;right:0;bottom:12px;display:flex;justify-content:center;z-index:3;pointer-events:none}
+#hint{transition:opacity .4s}
+#zoomBox{position:absolute;right:12px;top:12px;z-index:3;display:none;align-items:center;gap:8px}
+#zoomBox input{width:110px;accent-color:var(--mint)}
+#banner{position:absolute;top:14px;left:50%;transform:translateX(-50%);z-index:4;display:none}
+#modeBar{position:absolute;bottom:14px;left:0;right:0;display:none;justify-content:center;gap:10px;z-index:4}
+#debug{position:absolute;left:12px;bottom:12px;font-size:11px;color:#cbd5e1;background:rgba(0,0,0,.5);padding:3px 8px;border-radius:6px;z-index:3;display:none}
+
+#startCover{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center;padding:30px;z-index:6;background:radial-gradient(circle at 50% 35%,#132036 0%,#07090f 70%)}
+#startCover h2{margin:0;font-size:26px;letter-spacing:-.5px}
+#startCover p{margin:0;color:var(--muted);max-width:420px}
+.orb{width:88px;height:88px;border-radius:28px;background:linear-gradient(135deg,#34d399,#3b82f6);display:grid;place-items:center;box-shadow:0 18px 50px rgba(52,211,153,.35);animation:float 3s ease-in-out infinite}
+.orb svg{width:40px;height:40px;stroke:#04130c;stroke-width:2.2}
+@keyframes float{50%{transform:translateY(-6px)}}
+.cta{background:linear-gradient(180deg,#3ee0a5,#10b981);color:#03170e;font-weight:800;font-size:17px;padding:15px 30px;border-radius:16px;box-shadow:0 10px 30px rgba(16,185,129,.35),inset 0 1px 0 rgba(255,255,255,.4)}
+.cta:active{transform:scale(.98)}
+#startErr{color:#fca5a5;font-size:13px;max-width:420px}
+
+aside{display:flex;flex-direction:column;gap:12px;min-height:0;overflow-y:auto;scrollbar-width:none}
+aside>*{flex-shrink:0}
+aside::-webkit-scrollbar{display:none}
+.card{background:var(--s1);border:1px solid var(--line);border-radius:var(--r);padding:14px}
+#ringCard{display:flex;flex-direction:column;align-items:center;gap:8px;padding:14px 14px 12px;position:relative;overflow:hidden}
+#ringCard::before{content:"";position:absolute;inset:-40%;background:radial-gradient(circle at 50% 40%,var(--glow,transparent),transparent 55%);transition:background .4s;pointer-events:none}
+.ringBox{position:relative;width:176px;height:176px;flex:none}
+.ringBox svg{position:absolute;inset:0;width:100%;height:100%;transform:rotate(-90deg)}
+.ringBox circle{fill:none;stroke-width:12;stroke-linecap:round}
+#ringTrack{stroke:rgba(255,255,255,.07)}
+#ringProg{stroke:var(--blue);transition:stroke-dashoffset .35s cubic-bezier(.2,.8,.2,1),stroke .3s}
+.ringIn{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+#count{font-size:68px;font-weight:800;letter-spacing:-3px;line-height:1;transition:transform .18s}
+#count.bump{transform:scale(1.08)}
+#ofTarget{color:var(--muted);font-weight:600;font-size:14px;margin-top:4px;min-height:18px}
+.ringSide{display:flex;flex-direction:column;align-items:center;gap:8px;position:relative}
+#status{display:flex;align-items:center;gap:7px;font-weight:600;font-size:13px;color:var(--muted);min-height:20px}
+#status .dot{width:8px;height:8px;border-radius:50%;background:var(--dim)}
+#status.stable .dot{background:var(--mint);box-shadow:0 0 0 4px rgba(52,211,153,.18)}
+#status.stable{color:#a7f3d0}
+#status.warn{color:#fde68a}#status.warn .dot{background:var(--amber)}
+#verdict{font-weight:800;font-size:15px;padding:7px 14px;border-radius:999px;background:var(--s2);color:var(--muted);transition:all .25s}
+#verdict.go{color:#bfdbfe;background:rgba(96,165,250,.14)}
+#verdict.ok{color:#03170e;background:var(--mint)}
+#verdict.over{color:#fff;background:var(--red)}
+
+.tgt{display:flex;align-items:center;gap:10px}
+.tgt label{font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.7px;flex:1}
+.step{display:flex;align-items:center;background:var(--s2);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.step button{width:44px;height:44px;font-size:22px;font-weight:600}
+.step button:active{background:var(--s3)}
+.step input{width:64px;height:44px;text-align:center;background:transparent;border:0;font-size:22px;font-weight:800;outline:none}
+.presets{display:flex;gap:6px;margin-top:10px}
+.presets button{flex:1;padding:8px 0;border-radius:10px;background:var(--s1);border:1px solid var(--line);font-weight:600;font-size:13px;color:var(--muted)}
+.presets button.on{color:var(--text);border-color:var(--line2);background:var(--s2)}
+
+.rxHead{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.rxHead b{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.7px;flex:1;font-weight:600}
+.field{display:flex;align-items:center;gap:10px;padding:8px 0;border-top:1px solid var(--line)}
+.field:first-child{border-top:0}
+.field span{width:80px;flex:none;font-size:12px;color:var(--muted);font-weight:600}
+.field input{flex:1;min-width:0;background:transparent;border:0;outline:none;font-size:15px;font-weight:600;padding:2px 0}
+.field input::placeholder{color:var(--dim);font-weight:500}
+#bottleInfo{font-size:12.5px;color:var(--muted);padding:0 0 8px 90px;line-height:1.4}
+#bottleInfo b{color:var(--text);font-weight:600}
+#verify{display:flex;align-items:center;gap:8px;margin-top:6px;padding:10px 12px;border-radius:12px;background:var(--s1);color:var(--muted);font-weight:600;font-size:13.5px}
+#verify svg{width:18px;height:18px;flex:none}
+#verify.ok{background:rgba(52,211,153,.12);color:#a7f3d0}
+#verify.bad{background:rgba(248,113,113,.14);color:#fecaca;animation:shake .4s}
+@keyframes shake{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+
+.tools{display:flex;flex-wrap:wrap;gap:8px}
+.tool{display:inline-flex;align-items:center;gap:7px;padding:9px 12px;border-radius:12px;background:var(--s1);border:1px solid var(--line);font-weight:600;font-size:13px}
+.tool svg{width:16px;height:16px}
+.tool.on{border-color:rgba(52,211,153,.5);color:#a7f3d0;background:rgba(52,211,153,.08)}
+.tool:active{background:var(--s3)}
+
+nav#bar{display:flex;gap:10px;padding:10px 14px calc(10px + env(safe-area-inset-bottom));border-top:1px solid var(--line);background:rgba(7,9,15,.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
+.nb{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:8px 6px;border-radius:14px;font-size:12px;font-weight:600;color:#c7cfdf;min-height:58px}
+.nb svg{width:22px;height:22px;stroke:currentColor}
+.nb:active{background:var(--s2)}
+.nb.save{flex:1.6;flex-direction:row;gap:10px;white-space:nowrap;font-size:17px;font-weight:800;color:#03170e;background:linear-gradient(180deg,#3ee0a5,#10b981);box-shadow:0 8px 24px rgba(16,185,129,.3),inset 0 1px 0 rgba(255,255,255,.35)}
+.nb.save svg{stroke:#03170e;stroke-width:2.4}
+.nb.save:active{transform:scale(.98)}
+
+.scrim{position:fixed;inset:0;background:rgba(0,0,0,.55);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);z-index:40;opacity:0;pointer-events:none;transition:opacity .25s}
+.scrim.show{opacity:1;pointer-events:auto}
+.sheet{position:fixed;left:50%;bottom:0;transform:translate(-50%,105%);width:min(720px,100%);max-height:88vh;overflow:auto;background:#10141f;border:1px solid var(--line2);border-bottom:0;border-radius:24px 24px 0 0;padding:10px 20px calc(22px + env(safe-area-inset-bottom));z-index:41;transition:transform .32s cubic-bezier(.2,.8,.2,1)}
+.sheet.wide{width:min(1000px,100%)}
+.sheet.show{transform:translate(-50%,0)}
+.grab{width:42px;height:5px;border-radius:9px;background:var(--line2);margin:0 auto 14px}
+.sheet h2{margin:0 0 4px;font-size:21px;letter-spacing:-.3px}
+.sheet .sub{color:var(--muted);font-size:13.5px;margin:0 0 14px}
+.sheet .acts{display:flex;gap:10px;justify-content:flex-end;margin-top:18px;flex-wrap:wrap}
+.btn{padding:13px 20px;border-radius:14px;font-weight:700;background:var(--s2);border:1px solid var(--line)}
+.btn.pri{background:var(--mint2);border-color:var(--mint2);color:#03170e}
+.btn.danger{background:rgba(248,113,113,.15);border-color:rgba(248,113,113,.4);color:#fecaca}
+.inp{width:100%;background:var(--s1);border:1px solid var(--line2);border-radius:12px;padding:12px 14px;font-size:16px;outline:none}
+.inp:focus{border-color:var(--mint)}
+select.inp option{background:#10141f}
+.warnList{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px}
+.warnList li{display:flex;gap:10px;align-items:center;padding:12px;border-radius:12px;background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.25);color:#fde68a;font-weight:600}
+.setg{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.setg label.t{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px}
+.setg input[type=range]{width:100%;accent-color:var(--mint)}
+.setg .note{font-size:12px;color:var(--dim);margin-top:4px}
+.tog{display:flex;align-items:center;justify-content:space-between;padding:11px 14px;border-radius:12px;background:var(--s1);border:1px solid var(--line);font-weight:600}
+.tog input{width:20px;height:20px;accent-color:var(--mint)}
+.logList{display:flex;flex-direction:column;gap:10px}
+.logItem{display:flex;gap:12px;padding:10px;border-radius:14px;background:var(--s1);border:1px solid var(--line);align-items:center}
+.logItem img{width:92px;height:68px;object-fit:cover;border-radius:10px;flex:none}
+.logItem .m{flex:1;min-width:0}
+.logItem .t1{display:flex;gap:8px;align-items:baseline;font-weight:700}
+.logItem .big{font-size:22px;font-weight:800}
+.t2{color:var(--muted);font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tag{display:inline-block;padding:2px 8px;border-radius:99px;font-size:11.5px;font-weight:700}
+.tag.ok{background:rgba(52,211,153,.15);color:#a7f3d0}.tag.bad{background:rgba(248,113,113,.15);color:#fecaca}.tag.na{background:var(--s2);color:var(--muted)}
+.help li{margin-bottom:10px;color:#cdd5e5}
+.help b{color:var(--text)}
+.legend{display:flex;flex-wrap:wrap;gap:12px;margin:6px 0 10px;font-size:13px;color:var(--muted)}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:6px;vertical-align:-1px;border:2px solid #fff}
+
+#toast{position:fixed;left:50%;top:calc(14px + env(safe-area-inset-top));transform:translate(-50%,-160%);background:rgba(16,20,31,.94);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--line2);padding:12px 18px;border-radius:16px;font-weight:600;z-index:60;max-width:92vw;text-align:center;transition:transform .3s cubic-bezier(.2,.8,.2,1);box-shadow:0 12px 40px rgba(0,0,0,.5)}
+#toast.show{transform:translate(-50%,0)}
+
+/* compact (phones, portrait) */
+#compact{display:none}
+.rxLine{display:flex;align-items:center;gap:8px;width:100%;padding:9px 12px;border-radius:12px;background:var(--s1);border:1px solid var(--line);font-size:13px;font-weight:600;color:var(--muted);text-align:left;overflow:hidden}
+.rxLine span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rxLine b{color:var(--text)}
+@media (orientation:portrait),(max-width:860px){
+  main{grid-template-columns:1fr;grid-template-rows:minmax(0,1fr) auto;gap:10px;padding:4px 10px 8px}
+  aside{overflow:visible}
+  #ringCard{flex-direction:row;align-items:center;gap:14px;padding:10px 12px}
+  .ringBox{width:112px;height:112px}
+  .ringBox circle{stroke-width:11}
+  #count{font-size:44px;letter-spacing:-1.5px}
+  #ofTarget{font-size:12px;margin-top:2px}
+  .ringSide{flex:1;align-items:stretch;min-width:0;gap:7px}
+  #status{font-size:12.5px}
+  #verdict{align-self:flex-start;font-size:14px;padding:5px 12px}
+  #tgtCard,#rxCard,#toolsCard{display:none}
+  #compact{display:flex;flex-direction:column;gap:7px}
+  #compact .step button{width:40px;height:38px}
+  #compact .step input{height:38px;width:56px;font-size:19px}
+  #compact .row{display:flex;gap:7px;align-items:center}
+  header{padding:8px 12px 4px}
+  .ib{width:36px;height:36px}
+  .nb{min-height:52px;font-size:11px}
+  .nb.save{font-size:16px}
+  .nb.save svg{display:none}
+  .store{display:none}
+  .setg{grid-template-columns:1fr}
 }
 </style>
 </head>
 <body>
 <div id="app">
   <header>
-    <h1>Tray<span>Count</span></h1>
-    <span class="small" id="storeName"></span>
+    <div class="logo"><i></i>TrayCount</div>
+    <span class="store" id="storeName"></span>
     <div class="sp"></div>
-    <button class="hbtn" id="bHelp">Setup tips</button>
-    <button class="hbtn" id="bLog">Count log</button>
-    <button class="hbtn" id="bSettings">Settings</button>
+    <button class="ib" id="bLog" aria-label="Count log"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg></button>
+    <button class="ib" id="bHelp" aria-label="Setup tips"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3M12 17h.01"/></svg></button>
+    <button class="ib" id="bSettings" aria-label="Settings"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></svg></button>
   </header>
+
   <main>
-    <div id="stageWrap">
+    <section id="stageWrap">
       <div id="stage">
         <video id="video" playsinline muted autoplay></video>
         <canvas id="overlay"></canvas>
-        <div id="banner"></div>
-        <div id="stageBtns"></div>
+        <div class="hudTL">
+          <button class="chip" id="trayChip"><span class="dot"></span><span id="trayTxt">Tray</span></button>
+          <button class="chip" id="fixChip" style="display:none"><span id="fixTxt"></span>&nbsp;·&nbsp;Undo</button>
+        </div>
+        <div class="hudB"><div class="chip" id="hint" style="opacity:0">Tap a dot to remove it · tap an empty spot to add</div></div>
+        <div id="zoomBox" class="chip"><span>Zoom</span><input type="range" id="zoom"></div>
+        <div id="banner" class="chip"></div>
+        <div id="modeBar"></div>
         <div id="debug"></div>
         <div id="startCover">
-          <div style="font-size:54px">💊</div>
-          <h2 style="margin:0">Live pill counter</h2>
-          <p>Point the camera straight down at a solid-color tray. Pills are counted as they land.</p>
-          <button class="big" id="bStart">Start camera</button>
-          <p class="small" id="startErr" style="color:#fca5a5"></p>
+          <div class="orb"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2"/><circle cx="12" cy="12" r="3.5"/></svg></div>
+          <h2>Point at the tray</h2>
+          <p>Camera straight down, tray filling the view. Pills are counted as they land.</p>
+          <button class="cta" id="bStart">Start counting</button>
+          <div id="startErr"></div>
         </div>
       </div>
-    </div>
+    </section>
+
     <aside>
-      <div class="card" id="countCard">
-        <div id="count">0</div>
-        <div id="cstatus">Camera off</div>
-        <div id="adjRow">
-          <button class="sq" id="bMinus">−</button>
-          <span id="adjLbl"></span>
-          <button class="sq" id="bPlus">+</button>
+      <div class="card" id="ringCard">
+        <div class="ringBox">
+          <svg viewBox="0 0 220 220"><circle id="ringTrack" cx="110" cy="110" r="96"/><circle id="ringProg" cx="110" cy="110" r="96"/></svg>
+          <div class="ringIn"><div id="count" class="num">0</div><div id="ofTarget" class="num"></div></div>
+        </div>
+        <div class="ringSide">
+          <div id="status"><span class="dot"></span><span id="statusTxt">Camera off</span></div>
+          <div id="verdict">No target</div>
+          <div id="compact">
+            <div class="row"><div class="step"><button data-step="-1">−</button><input id="targetC" class="num" inputmode="numeric" placeholder="qty"><button data-step="1">+</button></div></div>
+            <button class="rxLine" id="rxLine"><span id="rxLineTxt">Add Rx details</span></button>
+          </div>
         </div>
       </div>
 
-      <div class="card">
-        <label class="l">Target quantity</label>
-        <div class="row">
-          <input class="f" id="target" inputmode="numeric" pattern="[0-9]*" placeholder="—">
-          <div id="tstatus">No target</div>
+      <div class="card" id="tgtCard">
+        <div class="tgt"><label>Target qty</label>
+          <div class="step"><button data-step="-1">−</button><input id="target" class="num" inputmode="numeric" placeholder="—"><button data-step="1">+</button></div>
         </div>
-        <div class="bar"><div id="tbar"></div></div>
-      </div>
-      <div class="grid2">
-        <button class="btn" id="bNew">New Rx</button>
-        <button class="btn save" id="bSave">Save count</button>
+        <div class="presets" id="presets"><button>30</button><button>60</button><button>90</button><button>120</button></div>
       </div>
 
-      <div class="card">
-        <div class="grid2">
-          <button class="btn primary" id="bLabel">📄 Read Rx label</button>
-          <button class="btn primary" id="bBottle">▥ Scan bottle</button>
-        </div>
-        <div class="row" style="margin-top:10px">
-          <div style="flex:1"><label class="l">Rx #</label><input class="f" id="rx" inputmode="numeric"></div>
-          <div style="flex:1.3"><label class="l">Label NDC</label><input class="f" id="labelNdc" placeholder="from label"></div>
-        </div>
-        <div class="row"><div style="flex:1"><label class="l">Drug</label><input class="f" id="drug"></div></div>
-        <div class="row"><div style="flex:1"><label class="l">Stock bottle NDC</label><input class="f" id="bottleNdc" placeholder="scan bottle barcode"></div></div>
-        <div id="bottleInfo"></div>
-        <div id="verify">Scan label + bottle to verify NDC</div>
+      <div class="card" id="rxCard">
+        <div class="rxHead"><b>Prescription</b><button class="tag na" id="rxClear">Clear</button></div>
+        <div id="rxFields"></div>
       </div>
 
-      <div class="card">
-        <div class="grid2">
-          <button class="btn" id="bLock">🔒 Lock pill size</button>
-          <button class="btn" id="bCal">Calibrate empty tray</button>
-        </div>
-        <div class="small" style="margin-top:6px" id="calInfo">Tray: auto-detect color</div>
-      </div>
-
+      <div id="toolsCard" style="display:none"><div class="tools" id="tools"></div></div>
     </aside>
   </main>
+
+  <nav id="bar">
+    <button class="nb" id="bBottle"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2M7 8v8M10 8v8M13 8v8M17 8v8"/></svg>Scan bottle</button>
+    <button class="nb" id="bLabel"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></svg>Read label</button>
+    <button class="nb save" id="bSave"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Save count</button>
+    <button class="nb" id="bTools"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2"/></svg>Tray</button>
+    <button class="nb" id="bNew"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>New Rx</button>
+  </nav>
 </div>
 
-<!-- generic modal -->
-<div class="modal" id="mGeneric"><div class="sheet" id="mGenericBody"></div></div>
-
-<!-- log -->
-<div class="modal" id="mLog"><div class="sheet wide">
-  <div class="row" style="margin-bottom:10px">
-    <h2 style="margin:0;flex:1">Count log</h2>
-    <input class="f" id="logSearch" placeholder="Search Rx # / drug / NDC" style="max-width:260px">
-    <button class="hbtn" id="bCsv">Export CSV</button>
-    <button class="hbtn" id="bClearLog">Clear</button>
-    <button class="hbtn" id="bCloseLog">Close</button>
-  </div>
-  <div class="small" style="margin-bottom:8px">Stored on this device only. No patient names are captured.</div>
-  <div id="logTable"></div>
-</div></div>
-
-<!-- settings -->
-<div class="modal" id="mSettings"><div class="sheet">
-  <h2>Settings</h2>
-  <div class="setgrid">
-    <div><label class="l">Your initials</label><input class="f" id="sInitials" maxlength="5" style="text-transform:uppercase"></div>
-    <div><label class="l">Store name (header)</label><input class="f" id="sStore"></div>
-    <div><label class="l">Camera</label><select class="f" id="sCamera"></select></div>
-    <div><label class="l">Detail level</label><select class="f" id="sRes"><option value="480">Fast (480)</option><option value="640">Standard (640)</option><option value="800">Fine — tiny pills (800)</option></select></div>
-    <div><label class="l">Sensitivity <span id="vThr"></span></label><input type="range" id="sThr" min="18" max="90"><div class="small">Lower = picks up pills closer to tray color. Higher = ignores glare/dust.</div></div>
-    <div><label class="l">Ignore specks smaller than <span id="vMin"></span></label><input type="range" id="sMin" min="1" max="40"></div>
-    <div><label class="l">Steadiness <span id="vSmooth"></span></label><input type="range" id="sSmooth" min="3" max="20"><div class="small">Frames the count must hold before it's "Stable".</div></div>
-    <div><label class="l">Ignore edges <span id="vInset"></span></label><input type="range" id="sInset" min="0" max="20"><div class="small">Masks the outer border, e.g. tray rim or counter.</div></div>
-    <div><label class="l"><input type="checkbox" id="sShadow"> Ignore shadows</label><label class="l"><input type="checkbox" id="sSound"> Sounds</label><label class="l"><input type="checkbox" id="sDebug"> Show diagnostics</label></div>
-    <div><button class="btn" id="bForgetSizes">Forget saved pill sizes</button></div>
-  </div>
-  <div class="row" style="margin-top:16px"><div class="sp" style="flex:1"></div><button class="btn primary" id="bCloseSettings" style="flex:none;padding:12px 28px">Done</button></div>
-</div></div>
-
+<div class="scrim" id="scrim"></div>
+<div class="sheet" id="sheet"><div class="grab"></div><div id="sheetBody"></div></div>
 <div id="toast"></div>
 
 <script>
 // ===== TrayCount counting engine (pure JS, no DOM) =====
 const PillEngine = (() => {
   // Estimate tray color as the most common color (tray dominates the frame).
-  function autoBackground(px, w, h) {
+  function autoBackground(px, w, h, roi) {
     const hist = new Uint32Array(4096);
     const sums = new Float64Array(4096 * 3);
-    const n = w * h;
-    for (let i = 0; i < n; i += 3) {
-      const o = i * 4, r = px[o], g = px[o + 1], b = px[o + 2];
+    const R0 = roi || { x0: 0, y0: 0, x1: w - 1, y1: h - 1 };
+    for (let y = R0.y0; y <= R0.y1; y += 2) for (let x = R0.x0 + (y & 2 ? 1 : 0); x <= R0.x1; x += 2) {
+      const o = (y * w + x) * 4, r = px[o], g = px[o + 1], b = px[o + 2];
       const bin = ((r >> 4) << 8) | ((g >> 4) << 4) | (b >> 4);
       hist[bin]++; sums[bin * 3] += r; sums[bin * 3 + 1] += g; sums[bin * 3 + 2] += b;
     }
@@ -259,11 +344,14 @@ const PillEngine = (() => {
   function buildMask(px, w, h, opt, model) {
     const n = w * h, mask = new Uint8Array(n);
     const thr2 = opt.threshold * opt.threshold;
+    const R = opt.roi;
     let bg = null, gain = 1;
     if (model) gain = gainVsModel(px, model, n);
-    else bg = autoBackground(px, w, h);
+    else bg = autoBackground(px, w, h, R);
     for (let i = 0; i < n; i++) {
       const o = i * 4;
+      const xx = i % w, yy = (i / w) | 0;
+      if (xx < R.x0 || xx > R.x1 || yy < R.y0 || yy > R.y1) continue;
       let br, bgc, bb;
       if (model) { const m = i * 3; br = model[m] * gain; bgc = model[m + 1] * gain; bb = model[m + 2] * gain; }
       else { br = bg[0]; bgc = bg[1]; bb = bg[2]; }
@@ -280,12 +368,6 @@ const PillEngine = (() => {
         }
       }
       mask[i] = 1;
-    }
-    // crop inset
-    if (opt.inset > 0) {
-      const ix = Math.round(w * opt.inset), iy = Math.round(h * opt.inset);
-      for (let y = 0; y < h; y++) for (let x = 0; x < w; x++)
-        if (x < ix || x >= w - ix || y < iy || y >= h - iy) mask[y * w + x] = 0;
     }
     return { mask, bg, gain };
   }
@@ -324,7 +406,7 @@ const PillEngine = (() => {
     return m;
   }
 
-  function components(m, w, h) {
+  function components(m, w, h, R) {
     const lab = new Int32Array(m.length), stack = new Int32Array(m.length), comps = [];
     let next = 0;
     for (let s = 0; s < m.length; s++) {
@@ -341,7 +423,7 @@ const PillEngine = (() => {
         if (y > 0 && m[i - w] && !lab[i - w]) { lab[i - w] = next; stack[sp++] = i - w; }
         if (y < h - 1 && m[i + w] && !lab[i + w]) { lab[i + w] = next; stack[sp++] = i + w; }
       }
-      const edge = x0 <= 1 || y0 <= 1 || x1 >= w - 2 || y1 >= h - 2;
+      const edge = x0 <= R.x0 + 1 || y0 <= R.y0 + 1 || x1 >= R.x1 - 1 || y1 >= R.y1 - 1;
       comps.push({ area, cx: sx / area, cy: sy / area, x0, x1, y0, y1, edge });
     }
     return comps;
@@ -351,11 +433,18 @@ const PillEngine = (() => {
 
   // Main entry. state carries the smoothed single-pill size between frames.
   function count(px, w, h, opt, state, model) {
+    opt = Object.assign({}, opt);
+    const r = opt.roi || {};
+    opt.roi = { x0: Math.max(0, r.x0 | 0), y0: Math.max(0, r.y0 | 0), x1: Math.min(w - 1, r.x1 == null ? w - 1 : r.x1 | 0), y1: Math.min(h - 1, r.y1 == null ? h - 1 : r.y1 | 0) };
     const { mask, bg, gain } = buildMask(px, w, h, opt, model);
     let m = dilate(erode(mask, w, h), w, h);
     m = fillHoles(m, w, h);
-    const comps = components(m, w, h);
-    const total = w * h;
+    const comps = components(m, w, h, opt.roi);
+    const total = (opt.roi.x1 - opt.roi.x0 + 1) * (opt.roi.y1 - opt.roi.y0 + 1);
+    const removes = opt.removes || [];
+    for (const c of comps) {
+      if (removes.some(p => p.x >= c.x0 - 3 && p.x <= c.x1 + 3 && p.y >= c.y0 - 3 && p.y <= c.y1 + 3)) c.removed = true;
+    }
     const minA = Math.max(6, total * opt.minAreaFrac);
     let blocked = false;
 
@@ -382,6 +471,7 @@ const PillEngine = (() => {
       state.unit = unit;
     }
     let n = 0, frags = 0;
+    let removedN = 0;
     for (const c of cands) {
       if (!unit) { c.kind = 'pill'; c.n = 1; n++; continue; }
       const r = c.area / unit;
@@ -393,7 +483,74 @@ const PillEngine = (() => {
       c.kind = c.n > 1 ? 'clump' : 'pill';
       n += c.n;
     }
-    return { count: n, comps, unit, blocked, frags, bg, gain };
+    for (const c of cands) if (c.removed && c.n && c.kind !== 'block' && c.kind !== 'noise') { if (c.kind === 'frag') frags--; n -= c.n; removedN += c.n; c.kind = 'removed'; }
+    return { count: n, comps, unit, blocked, frags, bg, gain, removedN };
+  }
+
+  // Top few distinct dominant colors (coarse histogram peaks)
+  function dominantColors(px, w, h, k) {
+    const hist = new Uint32Array(4096), sums = new Float64Array(4096 * 3);
+    for (let i = 0; i < w * h; i += 5) {
+      const o = i * 4, r = px[o], g = px[o + 1], b = px[o + 2], bin = ((r >> 4) << 8) | ((g >> 4) << 4) | (b >> 4);
+      hist[bin]++; sums[bin * 3] += r; sums[bin * 3 + 1] += g; sums[bin * 3 + 2] += b;
+    }
+    const sm = new Float64Array(4096);
+    for (let bin = 0; bin < 4096; bin++) {
+      if (!hist[bin]) continue;
+      const r = bin >> 8, g = (bin >> 4) & 15, b = bin & 15;
+      for (let dr = -1; dr <= 1; dr++) for (let dg = -1; dg <= 1; dg++) for (let db = -1; db <= 1; db++) {
+        const rr = r + dr, gg = g + dg, bb = b + db;
+        if (rr < 0 || gg < 0 || bb < 0 || rr > 15 || gg > 15 || bb > 15) continue;
+        sm[bin] += hist[(rr << 8) | (gg << 4) | bb];
+      }
+    }
+    const out = [];
+    const order = [...sm.keys()].filter(i => sm[i] > 0).sort((a, b) => sm[b] - sm[a]);
+    for (const bin of order) {
+      if (out.length >= k) break;
+      const r = bin >> 8, g = (bin >> 4) & 15, b = bin & 15;
+      if (out.some(o => Math.abs(o.r - r) + Math.abs(o.g - g) + Math.abs(o.b - b) < 4)) continue;
+      const c = hist[bin] || 1;
+      out.push({ r, g, b, color: hist[bin] ? [sums[bin * 3] / c, sums[bin * 3 + 1] / c, sums[bin * 3 + 2] / c] : [r * 16 + 8, g * 16 + 8, b * 16 + 8] });
+    }
+    return out;
+  }
+
+  // Find the tray: among the dominant colors, the big region that covers the middle of the picture.
+  function detectTray(px, w, h, threshold) {
+    const s = 4, gw = Math.floor(w / s), gh = Math.floor(h / s), n = gw * gh;
+    const t2 = (threshold * 1.4) ** 2;
+    const cx0 = Math.floor(gw * 0.35), cx1 = Math.ceil(gw * 0.65), cy0 = Math.floor(gh * 0.35), cy1 = Math.ceil(gh * 0.65);
+    let best = null;
+    for (const dc of dominantColors(px, w, h, 3)) {
+      const bg = dc.color, near = new Uint8Array(n);
+      for (let gy = 0; gy < gh; gy++) for (let gx = 0; gx < gw; gx++) {
+        const o = ((gy * s + 2) * w + gx * s + 2) * 4;
+        const dr = px[o] - bg[0], dg = px[o + 1] - bg[1], db = px[o + 2] - bg[2];
+        if (dr * dr + dg * dg + db * db < t2) near[gy * gw + gx] = 1;
+      }
+      const lab = new Int32Array(n), stack = new Int32Array(n);
+      // label only the largest component touching the central box
+      let id = 0;
+      for (let gy = cy0; gy < cy1; gy++) for (let gx = cx0; gx < cx1; gx++) {
+        const st = gy * gw + gx; if (!near[st] || lab[st]) continue;
+        id++; let sp = 0; stack[sp++] = st; lab[st] = id;
+        let area = 0, cen = 0, x0 = gw, x1 = 0, y0 = gh, y1 = 0;
+        while (sp) {
+          const i = stack[--sp], x = i % gw, y = (i / gw) | 0; area++;
+          if (x >= cx0 && x < cx1 && y >= cy0 && y < cy1) cen++;
+          if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y;
+          if (x > 0 && near[i - 1] && !lab[i - 1]) { lab[i - 1] = id; stack[sp++] = i - 1; }
+          if (x < gw - 1 && near[i + 1] && !lab[i + 1]) { lab[i + 1] = id; stack[sp++] = i + 1; }
+          if (y > 0 && near[i - gw] && !lab[i - gw]) { lab[i - gw] = id; stack[sp++] = i - gw; }
+          if (y < gh - 1 && near[i + gw] && !lab[i + gw]) { lab[i + gw] = id; stack[sp++] = i + gw; }
+        }
+        const score = cen;
+        if (area > n * 0.12 && (!best || score > best.score)) best = { score, area, x0, x1, y0, y1, bg };
+      }
+    }
+    if (!best) return null;
+    return { x0: best.x0 * s, y0: best.y0 * s, x1: Math.min(w - 1, (best.x1 + 1) * s - 1), y1: Math.min(h - 1, (best.y1 + 1) * s - 1), frac: best.area / n, bg: best.bg };
   }
 
   // ---------- NDC / barcode helpers ----------
@@ -475,7 +632,7 @@ const PillEngine = (() => {
     return out;
   }
 
-  return { count, autoBackground, ndcFromBarcode, ndc10Forms, ndc11Set, ndcMatch, parseLabel, parseGS1 };
+  return { count, detectTray, autoBackground, ndcFromBarcode, ndc10Forms, ndc11Set, ndcMatch, parseLabel, parseGS1 };
 })();
 if (typeof module !== 'undefined') module.exports = PillEngine;
 
@@ -485,51 +642,141 @@ if (typeof module !== 'undefined') module.exports = PillEngine;
 const $ = (id) => document.getElementById(id);
 const ZXING_URL = 'https://unpkg.com/@zxing/library@0.21.3/umd/index.min.js';
 const TESS_URL = 'https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js';
+const RING_C = 2 * Math.PI * 96;
 
-// ---------- settings ----------
-const DEF = { initials: '', store: 'Family Pharmacy', cameraId: '', res: 640, thr: 45, min: 8, smooth: 8, inset: 0, shadow: true, sound: true, debug: false };
+const DEF = { initials: '', store: 'Family Pharmacy', cameraId: '', res: 640, thr: 45, min: 8, smooth: 8, shadow: true, sound: true, debug: false, trayMode: 'auto', trayRect: null, zoom: null, autoLabel: true };
 const ls = { get(k, d) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch { return d; } }, set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} } };
 const S = Object.assign({}, DEF, ls.get('tc_settings', {}));
 const saveS = () => ls.set('tc_settings', S);
 let unitMem = ls.get('tc_units', {});
 
-// ---------- state ----------
 const video = $('video'), overlay = $('overlay'), octx = overlay.getContext('2d');
 const proc = document.createElement('canvas'), pctx = proc.getContext('2d', { willReadFrequently: true });
 const grab = document.createElement('canvas'), gctx = grab.getContext('2d', { willReadFrequently: true });
-let stream = null, mode = 'count', lastTs = 0, fpsT = 0, fpsN = 0, fps = 0;
-let eng = {}, bgModel = null, calib = null, last = null, hist = [], adj = 0, shown = 0, stable = false;
-let lastVr = null, prevState = '', audio = null, busy = false, detector = null, zx = null, zxHints = null, tess = null, wakeLock = null;
+const tiny = document.createElement('canvas'); tiny.width = 40; tiny.height = 30; const tctx = tiny.getContext('2d', { willReadFrequently: true });
+let stream = null, track = null, mode = 'count', lastTs = 0, fpsT = 0, fpsN = 0, fps = 0, frameNo = 0;
+let eng = {}, bgModel = null, calib = null, last = null, hist = [], shown = 0, stable = false, prevKey = '', lastShownFinal = -1;
+let audio = null, busy = false, detector = null, zx = null, tess = null, lastVr = null;
+let tray = null, trayMiss = 0, editTray = false, drag = null;
+let removes = [], adds = [], actions = [];
+let flash = null, steady = { prev: null, since: 0, reading: false };
 const rec = { bottleNdc10: '', bottleNdcHy: '', lot: '', exp: '', pkg: '' };
 
-// ---------- helpers ----------
-function toast(msg, ms = 2600) { const t = $('toast'); t.textContent = msg; t.style.display = 'block'; clearTimeout(t._h); t._h = setTimeout(() => t.style.display = 'none', ms); }
-function loadScript(src) { return new Promise((res, rej) => { const s = document.createElement('script'); s.src = src; s.onload = res; s.onerror = () => rej(new Error('Could not load ' + src)); document.head.appendChild(s); }); }
-function beep(f = 880, ms = 120, type = 'sine', vol = 0.15) {
-  if (!S.sound || !audio) return;
-  try { const o = audio.createOscillator(), g = audio.createGain(); o.type = type; o.frequency.value = f; g.gain.value = vol; o.connect(g); g.connect(audio.destination); const t = audio.currentTime; g.gain.setValueAtTime(vol, t); g.gain.exponentialRampToValueAtTime(0.0001, t + ms / 1000); o.start(t); o.stop(t + ms / 1000 + 0.02); } catch {}
-}
-const chime = () => { beep(880, 140); setTimeout(() => beep(1320, 220), 140); try { navigator.vibrate && navigator.vibrate(80); } catch {} };
-const buzz = () => { beep(180, 350, 'square', 0.08); try { navigator.vibrate && navigator.vibrate([60, 60, 60]); } catch {} };
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+function toast(msg, ms = 2600) { const t = $('toast'); t.innerHTML = msg; t.classList.add('show'); clearTimeout(t._h); t._h = setTimeout(() => t.classList.remove('show'), ms); }
+function loadScript(src) { return new Promise((res, rej) => { const s = document.createElement('script'); s.src = src; s.onload = res; s.onerror = () => rej(new Error('load ' + src)); document.head.appendChild(s); }); }
+function beep(f = 880, ms = 120, type = 'sine', vol = 0.14) { if (!S.sound || !audio) return; try { const o = audio.createOscillator(), g = audio.createGain(), t = audio.currentTime; o.type = type; o.frequency.value = f; g.gain.setValueAtTime(vol, t); g.gain.exponentialRampToValueAtTime(0.0001, t + ms / 1000); o.connect(g); g.connect(audio.destination); o.start(t); o.stop(t + ms / 1000 + 0.02); } catch {} }
+const vib = (p) => { try { navigator.vibrate && navigator.vibrate(p); } catch {} };
+const tick = () => beep(1500, 25, 'sine', 0.04);
+const chime = () => { beep(880, 130); setTimeout(() => beep(1320, 220), 120); vib(70); };
+const buzz = () => { beep(170, 320, 'square', 0.07); vib([60, 50, 60]); };
+const svg = (p, sw = 2) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round">${p}</svg>`;
+const ICON = {
+  check: svg('<path d="M20 6 9 17l-5-5"/>', 2.5), x: svg('<path d="M18 6 6 18M6 6l12 12"/>', 2.5),
+  info: svg('<circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/>'),
+  lock: svg('<rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>'),
+  frame: svg('<path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2"/>'),
+  drop: svg('<circle cx="12" cy="12" r="9"/><path d="M8 12h8"/>'),
+  warn: svg('<path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0zM12 9v4M12 17h.01"/>'),
+};
 
-function modal(html, buttons) {
+// ---------- sheets ----------
+let sheetClose = null;
+function sheet(html, { wide = false, onOpen, onClose } = {}) {
+  if (sheetClose) sheetClose(null, true);
   return new Promise(resolve => {
-    const m = $('mGeneric'), b = $('mGenericBody');
-    b.innerHTML = html + '<div class="row" style="margin-top:16px;justify-content:flex-end">' + buttons.map((x, i) => `<button class="btn ${x.cls || ''}" data-i="${i}" style="flex:none;padding:12px 22px">${x.label}</button>`).join('') + '</div>';
-    m.classList.add('show');
-    b.querySelectorAll('button[data-i]').forEach(btn => btn.onclick = () => { const v = buttons[+btn.dataset.i].value; const inp = b.querySelector('input'); m.classList.remove('show'); resolve(v === '__input' ? (inp ? inp.value : '') : v); });
-    const inp = b.querySelector('input'); if (inp) setTimeout(() => inp.focus(), 50);
+    const sh = $('sheet'), sc = $('scrim');
+    $('sheetBody').innerHTML = html;
+    sh.classList.toggle('wide', wide); sh.scrollTop = 0;
+    requestAnimationFrame(() => { sh.classList.add('show'); sc.classList.add('show'); });
+    const close = (v, silent) => { if (onClose) onClose(); sheetClose = null; if (!silent) { sh.classList.remove('show'); sc.classList.remove('show'); } resolve(v); };
+    sheetClose = close;
+    sc.onclick = () => close(null);
+    $('sheetBody').querySelectorAll('[data-v]').forEach(b => b.onclick = () => {
+      const v = b.dataset.v, inp = $('sheetBody').querySelector('input.inp');
+      close(v === '__input' ? (inp ? inp.value : '') : v === 'true' ? true : v === 'false' ? false : v);
+    });
+    if (onOpen) onOpen($('sheetBody'), close);
   });
+}
+
+// ---------- Rx ----------
+const FIELDS = [['rx', 'Rx #', 'numeric', 'from label'], ['drug', 'Drug', 'text', 'name & strength'], ['labelNdc', 'Label NDC', 'text', 'from label'], ['bottleNdc', 'Stock NDC', 'text', 'scan the bottle']];
+const RX = { rx: '', drug: '', labelNdc: '', bottleNdc: '' };
+let bottleInfoHtml = '';
+function renderRx() {
+  $('rxFields').innerHTML = '<div>' + FIELDS.map(([k, l, im, ph]) => `<div class="field"><span>${l}</span><input id="f_${k}" inputmode="${im}" placeholder="${ph}"></div>${k === 'bottleNdc' ? '<div id="bottleInfo"></div>' : ''}`).join('') + '</div><div id="verify"></div>';
+  FIELDS.forEach(([k]) => { const el = $('f_' + k); el.value = RX[k]; el.oninput = (e) => { RX[k] = e.target.value; if (k === 'bottleNdc') { const d = RX.bottleNdc.replace(/\D/g, ''); rec.bottleNdc10 = d.length === 10 ? d : ''; rec.bottleNdcHy = ''; } verify(); }; });
+  renderBottleInfo(); verify();
+}
+function setRx(k, v) { RX[k] = v; const el = $('f_' + k); if (el) el.value = v; syncRxLine(); }
+function renderBottleInfo() { const el = $('bottleInfo'); if (el) { el.innerHTML = bottleInfoHtml; el.style.display = bottleInfoHtml ? 'block' : 'none'; } }
+function syncRxLine() {
+  const parts = [];
+  if (RX.rx) parts.push(`<b>Rx ${esc(RX.rx)}</b>`);
+  if (RX.drug) parts.push(esc(RX.drug));
+  const tail = lastVr === true ? ' · <span style="color:#6ee7b7">NDC ✓</span>' : lastVr === false ? ' · <span style="color:#fca5a5">NDC ✗</span>' : '';
+  $('rxLineTxt').innerHTML = (parts.join(' · ') || 'Add Rx details') + tail;
+}
+$('rxLine').onclick = () => {
+  const host = $('rxFields');
+  sheet(`<h2>Prescription</h2><p class="sub">Read the label or scan the bottle to fill these in.</p><div class="card" style="padding:4px 14px 12px" id="rxSheetHost"></div>
+    <div class="acts"><button class="btn" data-v="clear">Clear</button><button class="btn" data-v="label">Read label</button><button class="btn" data-v="bottle">Scan bottle</button><button class="btn pri" data-v="done">Done</button></div>`, {
+    onOpen: (b) => b.querySelector('#rxSheetHost').appendChild(host),
+    onClose: () => $('rxCard').appendChild(host),
+  }).then(v => { if (v === 'clear') newRx(); if (v === 'label') $('bLabel').click(); if (v === 'bottle') $('bBottle').click(); });
+};
+$('rxClear').onclick = () => newRx();
+
+// ---------- tray ----------
+function renderTools() {
+  $('tools').innerHTML =
+    `<button class="tool ${S.trayMode === 'manual' || editTray ? 'on' : ''}" id="tTray">${ICON.frame}${editTray ? 'Done adjusting' : S.trayMode === 'manual' ? 'Tray: set by you' : 'Tray: auto'}</button>` +
+    `<button class="tool ${eng.lockedUnit ? 'on' : ''}" id="tLock">${ICON.lock}${eng.lockedUnit ? 'Size locked' : 'Lock pill size'}</button>` +
+    `<button class="tool ${bgModel ? 'on' : ''}" id="tCal">${ICON.drop}${bgModel ? 'Calibrated' : 'Calibrate empty tray'}</button>`;
+  $('tTray').onclick = trayMenu; $('tLock').onclick = toggleLock; $('tCal').onclick = calibrate;
+}
+function trayMenu() {
+  if (editTray) { editTray = false; renderTools(); updateTrayChip(); toast('Tray area saved'); return; }
+  sheet(`<h2>Tray & sizing</h2><p class="sub">Only pills inside the corner brackets are counted.</p>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <button class="btn ${S.trayMode === 'auto' ? 'pri' : ''}" data-v="auto" style="text-align:left">Find the tray automatically</button>
+      <button class="btn ${S.trayMode === 'manual' && !(S.trayRect && S.trayRect.x1 - S.trayRect.x0 > .99) ? 'pri' : ''}" data-v="edit" style="text-align:left">Drag the corners myself</button>
+      <button class="btn" data-v="full" style="text-align:left">Count the whole picture</button>
+      <div style="height:6px"></div>
+      <button class="btn" data-v="lock" style="text-align:left">${eng.lockedUnit ? 'Unlock pill size' : 'Lock pill size (pour a few apart first)'}</button>
+      <button class="btn" data-v="cal" style="text-align:left">${bgModel ? 'Clear tray calibration' : 'Calibrate with the tray empty'}</button>
+    </div>
+    <div class="acts"><button class="btn" data-v="">Close</button></div>`).then(v => {
+    if (v === 'auto') { S.trayMode = 'auto'; S.trayRect = null; tray = null; trayMiss = 0; }
+    if (v === 'full') { S.trayMode = 'manual'; S.trayRect = { x0: 0, y0: 0, x1: 1, y1: 1 }; }
+    if (v === 'edit') { S.trayMode = 'manual'; S.trayRect = tray ? normRect(tray) : (S.trayRect && S.trayRect.x1 - S.trayRect.x0 < .99 ? S.trayRect : { x0: .1, y0: .1, x1: .9, y1: .9 }); editTray = true; toast('Drag the corners onto the tray, then tap <b>Done</b>'); }
+    if (v === 'lock') toggleLock();
+    if (v === 'cal') calibrate();
+    saveS(); hist = []; renderTools(); updateTrayChip();
+  });
+}
+$('trayChip').onclick = trayMenu; $('bTools').onclick = trayMenu;
+const normRect = (r) => ({ x0: r.x0 / proc.width, y0: r.y0 / proc.height, x1: (r.x1 + 1) / proc.width, y1: (r.y1 + 1) / proc.height });
+function currentRoi() {
+  const w = proc.width, h = proc.height;
+  if (S.trayMode === 'manual' && S.trayRect) { const r = S.trayRect; return { x0: Math.round(r.x0 * w), y0: Math.round(r.y0 * h), x1: Math.round(r.x1 * w) - 1, y1: Math.round(r.y1 * h) - 1 }; }
+  if (tray) { const p = Math.round(w * 0.012); return { x0: tray.x0 + p, y0: tray.y0 + p, x1: tray.x1 - p, y1: tray.y1 - p }; }
+  return { x0: 0, y0: 0, x1: w - 1, y1: h - 1 };
+}
+function updateTrayChip() {
+  const c = $('trayChip'); let cls = 'chip', txt;
+  if (editTray) { cls += ' edit'; txt = 'Done adjusting'; }
+  else if (S.trayMode === 'manual') { cls += ' ok'; txt = S.trayRect && S.trayRect.x1 - S.trayRect.x0 > .99 ? 'Whole picture' : 'Tray set'; }
+  else if (tray) { cls += ' ok'; txt = 'Tray locked'; }
+  else { cls += ' warn'; txt = stream ? 'Looking for tray…' : 'Tray'; }
+  c.className = cls; $('trayTxt').textContent = txt;
 }
 
 // ---------- camera ----------
 async function startCamera() {
   $('startErr').textContent = '';
-  if (!window.isSecureContext || !navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-    $('startErr').textContent = 'The camera only works when this page is opened from an https:// link (not a downloaded file). See Setup tips.';
-    return;
-  }
+  if (!window.isSecureContext || !navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) { $('startErr').textContent = 'The camera needs an https:// link. Open this from its web address, not a downloaded file.'; return; }
   try { audio = audio || new (window.AudioContext || window.webkitAudioContext)(); audio.resume && audio.resume(); } catch {}
   try {
     if (stream) stream.getTracks().forEach(t => t.stop());
@@ -537,172 +784,277 @@ async function startCamera() {
     if (S.cameraId) v.deviceId = { exact: S.cameraId }; else v.facingMode = { ideal: 'environment' };
     try { stream = await navigator.mediaDevices.getUserMedia({ video: v, audio: false }); }
     catch (e) { if (S.cameraId) { S.cameraId = ''; saveS(); stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: { ideal: 'environment' } }, audio: false }); } else throw e; }
-    video.srcObject = stream;
-    await video.play().catch(() => {});
+    track = stream.getVideoTracks()[0];
+    video.srcObject = stream; await video.play().catch(() => {});
     await new Promise(r => { if (video.videoWidth) r(); else video.onloadedmetadata = () => r(); });
     $('startCover').style.display = 'none';
-    resetCount(); bgModel = null; updateCalInfo();
-    fit(); listCameras(); keepAwake();
-  } catch (e) {
-    $('startErr').textContent = 'Camera blocked: ' + (e.message || e.name) + '. Allow camera access for this site in Settings → Safari → Camera (iPad) or the address-bar lock icon (Android).';
-  }
+    setupZoom(); fit(); resetCount(); keepAwake(); updateTrayChip();
+    const h = $('hint'); h.style.opacity = 1; setTimeout(() => h.style.opacity = 0, 6000);
+  } catch (e) { $('startErr').textContent = 'Camera blocked (' + (e.name || e.message) + '). Allow the camera for this site, then try again.'; }
+}
+function setupZoom() {
+  const box = $('zoomBox'), z = $('zoom');
+  try {
+    const cap = track.getCapabilities ? track.getCapabilities() : {};
+    if (cap.zoom && cap.zoom.max > cap.zoom.min) {
+      z.min = cap.zoom.min; z.max = Math.min(cap.zoom.max, cap.zoom.min * 4); z.step = cap.zoom.step || 0.1;
+      z.value = S.zoom || track.getSettings().zoom || cap.zoom.min;
+      if (S.zoom) track.applyConstraints({ advanced: [{ zoom: S.zoom }] }).catch(() => {});
+      z.oninput = () => { S.zoom = +z.value; saveS(); track.applyConstraints({ advanced: [{ zoom: S.zoom }] }).catch(() => {}); tray = null; hist = []; };
+      box.style.display = 'flex';
+    } else box.style.display = 'none';
+  } catch { box.style.display = 'none'; }
 }
 async function listCameras() {
   try {
     const devs = (await navigator.mediaDevices.enumerateDevices()).filter(d => d.kind === 'videoinput');
-    const cur = stream && stream.getVideoTracks()[0] && stream.getVideoTracks()[0].getSettings().deviceId;
-    $('sCamera').innerHTML = devs.map((d, i) => `<option value="${esc(d.deviceId)}" ${d.deviceId === cur ? 'selected' : ''}>${esc(d.label || 'Camera ' + (i + 1))}</option>`).join('');
+    const cur = track && track.getSettings().deviceId, sel = $('sCamera'); if (!sel) return;
+    sel.innerHTML = devs.map((d, i) => `<option value="${esc(d.deviceId)}" ${d.deviceId === cur ? 'selected' : ''}>${esc(d.label || 'Camera ' + (i + 1))}</option>`).join('');
   } catch {}
 }
-async function keepAwake() { try { if ('wakeLock' in navigator) wakeLock = await navigator.wakeLock.request('screen'); } catch {} }
+async function keepAwake() { try { if ('wakeLock' in navigator) await navigator.wakeLock.request('screen'); } catch {} }
 document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible' && stream) keepAwake(); });
 
 function fit() {
   const wrap = $('stageWrap'), st = $('stage');
-  const vw = video.videoWidth || 16, vh = video.videoHeight || 9, ar = vw / vh;
-  const aw = wrap.clientWidth - 20, ah = wrap.clientHeight - 20;
+  const vw = video.videoWidth || 4, vh = video.videoHeight || 3, ar = vw / vh;
+  const aw = wrap.clientWidth, ah = wrap.clientHeight;
+  if (!aw || !ah) return;
   let w = aw, h = aw / ar; if (h > ah) { h = ah; w = ah * ar; }
-  st.style.width = w + 'px'; st.style.height = h + 'px';
+  st.style.width = Math.floor(w) + 'px'; st.style.height = Math.floor(h) + 'px';
   const dpr = Math.min(2, window.devicePixelRatio || 1);
   overlay.width = Math.round(w * dpr); overlay.height = Math.round(h * dpr);
   const pw = +S.res, ph = Math.round(pw / ar);
-  if (proc.width !== pw || proc.height !== ph) { proc.width = pw; proc.height = ph; bgModel = null; eng = {}; updateCalInfo(); updateLockBtn(); }
+  if (proc.width !== pw || proc.height !== ph) { proc.width = pw; proc.height = ph; bgModel = null; eng = {}; tray = null; renderTools(); }
 }
-window.addEventListener('resize', () => setTimeout(fit, 60));
+new ResizeObserver(() => fit()).observe($('stageWrap'));
 
-// ---------- main loop ----------
-function engineOpts() { return { threshold: +S.thr, shadow: !!S.shadow, inset: S.inset / 100, minAreaFrac: S.min / 100000, maxMultiple: 14, fragMin: 0.3 }; }
-function tick(ts) {
-  requestAnimationFrame(tick);
+// ---------- loop ----------
+function engineOpts() { return { threshold: +S.thr, shadow: !!S.shadow, minAreaFrac: S.min / 100000, maxMultiple: 14, fragMin: 0.3, roi: currentRoi(), removes }; }
+function loop(ts) {
+  requestAnimationFrame(loop);
   if (!stream || !video.videoWidth || ts - lastTs < 40) return;
   lastTs = ts; fpsN++; if (ts - fpsT > 1000) { fps = fpsN; fpsN = 0; fpsT = ts; }
   if (mode === 'count') processFrame();
-  else if (mode === 'barcode' && !busy) scanBarcode();
-  draw();
+  else if (mode === 'barcode' && !busy && !flash) scanBarcode();
+  else if (mode === 'label') labelSteady(ts);
+  draw(ts);
 }
 function processFrame() {
   const w = proc.width, h = proc.height;
   pctx.drawImage(video, 0, 0, w, h);
   const id = pctx.getImageData(0, 0, w, h);
+  frameNo++;
   if (calib) {
     const px = id.data, n = w * h;
     for (let i = 0; i < n; i++) { calib.sum[i * 3] += px[i * 4]; calib.sum[i * 3 + 1] += px[i * 4 + 1]; calib.sum[i * 3 + 2] += px[i * 4 + 2]; }
-    if (++calib.frames >= 15) { for (let i = 0; i < calib.sum.length; i++) calib.sum[i] /= calib.frames; bgModel = calib.sum; calib = null; resetCount(); updateCalInfo(); toast('Tray calibrated. Start pouring.'); beep(660, 120); }
+    if (++calib.frames >= 15) { for (let i = 0; i < calib.sum.length; i++) calib.sum[i] /= calib.frames; bgModel = calib.sum; calib = null; resetCount(); renderTools(); toast('Tray calibrated · start pouring'); beep(660, 120); }
     return;
+  }
+  if (S.trayMode === 'auto' && !editTray && (frameNo % 8 === 1 || !tray) && !(last && last.blocked)) {
+    const t = PillEngine.detectTray(id.data, w, h, +S.thr);
+    if (t) {
+      trayMiss = 0;
+      if (!tray) tray = t;
+      else { const a = 0.6; tray = { x0: Math.round(tray.x0 * a + t.x0 * (1 - a)), y0: Math.round(tray.y0 * a + t.y0 * (1 - a)), x1: Math.round(tray.x1 * a + t.x1 * (1 - a)), y1: Math.round(tray.y1 * a + t.y1 * (1 - a)) }; }
+    } else if (++trayMiss > 6) tray = null;
+    updateTrayChip();
   }
   last = PillEngine.count(id.data, w, h, engineOpts(), eng, bgModel);
   hist.push(last.count); if (hist.length > S.smooth) hist.shift();
-  // mode of recent frames (ties -> most recent)
   const freq = {}; let best = hist[hist.length - 1], bestN = 0;
   for (let i = hist.length - 1; i >= 0; i--) { const v = hist[i]; freq[v] = (freq[v] || 0) + 1; if (freq[v] > bestN) { bestN = freq[v]; best = v; } }
   shown = best;
   stable = hist.length >= S.smooth && hist.every(v => v === hist[0]) && !last.blocked;
   updateCount();
 }
-function finalCount() { return Math.max(0, shown + adj); }
+const finalCount = () => Math.max(0, shown + adds.length);
+const getTarget = () => parseInt($('target').value, 10) || 0;
 function updateCount() {
-  const fc = finalCount();
-  $('count').textContent = fc;
-  const cs = $('cstatus');
-  if (!last) { cs.textContent = 'Camera off'; cs.className = ''; }
-  else if (last.blocked) { cs.textContent = '✋ Hand / bottle in view'; cs.className = 'warn'; }
-  else if (last.frags) { cs.textContent = `⚠ ${last.frags} broken / half tablet${last.frags > 1 ? 's' : ''}: check tray`; cs.className = 'warn'; }
-  else { cs.textContent = stable ? '● Stable' : 'Counting…'; cs.className = ''; }
-  $('adjLbl').textContent = adj ? `manual ${adj > 0 ? '+' : ''}${adj}` : '';
-  // target
-  const t = parseInt($('target').value, 10), ts = $('tstatus'), card = $('countCard');
-  let st = 'none';
+  const fc = finalCount(), t = getTarget(), cEl = $('count');
+  if (fc !== lastShownFinal) { cEl.textContent = fc; if (lastShownFinal >= 0 && stream) { cEl.classList.add('bump'); setTimeout(() => cEl.classList.remove('bump'), 140); if (fc > lastShownFinal) tick(); } lastShownFinal = fc; }
+  $('ofTarget').textContent = t ? `of ${t}` : '';
+  const st = $('status'); let cls = '', txt;
+  if (!last) txt = stream ? 'Starting…' : 'Camera off';
+  else if (last.blocked) { cls = 'warn'; txt = 'Hand or bottle in view'; }
+  else if (last.frags) { cls = 'warn'; txt = `${last.frags} broken / half tab${last.frags > 1 ? 's' : ''} · check`; }
+  else if (stable) { cls = 'stable'; txt = 'Stable'; }
+  else txt = 'Counting…';
+  st.className = cls; $('statusTxt').textContent = txt;
+  const prog = $('ringProg'), vd = $('verdict');
+  let state = 'none';
   if (t > 0) {
-    const d = fc - t;
-    if (d < 0) { ts.textContent = `${-d} to go`; ts.className = 'go'; st = 'go'; }
-    else if (d === 0) { ts.textContent = '✓ MATCH'; ts.className = 'ok'; st = 'ok'; }
-    else { ts.textContent = `${d} OVER: remove`; ts.className = 'over'; st = 'over'; }
-    $('tbar').style.width = Math.min(100, fc / t * 100) + '%';
-    $('tbar').style.background = st === 'over' ? 'var(--red)' : st === 'ok' ? 'var(--green)' : 'var(--blue)';
-  } else { ts.textContent = 'No target'; ts.className = ''; $('tbar').style.width = '0'; }
-  card.className = 'card ' + (st === 'ok' ? 'match' : st === 'over' ? 'over' : '');
-  const key = st + (stable ? 's' : '');
-  if (key !== prevState) {
-    if (key === 'oks') chime();
-    if (key === 'overs') buzz();
-    prevState = key;
-  }
+    const d = fc - t; state = d < 0 ? 'go' : d === 0 ? 'ok' : 'over';
+    vd.textContent = d < 0 ? `${-d} to go` : d === 0 ? '✓ Match' : `${d} over · remove`;
+    vd.className = state;
+    prog.style.strokeDashoffset = RING_C * (1 - Math.min(1, fc / t));
+  } else { vd.textContent = 'No target'; vd.className = ''; prog.style.strokeDashoffset = RING_C; }
+  prog.style.stroke = state === 'ok' ? 'var(--mint)' : state === 'over' ? 'var(--red)' : 'var(--blue)';
+  prog.style.filter = `drop-shadow(0 0 6px ${state === 'ok' ? 'rgba(52,211,153,.6)' : state === 'over' ? 'rgba(248,113,113,.55)' : 'rgba(96,165,250,.4)'})`;
+  $('ringCard').style.setProperty('--glow', state === 'ok' ? 'rgba(52,211,153,.18)' : state === 'over' ? 'rgba(248,113,113,.15)' : 'transparent');
+  $('stage').className = state === 'ok' && stable ? 'match' : state === 'over' && stable ? 'over' : '';
+  const key = state + (stable ? 's' : '');
+  if (key !== prevKey) { if (key === 'oks') chime(); if (key === 'overs') buzz(); prevKey = key; }
+  const nf = removes.length + adds.length;
+  $('fixChip').style.display = nf ? 'inline-flex' : 'none';
+  $('fixTxt').textContent = `${nf} fix${nf > 1 ? 'es' : ''}`;
 }
 
-// ---------- overlay ----------
-function draw() {
-  const W = overlay.width, H = overlay.height, dpr = W / overlay.clientWidth || 1;
+// ---------- drawing ----------
+function rr(ctx, x, y, w, h, r) { ctx.beginPath(); if (ctx.roundRect) ctx.roundRect(x, y, w, h, r); else ctx.rect(x, y, w, h); }
+function holeRect(ctx, W, H, x, y, w, h, r) { ctx.beginPath(); ctx.rect(0, 0, W, H); if (ctx.roundRect) ctx.roundRect(x, y, w, h, r); else ctx.rect(x, y, w, h); ctx.fill('evenodd'); }
+function brackets(ctx, x0, y0, x1, y1, color, lw, arm, rad) {
+  ctx.strokeStyle = color; ctx.lineWidth = lw; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+  for (const [x, y, sx, sy] of [[x0, y0, 1, 1], [x1, y0, -1, 1], [x1, y1, -1, -1], [x0, y1, 1, -1]]) {
+    ctx.beginPath(); ctx.moveTo(x, y + sy * arm); ctx.lineTo(x, y + sy * rad); ctx.quadraticCurveTo(x, y, x + sx * rad, y); ctx.lineTo(x + sx * arm, y); ctx.stroke();
+  }
+}
+function draw(ts) {
+  const W = overlay.width, H = overlay.height, dpr = W / Math.max(1, overlay.clientWidth);
   octx.clearRect(0, 0, W, H);
-  const dbg = $('debug');
-  dbg.style.display = S.debug ? 'block' : 'none';
-  if (S.debug && last) dbg.textContent = `${fps} fps · pill ≈ ${Math.round(last.unit || 0)} px${eng.lockedUnit ? ' (locked)' : ''} · ${bgModel ? 'calibrated' : 'auto tray'} · gain ${last.gain.toFixed(2)}`;
-  if (mode === 'count' && last && !calib) {
-    const sx = W / proc.width, sy = H / proc.height;
-    octx.lineWidth = 2.5 * dpr; octx.font = `700 ${15 * dpr}px -apple-system,sans-serif`; octx.textAlign = 'center'; octx.textBaseline = 'middle';
-    for (const c of last.comps) {
-      if (c.kind === 'noise') continue;
-      const x = c.cx * sx, y = c.cy * sy;
-      if (c.kind === 'block') {
-        octx.setLineDash([8 * dpr, 6 * dpr]); octx.strokeStyle = 'rgba(148,163,184,.8)';
-        octx.strokeRect(c.x0 * sx, c.y0 * sy, (c.x1 - c.x0) * sx, (c.y1 - c.y0) * sy); octx.setLineDash([]);
-        continue;
+  const dbg = $('debug'); dbg.style.display = S.debug ? 'block' : 'none';
+  if (S.debug && last) dbg.textContent = `${fps} fps · pill ≈ ${Math.round(last.unit || 0)}px${eng.lockedUnit ? ' (locked)' : ''} · ${bgModel ? 'calibrated' : 'auto'} · gain ${last.gain.toFixed(2)}`;
+  const sx = W / proc.width, sy = H / proc.height;
+  if (mode === 'count') {
+    const R = currentRoi();
+    const x0 = R.x0 * sx, y0 = R.y0 * sy, x1 = (R.x1 + 1) * sx, y1 = (R.y1 + 1) * sy;
+    const full = R.x0 <= 1 && R.y0 <= 1 && R.x1 >= proc.width - 2 && R.y1 >= proc.height - 2;
+    if (!full) { octx.fillStyle = 'rgba(4,6,12,.55)'; holeRect(octx, W, H, x0, y0, x1 - x0, y1 - y0, 14 * dpr); }
+    const matched = stable && getTarget() && finalCount() === getTarget();
+    if (!full || editTray) { const ins = 3 * dpr; brackets(octx, x0 + ins, y0 + ins, x1 - ins, y1 - ins, editTray || matched ? '#34d399' : 'rgba(255,255,255,.92)', 4 * dpr, 30 * dpr, 14 * dpr); }
+    if (editTray) for (const [x, y] of [[x0, y0], [x1, y0], [x1, y1], [x0, y1]]) { octx.fillStyle = '#34d399'; octx.beginPath(); octx.arc(Math.min(Math.max(x, 14 * dpr), W - 14 * dpr), Math.min(Math.max(y, 14 * dpr), H - 14 * dpr), 12 * dpr, 0, 7); octx.fill(); octx.strokeStyle = '#fff'; octx.lineWidth = 3 * dpr; octx.stroke(); }
+    if (last && !calib && !editTray) {
+      octx.textAlign = 'center'; octx.textBaseline = 'middle';
+      for (const c of last.comps) {
+        if (!c.kind || c.kind === 'noise') continue;
+        const x = c.cx * sx, y = c.cy * sy;
+        if (c.kind === 'block') { octx.setLineDash([6 * dpr, 6 * dpr]); octx.strokeStyle = 'rgba(255,255,255,.35)'; octx.lineWidth = 2 * dpr; rr(octx, c.x0 * sx, c.y0 * sy, (c.x1 - c.x0) * sx, (c.y1 - c.y0) * sy, 12 * dpr); octx.stroke(); octx.setLineDash([]); continue; }
+        if (c.kind === 'removed') { octx.strokeStyle = '#f87171'; octx.lineWidth = 3 * dpr; const d = 7 * dpr; octx.beginPath(); octx.moveTo(x - d, y - d); octx.lineTo(x + d, y + d); octx.moveTo(x + d, y - d); octx.lineTo(x - d, y + d); octx.stroke(); continue; }
+        const col = c.kind === 'pill' ? '#34d399' : c.kind === 'clump' ? '#60a5fa' : '#fbbf24';
+        const r = (c.kind === 'pill' ? 5.5 : 10) * dpr;
+        octx.shadowColor = 'rgba(0,0,0,.55)'; octx.shadowBlur = 6 * dpr;
+        octx.fillStyle = col; octx.beginPath(); octx.arc(x, y, r, 0, 7); octx.fill();
+        octx.shadowBlur = 0; octx.lineWidth = 2 * dpr; octx.strokeStyle = 'rgba(255,255,255,.95)'; octx.stroke();
+        if (c.kind !== 'pill') { octx.fillStyle = '#06101f'; octx.font = `800 ${11 * dpr}px Inter,sans-serif`; octx.fillText(c.kind === 'clump' ? c.n : '½', x, y + 0.5 * dpr); }
       }
-      const r = Math.max(6 * dpr, Math.sqrt(Math.max((c.x1 - c.x0) * (c.y1 - c.y0), c.area) / Math.PI) * sx * 0.95);
-      octx.strokeStyle = c.kind === 'pill' ? '#22c55e' : c.kind === 'clump' ? '#3b82f6' : '#f59e0b';
-      octx.beginPath(); octx.arc(x, y, r, 0, Math.PI * 2); octx.stroke();
-      if (c.kind === 'clump' || c.kind === 'frag') {
-        const label = c.kind === 'clump' ? String(c.n) : '½?';
-        octx.fillStyle = octx.strokeStyle; octx.beginPath(); octx.arc(x, y, 12 * dpr, 0, Math.PI * 2); octx.fill();
-        octx.fillStyle = '#fff'; octx.fillText(label, x, y + dpr);
+      for (const a of adds) {
+        const x = a.x * sx, y = a.y * sy;
+        octx.fillStyle = '#a78bfa'; octx.beginPath(); octx.arc(x, y, 9 * dpr, 0, 7); octx.fill(); octx.lineWidth = 2 * dpr; octx.strokeStyle = '#fff'; octx.stroke();
+        octx.fillStyle = '#fff'; octx.font = `800 ${13 * dpr}px Inter,sans-serif`; octx.fillText('+', x, y + dpr);
       }
     }
-    if (S.inset > 0) { const ix = W * S.inset / 100, iy = H * S.inset / 100; octx.strokeStyle = 'rgba(255,255,255,.35)'; octx.setLineDash([4 * dpr, 6 * dpr]); octx.lineWidth = 1.5 * dpr; octx.strokeRect(ix, iy, W - 2 * ix, H - 2 * iy); octx.setLineDash([]); }
-  }
-  if (mode !== 'count') {
-    const gw = W * (mode === 'barcode' ? 0.6 : 0.8), gh = H * (mode === 'barcode' ? 0.4 : 0.6);
-    octx.fillStyle = 'rgba(0,0,0,.45)'; octx.fillRect(0, 0, W, H);
-    octx.clearRect((W - gw) / 2, (H - gh) / 2, gw, gh);
-    octx.strokeStyle = mode === 'barcode' ? '#3b82f6' : '#22c55e'; octx.lineWidth = 3 * dpr; octx.strokeRect((W - gw) / 2, (H - gh) / 2, gw, gh);
+    if (calib) { octx.fillStyle = 'rgba(52,211,153,.12)'; octx.fillRect(0, 0, W, H); }
+  } else {
+    const b = guideBox(), gx = b.x * W, gy = b.y * H, gw = b.w * W, gh = b.h * H;
+    octx.fillStyle = 'rgba(4,6,12,.6)'; holeRect(octx, W, H, gx, gy, gw, gh, 16 * dpr);
+    const pulse = 0.6 + 0.4 * Math.sin(ts / 260);
+    brackets(octx, gx, gy, gx + gw, gy + gh, mode === 'barcode' ? `rgba(96,165,250,${pulse})` : `rgba(52,211,153,${pulse})`, 5 * dpr, 40 * dpr, 16 * dpr);
+    if (mode === 'barcode' && !flash) {
+      const ly = gy + gh * (0.5 + 0.42 * Math.sin(ts / 420));
+      const g = octx.createLinearGradient(gx, 0, gx + gw, 0); g.addColorStop(0, 'rgba(96,165,250,0)'); g.addColorStop(.5, 'rgba(96,165,250,.95)'); g.addColorStop(1, 'rgba(96,165,250,0)');
+      octx.fillStyle = g; octx.fillRect(gx + 10 * dpr, ly - 1.5 * dpr, gw - 20 * dpr, 3 * dpr);
+    }
+    if (mode === 'label' && steady.since && !steady.reading) {
+      const p = Math.min(1, (ts - steady.since) / 900);
+      octx.strokeStyle = 'rgba(255,255,255,.15)'; octx.lineWidth = 5 * dpr; octx.beginPath(); octx.arc(W / 2, gy + gh / 2, 30 * dpr, 0, 7); octx.stroke();
+      octx.strokeStyle = '#34d399'; octx.lineCap = 'round'; octx.beginPath(); octx.arc(W / 2, gy + gh / 2, 30 * dpr, -Math.PI / 2, -Math.PI / 2 + p * Math.PI * 2); octx.stroke();
+    }
+    if (flash && flash.pts) {
+      octx.fillStyle = 'rgba(52,211,153,.25)'; octx.strokeStyle = '#34d399'; octx.lineWidth = 4 * dpr;
+      octx.beginPath(); flash.pts.forEach((p, i) => { const X = p.x * W, Y = p.y * H; i ? octx.lineTo(X, Y) : octx.moveTo(X, Y); }); octx.closePath(); octx.fill(); octx.stroke();
+    }
   }
 }
+const guideBox = () => mode === 'barcode' ? { x: .16, y: .28, w: .68, h: .44 } : { x: .08, y: .12, w: .84, h: .76 };
 
-// ---------- count controls ----------
-function resetCount() { hist = []; adj = 0; shown = 0; stable = false; last = null; prevState = ''; if (!eng.lockedUnit) eng = {}; updateCount(); }
-$('bPlus').onclick = () => { adj++; updateCount(); };
-$('bMinus').onclick = () => { adj--; updateCount(); };
-$('target').oninput = () => { prevState = ''; updateCount(); };
-function updateLockBtn() { const b = $('bLock'); if (eng.lockedUnit) { b.textContent = '🔓 Size locked: unlock'; b.classList.add('on'); } else { b.textContent = '🔒 Lock pill size'; b.classList.remove('on'); } }
-const unitKey = () => rec.bottleNdc10 ? `${rec.bottleNdc10}@${proc.width}` : '';
-$('bLock').onclick = () => {
-  if (eng.lockedUnit) { eng.lockedUnit = 0; updateLockBtn(); toast('Pill size unlocked: auto-detecting'); return; }
-  if (!last || !last.unit) { toast('Put a few separated pills on the tray first'); return; }
-  eng.lockedUnit = eng.unit || last.unit; updateLockBtn();
+// ---------- touch ----------
+function evtPos(e) { const r = overlay.getBoundingClientRect(); return { x: (e.clientX - r.left) / r.width, y: (e.clientY - r.top) / r.height }; }
+overlay.addEventListener('pointerdown', (e) => {
+  if (mode !== 'count' || !stream) return;
+  const p = evtPos(e);
+  if (editTray && S.trayRect) {
+    const r = S.trayRect, cs = [['x0', 'y0'], ['x1', 'y0'], ['x1', 'y1'], ['x0', 'y1']], ar = overlay.clientWidth / overlay.clientHeight;
+    let bi = -1, bd = 1e9;
+    cs.forEach(([kx, ky], i) => { const d = Math.hypot((r[kx] - p.x) * ar, r[ky] - p.y); if (d < bd) { bd = d; bi = i; } });
+    if (bd < 0.15) { drag = { corner: cs[bi] }; overlay.setPointerCapture(e.pointerId); }
+    return;
+  }
+  drag = { tap: p };
+});
+overlay.addEventListener('pointermove', (e) => {
+  if (!drag || !drag.corner) return;
+  const p = evtPos(e), r = S.trayRect, [kx, ky] = drag.corner;
+  r[kx] = Math.max(0, Math.min(1, p.x)); r[ky] = Math.max(0, Math.min(1, p.y));
+  if (r.x1 - r.x0 < .15) { if (kx === 'x0') r.x0 = r.x1 - .15; else r.x1 = r.x0 + .15; }
+  if (r.y1 - r.y0 < .15) { if (ky === 'y0') r.y0 = r.y1 - .15; else r.y1 = r.y0 + .15; }
+  hist = [];
+});
+overlay.addEventListener('pointerup', () => {
+  if (drag && drag.corner) { saveS(); drag = null; return; }
+  if (!drag || !drag.tap) return;
+  const p = drag.tap; drag = null;
+  const px = p.x * proc.width, py = p.y * proc.height, R = currentRoi();
+  if (px < R.x0 || px > R.x1 || py < R.y0 || py > R.y1) return;
+  const tol = Math.max(10, Math.sqrt((last && last.unit) || 200) * 0.8);
+  let i = adds.findIndex(a => Math.hypot(a.x - px, a.y - py) < tol);
+  if (i >= 0) { const [m] = adds.splice(i, 1); actions = actions.filter(a => a.item !== m); tick(); updateCount(); return; }
+  const comp = last && last.comps.find(c => c.kind && c.kind !== 'noise' && c.kind !== 'block' && px >= c.x0 - 4 && px <= c.x1 + 4 && py >= c.y0 - 4 && py <= c.y1 + 4);
+  if (comp && comp.kind === 'removed') { i = removes.findIndex(r => r.x >= comp.x0 - 4 && r.x <= comp.x1 + 4 && r.y >= comp.y0 - 4 && r.y <= comp.y1 + 4); if (i >= 0) { const [m] = removes.splice(i, 1); actions = actions.filter(a => a.item !== m); } hist = []; tick(); updateCount(); return; }
+  if (comp) { const m = { x: comp.cx, y: comp.cy }; removes.push(m); actions.push({ list: 'removes', item: m }); hist = []; beep(520, 60); vib(15); }
+  else { const m = { x: px, y: py }; adds.push(m); actions.push({ list: 'adds', item: m }); beep(1100, 60); vib(15); }
+  $('hint').style.opacity = 0;
+  updateCount();
+});
+$('fixChip').onclick = () => {
+  const a = actions.pop();
+  if (a) { const L = a.list === 'adds' ? adds : removes, i = L.indexOf(a.item); if (i >= 0) L.splice(i, 1); }
+  else { removes = []; adds = []; }
+  hist = []; tick(); updateCount();
+};
+
+// ---------- controls ----------
+function resetCount() { hist = []; shown = 0; stable = false; last = null; prevKey = ''; lastShownFinal = -1; removes = []; adds = []; actions = []; if (!eng.lockedUnit) eng = {}; updateCount(); }
+function syncTarget(v, from) {
+  const n = parseInt(v, 10), val = v === '' || v == null || isNaN(n) || n <= 0 ? '' : String(Math.min(9999, n));
+  if (from !== 'target') $('target').value = val; if (from !== 'targetC') $('targetC').value = val;
+  document.querySelectorAll('#presets button').forEach(b => b.classList.toggle('on', b.textContent === val));
+  prevKey = ''; updateCount();
+}
+['target', 'targetC'].forEach(id => $(id).oninput = (e) => syncTarget(e.target.value.replace(/\D/g, ''), id));
+document.querySelectorAll('[data-step]').forEach(b => b.onclick = () => { syncTarget((getTarget() || 0) + +b.dataset.step); tick(); });
+document.querySelectorAll('#presets button').forEach(b => b.onclick = () => { syncTarget(b.textContent); tick(); });
+const unitKey = () => rec.bottleNdc10 ? `${rec.bottleNdc10}@${proc.width}@${S.zoom || 0}` : '';
+function toggleLock() {
+  if (eng.lockedUnit) { eng.lockedUnit = 0; renderTools(); toast('Pill size unlocked'); return; }
+  if (!last || !last.unit) { toast('Pour a few separated pills first'); return; }
+  eng.lockedUnit = eng.unit || last.unit; renderTools();
   const k = unitKey(); if (k) { unitMem[k] = eng.lockedUnit; ls.set('tc_units', unitMem); }
-  toast(k ? 'Pill size locked and saved for this NDC' : 'Pill size locked for this count');
-};
-function updateCalInfo() { $('calInfo').textContent = bgModel ? 'Tray: calibrated (keep camera and tray still). Tap Calibrate to redo.' : 'Tray: auto-detect color. For best results, calibrate with the tray empty.'; $('bCal').classList.toggle('on', !!bgModel); }
-$('bCal').onclick = () => {
+  toast(k ? 'Pill size locked · saved for this NDC' : 'Pill size locked');
+}
+function calibrate() {
   if (!stream) return toast('Start the camera first');
-  setMode('count'); toast('Hold still: reading the empty tray…');
+  if (bgModel) { bgModel = null; renderTools(); toast('Calibration cleared'); return; }
+  setMode('count'); toast('Empty tray · hold still…');
   setTimeout(() => { calib = { sum: new Float32Array(proc.width * proc.height * 3), frames: 0 }; }, 500);
-};
-$('bNew').onclick = () => newRx();
+}
+$('bNew').onclick = () => { newRx(); toast('Ready for the next Rx'); };
 function newRx() {
-  ['rx', 'drug', 'labelNdc', 'bottleNdc', 'target'].forEach(id => $(id).value = '');
+  FIELDS.forEach(([k]) => setRx(k, ''));
   Object.assign(rec, { bottleNdc10: '', bottleNdcHy: '', lot: '', exp: '', pkg: '' });
-  $('bottleInfo').textContent = '';
-  eng = {}; updateLockBtn(); resetCount(); verify();
+  bottleInfoHtml = ''; renderBottleInfo();
+  eng = {}; syncTarget(''); resetCount(); renderTools(); verify();
 }
 
 // ---------- modes ----------
 function setMode(m) {
-  mode = m;
-  const ban = $('banner'), sb = $('stageBtns');
-  if (m === 'count') { ban.style.display = 'none'; sb.style.display = 'none'; sb.innerHTML = ''; return; }
-  ban.style.display = 'block'; sb.style.display = 'flex';
-  if (m === 'barcode') { ban.textContent = 'Hold the stock bottle barcode inside the box'; sb.innerHTML = '<button class="btn" id="sbCancel" style="flex:none;padding:12px 26px">Cancel</button>'; }
-  if (m === 'label') { ban.textContent = 'Hold the Rx label flat inside the box'; sb.innerHTML = '<button class="btn save" id="sbRead" style="flex:none;padding:14px 30px">Read label</button><button class="btn" id="sbCancel" style="flex:none;padding:12px 26px">Cancel</button>'; $('sbRead').onclick = readLabel; }
-  $('sbCancel').onclick = () => setMode('count');
+  mode = m; flash = null; steady = { prev: null, since: 0, reading: false };
+  const ban = $('banner'), mb = $('modeBar');
+  $('bBottle').style.color = m === 'barcode' ? '#93c5fd' : ''; $('bLabel').style.color = m === 'label' ? '#6ee7b7' : '';
+  if (m === 'count') { ban.style.display = 'none'; mb.style.display = 'none'; mb.innerHTML = ''; return; }
+  ban.style.display = 'inline-flex'; mb.style.display = 'flex';
+  if (m === 'barcode') { ban.textContent = 'Hold the stock bottle barcode in the box'; mb.innerHTML = '<button class="chip" id="mbCancel" style="padding:12px 22px">Cancel</button>'; }
+  if (m === 'label') { ban.textContent = S.autoLabel ? 'Hold the Rx label flat · reads when steady' : 'Hold the Rx label flat in the box'; mb.innerHTML = '<button class="cta" id="mbRead" style="padding:12px 24px;font-size:15px">Read now</button><button class="chip" id="mbCancel" style="padding:12px 22px">Cancel</button>'; $('mbRead').onclick = readLabel; }
+  $('mbCancel').onclick = () => setMode('count');
 }
 
 // ---------- barcode ----------
@@ -716,241 +1068,249 @@ async function ensureBarcode() {
     } catch {}
   }
   await loadScript(ZXING_URL);
-  zx = new ZXing.MultiFormatReader();
-  zxHints = new Map();
-  const F = ZXing.BarcodeFormat;
-  zxHints.set(ZXing.DecodeHintType.POSSIBLE_FORMATS, [F.UPC_A, F.EAN_13, F.DATA_MATRIX, F.CODE_128, F.CODE_39, F.QR_CODE, F.UPC_E]);
-  zxHints.set(ZXing.DecodeHintType.TRY_HARDER, true);
-  zx.setHints(zxHints);
+  zx = new ZXing.MultiFormatReader(); const F = ZXing.BarcodeFormat, hints = new Map();
+  hints.set(ZXing.DecodeHintType.POSSIBLE_FORMATS, [F.UPC_A, F.EAN_13, F.DATA_MATRIX, F.CODE_128, F.CODE_39, F.QR_CODE, F.UPC_E]);
+  hints.set(ZXing.DecodeHintType.TRY_HARDER, true); zx.setHints(hints);
 }
 $('bBottle').onclick = async () => {
   if (!stream) return toast('Start the camera first');
-  try { await ensureBarcode(); } catch (e) { return toast('Barcode reader failed to load: check internet'); }
+  if (mode === 'barcode') return setMode('count');
+  try { await ensureBarcode(); } catch { return toast('Barcode reader couldn\'t load · check internet'); }
   setMode('barcode');
 };
 async function scanBarcode() {
   busy = true;
   try {
-    const vw = video.videoWidth, vh = video.videoHeight;
-    // crop to the guide box for speed and accuracy
-    const cw = Math.round(vw * 0.6), ch = Math.round(vh * 0.4), cx = (vw - cw) / 2, cy = (vh - ch) / 2;
-    const scale = Math.min(1, 1100 / cw);
+    const vw = video.videoWidth, vh = video.videoHeight, b = guideBox();
+    const cx = vw * b.x, cy = vh * b.y, cw = vw * b.w, ch = vh * b.h, scale = Math.min(1, 1100 / cw);
     grab.width = Math.round(cw * scale); grab.height = Math.round(ch * scale);
     gctx.drawImage(video, cx, cy, cw, ch, 0, 0, grab.width, grab.height);
-    let text = null;
-    if (detector) { const r = await detector.detect(grab); if (r.length) text = r[0].rawValue; }
+    let text = null, pts = null;
+    const toN = (x, y) => ({ x: (cx + x / scale) / vw, y: (cy + y / scale) / vh });
+    if (detector) { const r = await detector.detect(grab); if (r.length) { text = r[0].rawValue; pts = (r[0].cornerPoints || []).map(p => toN(p.x, p.y)); } }
     else if (zx) {
-      try { const src = new ZXing.HTMLCanvasElementLuminanceSource(grab); text = zx.decodeWithState(new ZXing.BinaryBitmap(new ZXing.HybridBinarizer(src))).getText(); } catch {}
+      try {
+        const res = zx.decodeWithState(new ZXing.BinaryBitmap(new ZXing.HybridBinarizer(new ZXing.HTMLCanvasElementLuminanceSource(grab))));
+        text = res.getText(); const rp = res.getResultPoints() || [];
+        if (rp.length >= 2) { const xs = rp.map(p => p.getX()), ys = rp.map(p => p.getY()), x0 = Math.min(...xs) - 12, x1 = Math.max(...xs) + 12, y0 = Math.min(...ys) - 22, y1 = Math.max(...ys) + 22; pts = [toN(x0, y0), toN(x1, y0), toN(x1, y1), toN(x0, y1)]; }
+      } catch {}
     }
-    if (text && mode === 'barcode') onBarcode(text);
+    if (text && mode === 'barcode') { flash = { pts: pts && pts.length >= 3 ? pts : null }; beep(1250, 80); vib(30); setTimeout(() => onBarcode(text), 450); }
   } finally { busy = false; }
 }
 function onBarcode(text) {
-  const nd = PillEngine.ndcFromBarcode(text);
-  beep(1200, 90);
   setMode('count');
+  const nd = PillEngine.ndcFromBarcode(text);
   if (nd) {
-    rec.bottleNdc10 = nd.ndc10; rec.lot = nd.lot || ''; rec.exp = nd.exp || ''; rec.bottleNdcHy = ''; rec.pkg = '';
-    $('bottleNdc').value = nd.ndc10;
-    let info = `${nd.source}`; if (rec.lot) info += ` · Lot ${rec.lot}`; if (rec.exp) info += ` · Exp ${rec.exp.slice(2, 4)}/${rec.exp.slice(0, 2)}`;
-    $('bottleInfo').textContent = info + ' · looking up drug…';
-    lookupDrug(nd.ndc10, info);
-    const k = unitKey(); if (unitMem[k]) { eng.lockedUnit = unitMem[k]; updateLockBtn(); toast('Using saved pill size for this NDC'); }
-    if (rec.exp) { const y = 2000 + +rec.exp.slice(0, 2), mo = +rec.exp.slice(2, 4); if (new Date(y, mo, 0) < new Date()) { buzz(); toast('⚠ This stock bottle is EXPIRED', 5000); } }
-  } else if (/^\d{5,12}$/.test(text.trim())) {
-    $('rx').value = text.trim(); toast('Rx # read from label barcode');
-  } else toast('Scanned: ' + text.slice(0, 60));
+    Object.assign(rec, { bottleNdc10: nd.ndc10, lot: nd.lot || '', exp: nd.exp || '', bottleNdcHy: '', pkg: '' });
+    setRx('bottleNdc', nd.ndc10);
+    let meta = nd.source; if (rec.lot) meta += ` · Lot ${esc(rec.lot)}`; if (rec.exp) meta += ` · Exp ${rec.exp.slice(2, 4)}/${rec.exp.slice(0, 2)}`;
+    bottleInfoHtml = `${meta} · looking up…`; renderBottleInfo();
+    lookupDrug(nd.ndc10, meta);
+    const k = unitKey(); if (unitMem[k]) { eng.lockedUnit = unitMem[k]; renderTools(); toast('Using saved pill size for this NDC'); } else toast(`Bottle scanned · NDC ${nd.ndc10}`);
+    if (rec.exp) { const y = 2000 + +rec.exp.slice(0, 2), mo = +rec.exp.slice(2, 4); if (new Date(y, mo, 0) < new Date()) { buzz(); toast('⚠ This stock bottle is <b>expired</b>', 5000); } }
+  } else if (/^\d{5,12}$/.test(text.trim())) { setRx('rx', text.trim()); toast('Rx # read from the label barcode'); }
+  else toast('Scanned: ' + esc(text.slice(0, 60)));
   verify();
 }
-$('bottleNdc').oninput = () => { const d = $('bottleNdc').value.replace(/\D/g, ''); rec.bottleNdc10 = d.length === 10 ? d : ''; rec.bottleNdcHy = ''; verify(); };
-async function lookupDrug(ndc10, prefix) {
-  const forms = PillEngine.ndc10Forms(ndc10);
-  const q = forms.map(f => `packaging.package_ndc:"${f.hy}"`).join('+');
-  const ctl = new AbortController(); const to = setTimeout(() => ctl.abort(), 7000);
+async function lookupDrug(ndc10, meta) {
+  const forms = PillEngine.ndc10Forms(ndc10), q = forms.map(f => `packaging.package_ndc:"${f.hy}"`).join('+');
+  const ctl = new AbortController(), to = setTimeout(() => ctl.abort(), 7000);
   try {
     const r = await fetch(`https://api.fda.gov/drug/ndc.json?search=${q}&limit=5`, { signal: ctl.signal });
-    if (!r.ok) throw new Error('not found');
+    if (!r.ok) throw 0;
     const j = await r.json();
     for (const p of j.results || []) for (const pk of p.packaging || []) {
-      if (forms.some(f => f.hy === pk.package_ndc)) {
-        if (rec.bottleNdc10 !== ndc10) return;
-        const str = (p.active_ingredients || []).map(a => a.strength).join(' / ');
-        const name = `${p.generic_name || p.brand_name}${p.brand_name && p.generic_name && p.brand_name.toLowerCase() !== p.generic_name.toLowerCase() ? ' (' + p.brand_name + ')' : ''} ${str} ${p.dosage_form || ''}`.replace(/\s+/g, ' ').trim();
-        rec.bottleNdcHy = pk.package_ndc; rec.pkg = pk.description || '';
-        $('bottleNdc').value = pk.package_ndc;
-        $('bottleInfo').innerHTML = `<b>${esc(name)}</b><br>${esc(p.labeler_name || '')} · ${esc(pk.description || '')}<br><span class="small">${esc(prefix)}</span>`;
-        if (!$('drug').value) $('drug').value = name;
-        verify(); return;
-      }
+      if (!forms.some(f => f.hy === pk.package_ndc)) continue;
+      if (rec.bottleNdc10 !== ndc10) return;
+      const str = (p.active_ingredients || []).map(a => a.strength).join(' / ');
+      const brand = p.brand_name && p.generic_name && p.brand_name.toLowerCase() !== p.generic_name.toLowerCase() ? ` (${p.brand_name})` : '';
+      const name = `${p.generic_name || p.brand_name}${brand} ${str} ${p.dosage_form || ''}`.replace(/\s+/g, ' ').trim();
+      rec.bottleNdcHy = pk.package_ndc; rec.pkg = pk.description || '';
+      setRx('bottleNdc', pk.package_ndc);
+      bottleInfoHtml = `<b>${esc(name)}</b><br>${esc(p.labeler_name || '')} · ${esc(pk.description || '')}<br>${meta}`; renderBottleInfo();
+      if (!RX.drug) setRx('drug', name);
+      verify(); return;
     }
-    throw new Error('not found');
-  } catch (e) {
-    if (rec.bottleNdc10 === ndc10) $('bottleInfo').textContent = prefix + ' · drug name not found in FDA directory (check NDC on bottle)';
-  } finally { clearTimeout(to); }
+    throw 0;
+  } catch { if (rec.bottleNdc10 === ndc10) { bottleInfoHtml = `${meta} · not in FDA directory`; renderBottleInfo(); } }
+  finally { clearTimeout(to); }
 }
 
-// ---------- Rx label OCR ----------
-$('bLabel').onclick = () => { if (!stream) return toast('Start the camera first'); setMode('label'); };
+// ---------- label ----------
+$('bLabel').onclick = () => { if (!stream) return toast('Start the camera first'); if (mode === 'label') return setMode('count'); setMode('label'); };
+function labelSteady(ts) {
+  if (!S.autoLabel || steady.reading) return;
+  const b = guideBox(), vw = video.videoWidth, vh = video.videoHeight;
+  tctx.drawImage(video, vw * b.x, vh * b.y, vw * b.w, vh * b.h, 0, 0, 40, 30);
+  const d = tctx.getImageData(0, 0, 40, 30).data, g = new Float32Array(1200);
+  let mean = 0; for (let i = 0; i < 1200; i++) { g[i] = d[i * 4] * .3 + d[i * 4 + 1] * .59 + d[i * 4 + 2] * .11; mean += g[i]; } mean /= 1200;
+  let sd = 0; for (let i = 0; i < 1200; i++) sd += (g[i] - mean) ** 2; sd = Math.sqrt(sd / 1200);
+  if (steady.prev) {
+    let diff = 0; for (let i = 0; i < 1200; i++) diff += Math.abs(g[i] - steady.prev[i]); diff /= 1200;
+    if (diff < 3.5 && sd > 22) { if (!steady.since) steady.since = ts; else if (ts - steady.since > 900) { steady.reading = true; readLabel(); } }
+    else steady.since = 0;
+  }
+  steady.prev = g;
+}
 async function readLabel() {
-  const vw = video.videoWidth, vh = video.videoHeight;
-  const cw = Math.round(vw * 0.8), ch = Math.round(vh * 0.6);
-  const scale = Math.min(2, 1800 / cw);
+  steady.reading = true;
+  const vw = video.videoWidth, vh = video.videoHeight, b = guideBox();
+  const cw = vw * b.w, ch = vh * b.h, scale = Math.min(2, 1800 / cw);
   grab.width = Math.round(cw * scale); grab.height = Math.round(ch * scale);
-  gctx.drawImage(video, (vw - cw) / 2, (vh - ch) / 2, cw, ch, 0, 0, grab.width, grab.height);
-  // grayscale + contrast stretch
-  const im = gctx.getImageData(0, 0, grab.width, grab.height), d = im.data;
-  let lo = 255, hi = 0; const g = new Uint8Array(d.length / 4);
-  for (let i = 0; i < g.length; i++) { const v = (d[i * 4] * 0.3 + d[i * 4 + 1] * 0.59 + d[i * 4 + 2] * 0.11) | 0; g[i] = v; }
-  const sorted = Array.from(g.filter((_, i) => i % 50 === 0)).sort((a, b) => a - b); lo = sorted[Math.floor(sorted.length * 0.02)]; hi = sorted[Math.floor(sorted.length * 0.98)];
-  const span = Math.max(1, hi - lo);
-  for (let i = 0; i < g.length; i++) { const v = Math.max(0, Math.min(255, (g[i] - lo) * 255 / span)); d[i * 4] = d[i * 4 + 1] = d[i * 4 + 2] = v; }
+  gctx.drawImage(video, vw * b.x, vh * b.y, cw, ch, 0, 0, grab.width, grab.height);
+  const im = gctx.getImageData(0, 0, grab.width, grab.height), d = im.data, n = d.length / 4, g = new Uint8Array(n);
+  for (let i = 0; i < n; i++) g[i] = (d[i * 4] * .3 + d[i * 4 + 1] * .59 + d[i * 4 + 2] * .11) | 0;
+  const samp = []; for (let i = 0; i < n; i += 50) samp.push(g[i]); samp.sort((a, b) => a - b);
+  const lo = samp[Math.floor(samp.length * .02)], hi = samp[Math.floor(samp.length * .98)], span = Math.max(1, hi - lo);
+  for (let i = 0; i < n; i++) { const v = Math.max(0, Math.min(255, (g[i] - lo) * 255 / span)); d[i * 4] = d[i * 4 + 1] = d[i * 4 + 2] = v; }
   gctx.putImageData(im, 0, 0);
-  setMode('count');
-  toast(tess ? 'Reading label…' : 'Loading text reader (first time only, ~15 MB)…', 60000);
+  beep(900, 60); setMode('count');
+  toast(tess ? 'Reading label…' : 'Loading text reader (first time only)…', 60000);
   try {
     if (!tess) { await loadScript(TESS_URL); tess = await Tesseract.createWorker('eng'); }
     const { data } = await tess.recognize(grab);
-    const p = PillEngine.parseLabel(data.text || '');
-    const found = [];
-    if (p.rx) { $('rx').value = p.rx; found.push('Rx ' + p.rx); }
-    if (p.qty) { $('target').value = p.qty; found.push('Qty ' + p.qty); prevState = ''; }
-    if (p.ndc) { $('labelNdc').value = p.ndc; found.push('NDC ' + p.ndc); }
-    if (p.drug && !$('drug').value) { $('drug').value = p.drug; found.push(p.drug); }
-    $('toast').style.display = 'none';
-    if (found.length) { beep(1200, 90); toast('Read: ' + found.join(' · ') + '. Check before counting.', 4500); }
-    else toast('Couldn\'t read the label. Hold it flatter, closer, with better light, or type it in.', 4500);
-    updateCount(); verify();
-  } catch (e) { toast('Text reader failed to load: check internet', 4000); }
+    const p = PillEngine.parseLabel(data.text || ''), rows = [];
+    if (p.rx) { setRx('rx', p.rx); rows.push(['Rx #', p.rx]); }
+    if (p.qty) { syncTarget(p.qty); rows.push(['Qty → target', p.qty]); }
+    if (p.ndc) { setRx('labelNdc', p.ndc); rows.push(['NDC', p.ndc]); }
+    if (p.drug && !RX.drug) { setRx('drug', p.drug); rows.push(['Drug', p.drug]); }
+    $('toast').classList.remove('show'); verify();
+    if (rows.length) { chime(); sheet(`<h2>Label read</h2><p class="sub">Check these before you count. You can edit them in the Prescription card.</p><div class="card" style="padding:2px 14px">${rows.map(([k, v]) => `<div class="field"><span>${k}</span><b>${esc(v)}</b></div>`).join('')}</div><div class="acts"><button class="btn" data-v="again">Read again</button><button class="btn pri" data-v="ok">Looks right</button></div>`).then(v => { if (v === 'again') setMode('label'); }); }
+    else { buzz(); toast('Couldn\'t read that label · flatter, closer, more light, or type it in', 4500); }
+  } catch { toast('Text reader couldn\'t load · check internet', 4000); }
 }
 
-// ---------- verification ----------
+// ---------- verify ----------
 function verify() {
-  const v = $('verify');
-  const label = $('labelNdc').value.trim(), bottle = rec.bottleNdcHy || rec.bottleNdc10 || $('bottleNdc').value.trim();
+  const v = $('verify'); if (!v) return null;
+  const label = RX.labelNdc.trim(), bottle = rec.bottleNdcHy || rec.bottleNdc10 || RX.bottleNdc.trim();
   const m = PillEngine.ndcMatch(label, bottle);
-  if (m === null) { v.className = ''; v.textContent = !label && !bottle ? 'Scan label + bottle to verify NDC' : !label ? 'Bottle scanned: add label NDC to verify' : 'Label NDC set: scan stock bottle to verify'; }
-  else if (m) { v.className = 'ok'; v.textContent = '✓ Stock bottle matches label NDC'; }
-  else { v.className = 'bad'; v.textContent = '✗ NDC MISMATCH: wrong stock bottle?'; if (lastVr !== false) buzz(); }
-  lastVr = m; return m;
+  if (m === null) { v.className = ''; v.innerHTML = ICON.info + (!label && !bottle ? 'Read label + scan bottle to check NDC' : !label ? 'Add the label NDC to check' : 'Scan the stock bottle to check'); }
+  else if (m) { v.className = 'ok'; v.innerHTML = ICON.check + 'Stock bottle matches the label'; }
+  else { v.className = 'bad'; v.innerHTML = ICON.x + 'NDC mismatch · wrong stock bottle?'; if (lastVr !== false) buzz(); }
+  lastVr = m; syncRxLine(); return m;
 }
-$('labelNdc').oninput = verify;
 
 // ---------- storage ----------
 const DB = (() => {
   let dbp = null, mem = [];
   const open = () => dbp || (dbp = new Promise((res, rej) => { try { const r = indexedDB.open('traycount', 1); r.onupgradeneeded = () => r.result.createObjectStore('counts', { keyPath: 'id' }); r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error); } catch (e) { rej(e); } }));
-  const tx = async (m, fn) => { const db = await open(); return new Promise((res, rej) => { const t = db.transaction('counts', m), s = t.objectStore('counts'), r = fn(s); t.oncomplete = () => res(r && r.result); t.onerror = () => rej(t.error); }); };
-  return {
-    put: (o) => tx('readwrite', s => s.put(o)).catch(() => { mem.push(o); }),
-    all: () => tx('readonly', s => s.getAll()).catch(() => mem),
-    clear: () => tx('readwrite', s => s.clear()).catch(() => { mem = []; }),
-  };
+  const tx = async (m, fn) => { const db = await open(); return new Promise((res, rej) => { const t = db.transaction('counts', m), r = fn(t.objectStore('counts')); t.oncomplete = () => res(r && r.result); t.onerror = () => rej(t.error); }); };
+  return { put: (o) => tx('readwrite', s => s.put(o)).catch(() => { mem.push(o); }), all: () => tx('readonly', s => s.getAll()).catch(() => mem), clear: () => tx('readwrite', s => s.clear()).catch(() => { mem = []; }) };
 })();
-
 function snapshot() {
-  const vw = video.videoWidth, vh = video.videoHeight, w = Math.min(1024, vw), h = Math.round(w * vh / vw), band = 46;
+  const vw = video.videoWidth, vh = video.videoHeight, w = Math.min(1024, vw), h = Math.round(w * vh / vw), band = 52;
   const c = document.createElement('canvas'); c.width = w; c.height = h + band; const x = c.getContext('2d');
   x.drawImage(video, 0, 0, w, h);
-  if (last) {
-    const sx = w / proc.width; x.lineWidth = 2;
-    for (const k of last.comps) { if (k.kind === 'noise' || k.kind === 'block') continue; x.strokeStyle = k.kind === 'pill' ? '#22c55e' : k.kind === 'clump' ? '#3b82f6' : '#f59e0b'; x.beginPath(); x.arc(k.cx * sx, k.cy * sx, Math.max(5, Math.sqrt(k.area / Math.PI) * sx), 0, 7); x.stroke(); }
-  }
-  x.fillStyle = '#0b1220'; x.fillRect(0, h, w, band); x.fillStyle = '#fff'; x.font = '700 20px -apple-system,sans-serif'; x.textBaseline = 'middle';
-  x.fillText(`${finalCount()} counted${adj ? ` (manual ${adj > 0 ? '+' : ''}${adj})` : ''} · Rx ${$('rx').value || '—'} · ${new Date().toLocaleString()} · ${S.initials}`, 12, h + band / 2);
+  if (last) { const s = w / proc.width; for (const k of last.comps) { if (!['pill', 'clump', 'frag'].includes(k.kind)) continue; x.fillStyle = k.kind === 'pill' ? '#34d399' : k.kind === 'clump' ? '#60a5fa' : '#fbbf24'; x.beginPath(); x.arc(k.cx * s, k.cy * s, k.kind === 'pill' ? 5 : 8, 0, 7); x.fill(); x.strokeStyle = '#fff'; x.lineWidth = 1.5; x.stroke(); } for (const a of adds) { x.fillStyle = '#a78bfa'; x.beginPath(); x.arc(a.x * s, a.y * s, 7, 0, 7); x.fill(); } }
+  x.fillStyle = '#07090f'; x.fillRect(0, h, w, band); x.fillStyle = '#fff'; x.font = '700 20px Inter,sans-serif'; x.textBaseline = 'middle';
+  x.fillText(`${finalCount()} counted · Rx ${RX.rx || '—'} · ${new Date().toLocaleString()} · ${S.initials}`, 14, h + band / 2);
   return c.toDataURL('image/jpeg', 0.72);
 }
 $('bSave').onclick = async () => {
   if (!stream || !last) return toast('Nothing counted yet');
   if (!S.initials) {
-    const v = await modal('<h2>Your initials</h2><p class="small">Saved with every count you record on this iPad.</p><input class="f" maxlength="5" style="text-transform:uppercase">', [{ label: 'Cancel', value: null }, { label: 'Save', value: '__input', cls: 'primary' }]);
+    const v = await sheet('<h2>Your initials</h2><p class="sub">Saved with each count you record on this device.</p><input class="inp" maxlength="5" style="text-transform:uppercase"><div class="acts"><button class="btn" data-v="">Cancel</button><button class="btn pri" data-v="__input">Save</button></div>', { onOpen: b => setTimeout(() => b.querySelector('input').focus(), 300) });
     if (!v) return; S.initials = v.toUpperCase().trim(); saveS();
   }
-  const fc = finalCount(), t = parseInt($('target').value, 10) || '', vr = verify(), warn = [];
-  if (t && fc !== t) warn.push(`Count ${fc} does not match target ${t}`);
-  if (vr === false) warn.push('Stock bottle NDC does not match the label');
-  if (last.blocked) warn.push('Hand or bottle was in view');
-  else if (!stable) warn.push('Count had not settled yet');
-  if (last.frags) warn.push(`${last.frags} possible broken/half tablet(s)`);
-  if (adj) warn.push(`Manual adjustment ${adj > 0 ? '+' : ''}${adj}`);
-  const hard = warn.filter(w => !w.startsWith('Manual'));
-  if (hard.length) {
-    const ok = await modal(`<h2>Check before saving</h2><ul>${hard.map(w => `<li>${esc(w)}</li>`).join('')}</ul>`, [{ label: 'Go back', value: false }, { label: 'Save anyway', value: true, cls: 'primary' }]);
+  const fc = finalCount(), t = getTarget(), vr = verify(), warn = [];
+  if (t && fc !== t) warn.push(`Count ${fc} doesn't match target ${t}`);
+  if (vr === false) warn.push('Stock bottle NDC doesn\'t match the label');
+  if (last.blocked) warn.push('Hand or bottle was in view'); else if (!stable) warn.push('Count hadn\'t settled yet');
+  if (last.frags) warn.push(`${last.frags} possible broken / half tablet${last.frags > 1 ? 's' : ''}`);
+  if (warn.length) {
+    const ok = await sheet(`<h2>Check before saving</h2><p class="sub">Save anyway, or go back and fix it.</p><ul class="warnList">${warn.map(w => `<li><span style="width:20px;flex:none">${ICON.warn}</span>${esc(w)}</li>`).join('')}</ul><div class="acts"><button class="btn" data-v="false">Go back</button><button class="btn pri" data-v="true">Save anyway</button></div>`);
     if (!ok) return;
   }
-  const r = {
-    id: Date.now(), ts: new Date().toISOString(), rx: $('rx').value.trim(), drug: $('drug').value.trim(),
-    labelNdc: $('labelNdc').value.trim(), bottleNdc: rec.bottleNdcHy || $('bottleNdc').value.trim(), lot: rec.lot, exp: rec.exp,
-    verified: vr === null ? '' : vr ? 'MATCH' : 'MISMATCH', target: t, auto: shown, adj, count: fc, initials: S.initials, notes: warn.join('; '), photo: snapshot(),
-  };
+  const r = { id: Date.now(), ts: new Date().toISOString(), rx: RX.rx.trim(), drug: RX.drug.trim(), labelNdc: RX.labelNdc.trim(), bottleNdc: rec.bottleNdcHy || RX.bottleNdc.trim(), lot: rec.lot, exp: rec.exp, verified: vr === null ? '' : vr ? 'MATCH' : 'MISMATCH', target: t || '', count: fc, fixes: removes.length + adds.length ? `${removes.length} removed, ${adds.length} added by hand` : '', initials: S.initials, notes: warn.join('; '), photo: snapshot() };
   await DB.put(r);
-  chime(); toast(`Saved: ${fc} counted${r.rx ? ' for Rx ' + r.rx : ''}`);
+  chime(); toast(`<span style="color:#34d399">✓</span> Saved <b>${fc}</b>${r.rx ? ' for Rx ' + esc(r.rx) : ''}`);
   newRx();
 };
 
 // ---------- log ----------
 let logRows = [];
-async function renderLog() {
+async function openLog() {
   logRows = (await DB.all() || []).sort((a, b) => b.id - a.id);
-  const q = $('logSearch').value.trim().toLowerCase();
-  const rows = q ? logRows.filter(r => [r.rx, r.drug, r.labelNdc, r.bottleNdc, r.initials].join(' ').toLowerCase().includes(q)) : logRows;
-  $('logTable').innerHTML = rows.length ? `<table><tr><th>Photo</th><th>When</th><th>Rx #</th><th>Drug</th><th>NDC</th><th>Target</th><th>Count</th><th>NDC check</th><th>By</th><th>Notes</th></tr>${rows.map(r => `
-    <tr><td><img src="${r.photo}" data-id="${r.id}"></td><td>${esc(new Date(r.ts).toLocaleString([], { month: 'numeric', day: 'numeric', hour: 'numeric', minute: '2-digit' }))}</td>
-    <td>${esc(r.rx)}</td><td>${esc(r.drug)}</td><td>${esc(r.bottleNdc || r.labelNdc)}</td><td>${esc(r.target)}</td>
-    <td><b>${r.count}</b>${r.adj ? ` <span class="small">(${r.adj > 0 ? '+' : ''}${r.adj})</span>` : ''}</td>
-    <td>${r.verified === 'MATCH' ? '<span class="tag ok">✓ match</span>' : r.verified === 'MISMATCH' ? '<span class="tag bad">✗ mismatch</span>' : '<span class="tag na">n/a</span>'}</td>
-    <td>${esc(r.initials)}</td><td class="small">${esc(r.notes)}</td></tr>`).join('')}</table>` : '<p class="small">No counts saved yet.</p>';
-  $('logTable').querySelectorAll('img').forEach(img => img.onclick = () => { const r = logRows.find(x => x.id == img.dataset.id); modal(`<img src="${r.photo}" style="width:100%;border-radius:10px">`, [{ label: 'Close', value: 1 }]); });
+  sheet(`<div style="display:flex;gap:10px;align-items:center;margin-bottom:12px"><h2 style="flex:1;margin:0">Count log</h2><button class="btn" id="lgCsv">Export CSV</button><button class="btn danger" id="lgClear">Clear</button></div>
+    <input class="inp" id="lgSearch" placeholder="Search Rx #, drug, NDC, initials" style="margin-bottom:10px">
+    <p class="sub">${logRows.length} saved on this device · no patient names stored</p><div class="logList" id="lgList"></div>`, {
+    wide: true, onOpen: (b, close) => {
+      const render = () => {
+        const q = b.querySelector('#lgSearch').value.trim().toLowerCase();
+        const rows = q ? logRows.filter(r => [r.rx, r.drug, r.labelNdc, r.bottleNdc, r.initials].join(' ').toLowerCase().includes(q)) : logRows;
+        b.querySelector('#lgList').innerHTML = rows.length ? rows.map(r => `<div class="logItem"><img src="${r.photo}" data-id="${r.id}"><div class="m">
+          <div class="t1"><span class="big num">${r.count}</span>${r.target ? `<span class="t2">of ${r.target}</span>` : ''}${r.verified === 'MATCH' ? '<span class="tag ok">NDC ✓</span>' : r.verified === 'MISMATCH' ? '<span class="tag bad">NDC ✗</span>' : ''}${r.fixes ? '<span class="tag na">hand-fixed</span>' : ''}</div>
+          <div class="t2">${r.rx ? 'Rx ' + esc(r.rx) + ' · ' : ''}${esc(r.drug || r.bottleNdc || r.labelNdc || 'No Rx details')}</div>
+          <div class="t2">${new Date(r.ts).toLocaleString([], { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' })} · ${esc(r.initials)}${r.notes ? ' · ' + esc(r.notes) : ''}</div></div></div>`).join('') : '<p class="sub">No counts saved yet.</p>';
+        b.querySelectorAll('img[data-id]').forEach(img => img.onclick = () => { const r = logRows.find(x => x.id == img.dataset.id); sheet(`<img src="${r.photo}" style="width:100%;border-radius:14px"><div class="acts"><button class="btn pri" data-v="1">Back</button></div>`, { wide: true }).then(openLog); });
+      };
+      b.querySelector('#lgSearch').oninput = render; render();
+      b.querySelector('#lgCsv').onclick = exportCsv;
+      b.querySelector('#lgClear').onclick = async () => { const ok = await sheet('<h2>Delete all saved counts?</h2><p class="sub">Removes every count and photo on this device. Export CSV first if you need a record.</p><div class="acts"><button class="btn" data-v="false">Cancel</button><button class="btn danger" data-v="true">Delete all</button></div>'); if (ok) await DB.clear(); openLog(); };
+    }
+  });
 }
-$('bLog').onclick = () => { $('mLog').classList.add('show'); renderLog(); };
-$('bCloseLog').onclick = () => $('mLog').classList.remove('show');
-$('logSearch').oninput = renderLog;
-$('bClearLog').onclick = async () => {
-  $('mLog').classList.remove('show');
-  const ok = await modal('<h2>Delete all saved counts?</h2><p>This removes every count and photo stored on this device. Export CSV first if you need a record.</p>', [{ label: 'Cancel', value: false }, { label: 'Delete all', value: true, cls: 'primary' }]);
-  if (ok) await DB.clear();
-  $('mLog').classList.add('show'); renderLog();
-};
-$('bCsv').onclick = () => {
-  const cols = ['ts', 'rx', 'drug', 'labelNdc', 'bottleNdc', 'lot', 'exp', 'verified', 'target', 'auto', 'adj', 'count', 'initials', 'notes'];
-  const head = ['Date/time', 'Rx #', 'Drug', 'Label NDC', 'Bottle NDC', 'Lot', 'Exp (YYMMDD)', 'NDC check', 'Target', 'Auto count', 'Manual adj', 'Final count', 'Initials', 'Notes'];
+function exportCsv() {
+  const cols = ['ts', 'rx', 'drug', 'labelNdc', 'bottleNdc', 'lot', 'exp', 'verified', 'target', 'count', 'fixes', 'initials', 'notes'];
+  const head = ['Date/time', 'Rx #', 'Drug', 'Label NDC', 'Bottle NDC', 'Lot', 'Exp (YYMMDD)', 'NDC check', 'Target', 'Final count', 'Hand fixes', 'Initials', 'Notes'];
   const csv = [head, ...logRows.map(r => cols.map(c => c === 'ts' ? new Date(r.ts).toLocaleString() : r[c] ?? ''))].map(row => row.map(v => `"${String(v).replace(/"/g, '""')}"`).join(',')).join('\r\n');
-  const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' })); a.download = `traycount-log-${new Date().toISOString().slice(0, 10)}.csv`; document.body.appendChild(a); a.click(); a.remove();
-};
-
-// ---------- settings UI ----------
-function loadSettingsUI() {
-  $('sInitials').value = S.initials; $('sStore').value = S.store; $('sRes').value = String(S.res);
-  $('sThr').value = S.thr; $('sMin').value = S.min; $('sSmooth').value = S.smooth; $('sInset').value = S.inset;
-  $('sShadow').checked = S.shadow; $('sSound').checked = S.sound; $('sDebug').checked = S.debug; labels();
+  const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' })); a.download = `traycount-${new Date().toISOString().slice(0, 10)}.csv`; document.body.appendChild(a); a.click(); a.remove();
 }
-function labels() { $('vThr').textContent = S.thr; $('vMin').textContent = S.min; $('vSmooth').textContent = S.smooth; $('vInset').textContent = S.inset + '%'; $('storeName').textContent = S.store ? '· ' + S.store : ''; }
-$('bSettings').onclick = () => { loadSettingsUI(); listCameras(); $('mSettings').classList.add('show'); };
-$('bCloseSettings').onclick = () => $('mSettings').classList.remove('show');
-$('sInitials').oninput = e => { S.initials = e.target.value.toUpperCase().trim(); saveS(); };
-$('sStore').oninput = e => { S.store = e.target.value; saveS(); labels(); };
-$('sRes').onchange = e => { S.res = +e.target.value; saveS(); fit(); };
-[['sThr', 'thr'], ['sMin', 'min'], ['sSmooth', 'smooth'], ['sInset', 'inset']].forEach(([id, k]) => $(id).oninput = e => { S[k] = +e.target.value; saveS(); labels(); hist = []; });
-[['sShadow', 'shadow'], ['sSound', 'sound'], ['sDebug', 'debug']].forEach(([id, k]) => $(id).onchange = e => { S[k] = e.target.checked; saveS(); });
-$('sCamera').onchange = e => { S.cameraId = e.target.value; saveS(); startCamera(); };
-$('bForgetSizes').onclick = () => { unitMem = {}; ls.set('tc_units', unitMem); toast('Saved pill sizes cleared'); };
+$('bLog').onclick = openLog;
+
+// ---------- settings ----------
+$('bSettings').onclick = () => sheet(`<h2>Settings</h2><p class="sub">Saved on this device.</p>
+  <div class="setg">
+    <div><label class="t">Your initials</label><input class="inp" id="sInitials" maxlength="5" style="text-transform:uppercase" value="${esc(S.initials)}"></div>
+    <div><label class="t">Store name</label><input class="inp" id="sStore" value="${esc(S.store)}"></div>
+    <div><label class="t">Camera</label><select class="inp" id="sCamera"><option>Current camera</option></select></div>
+    <div><label class="t">Detail</label><select class="inp" id="sRes"><option value="480">Fast</option><option value="640">Standard</option><option value="800">Fine (tiny pills)</option></select></div>
+    <div><label class="t">Sensitivity <span id="vThr">${S.thr}</span></label><input type="range" id="sThr" min="18" max="90" value="${S.thr}"><div class="note">Lower picks up pills close to the tray color. Higher ignores glare and dust.</div></div>
+    <div><label class="t">Ignore specks <span id="vMin">${S.min}</span></label><input type="range" id="sMin" min="1" max="40" value="${S.min}"><div class="note">Raise if crumbs or glare get dots.</div></div>
+    <div><label class="t">Steadiness <span id="vSm">${S.smooth}</span></label><input type="range" id="sSm" min="3" max="20" value="${S.smooth}"><div class="note">Frames the count must hold before "Stable".</div></div>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <label class="tog">Ignore shadows<input type="checkbox" id="sShadow" ${S.shadow ? 'checked' : ''}></label>
+      <label class="tog">Read label automatically<input type="checkbox" id="sAuto" ${S.autoLabel ? 'checked' : ''}></label>
+      <label class="tog">Sounds<input type="checkbox" id="sSound" ${S.sound ? 'checked' : ''}></label>
+      <label class="tog">Diagnostics<input type="checkbox" id="sDebug" ${S.debug ? 'checked' : ''}></label>
+    </div>
+  </div>
+  <div class="acts"><button class="btn" id="sForget">Forget saved pill sizes</button><button class="btn pri" data-v="1">Done</button></div>`, {
+  onOpen: (b) => {
+    const q = (id) => b.querySelector('#' + id);
+    q('sRes').value = String(S.res); listCameras();
+    q('sInitials').oninput = e => { S.initials = e.target.value.toUpperCase().trim(); saveS(); };
+    q('sStore').oninput = e => { S.store = e.target.value; saveS(); labels(); };
+    q('sRes').onchange = e => { S.res = +e.target.value; saveS(); fit(); };
+    q('sCamera').onchange = e => { S.cameraId = e.target.value; S.zoom = null; saveS(); startCamera(); };
+    [['sThr', 'thr', 'vThr'], ['sMin', 'min', 'vMin'], ['sSm', 'smooth', 'vSm']].forEach(([id, k, v]) => q(id).oninput = e => { S[k] = +e.target.value; q(v).textContent = S[k]; saveS(); hist = []; });
+    [['sShadow', 'shadow'], ['sAuto', 'autoLabel'], ['sSound', 'sound'], ['sDebug', 'debug']].forEach(([id, k]) => q(id).onchange = e => { S[k] = e.target.checked; saveS(); });
+    q('sForget').onclick = () => { unitMem = {}; ls.set('tc_units', unitMem); toast('Saved pill sizes cleared'); };
+  }
+});
+function labels() { $('storeName').textContent = S.store || ''; }
 
 // ---------- help ----------
-$('bHelp').onclick = () => modal(`<h2>Setup tips</h2><ol class="help">
-<li><b>Mount the iPad overhead</b>, rear camera pointing straight down, about 10–14 in. above the tray. Use a tablet stand or document-camera arm. A fixed height keeps saved pill sizes accurate.</li>
-<li><b>Use a solid, matte tray</b> that fills the view. Navy or black for white and light pills, white for dark pills. Avoid shiny or patterned trays.</li>
-<li><b>Even light</b>: a small LED ring or panel above the tray cuts shadows and glare.</li>
-<li>With the tray empty, tap <b>Calibrate empty tray</b>. Redo it if you move the iPad or the lighting changes.</li>
-<li>Pour in a single layer. Touching pills are split by size (blue numbers). Stacked pills can't be seen, so spread them with the spatula.</li>
-<li>Pour a few pills apart first, or tap <b>Lock pill size</b> once a few are separated. After a bottle scan, the size is remembered for that NDC.</li>
-<li>Green = 1 pill · Blue = touching pills (number shown) · Amber ½? = broken or half tablet · Dashed box = hand or bottle, ignored.</li>
-<li>Always confirm the final count visually. This is a counting aid, and the pharmacist remains responsible for verification.</li></ol>
-<p class="small">Camera needs an https:// link. On iPad, open the link in Safari → Share → Add to Home Screen for a full-screen app.</p>`, [{ label: 'Got it', value: 1, cls: 'primary' }]);
+$('bHelp').onclick = () => sheet(`<h2>Getting great counts</h2><p class="sub">A couple minutes of setup makes counts fast and reliable.</p>
+<div class="legend"><span><i style="background:#34d399"></i>1 pill</span><span><i style="background:#60a5fa"></i>touching (number shown)</span><span><i style="background:#fbbf24"></i>½ broken / half tab</span><span><i style="background:#a78bfa"></i>added by you</span><span style="color:#f87171">✕ removed by you</span></div>
+<ol class="help">
+<li><b>Mount it overhead.</b> Camera straight down, 10–14 in. above the tray. A fixed height keeps saved pill sizes accurate.</li>
+<li><b>Matte, solid tray.</b> Navy or black for light pills, white for dark pills. The corner brackets lock onto it, and everything outside is ignored.</li>
+<li><b>Even light.</b> A small LED panel overhead cuts shadows and glare.</li>
+<li><b>Single layer.</b> Touching pills are split by size, but stacked pills can't be seen. Spread them with the spatula.</li>
+<li><b>Fix misses with a tap.</b> Tap a dot to remove it, tap an empty spot to add a pill. Undo is at the top-left of the camera.</li>
+<li><b>Lock pill size</b> (Tray button) once a few pills are apart. After a bottle scan, it's remembered for that NDC.</li>
+<li>This is a counting aid. Always confirm the final count visually.</li></ol>
+<div class="acts"><button class="btn pri" data-v="1">Got it</button></div>`);
 
 // ---------- boot ----------
 $('bStart').onclick = startCamera;
-labels(); updateLockBtn(); updateCalInfo(); verify(); updateCount();
-requestAnimationFrame(tick);
-window.__tc = { get last() { return last; }, get shown() { return shown; }, get stable() { return stable; }, onBarcode, verify };
+$('ringProg').style.strokeDasharray = RING_C; $('ringProg').style.strokeDashoffset = RING_C;
+renderRx(); renderTools(); labels(); updateTrayChip(); updateCount();
+requestAnimationFrame(loop);
+window.__tc = { get last() { return last; }, get tray() { return tray; }, onBarcode, verify, syncTarget, setRx, get adds() { return adds; }, get removes() { return removes; } };
 })();
 </script>
 </body>
