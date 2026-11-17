@@ -56,7 +56,7 @@ main{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:12px;padding:6px
 .hudTL{position:absolute;top:12px;left:12px;display:flex;gap:8px;z-index:3;flex-wrap:wrap}
 .hudB{position:absolute;left:0;right:0;bottom:12px;display:flex;justify-content:center;z-index:3;pointer-events:none}
 #hint{transition:opacity .4s}
-#zoomBox{position:absolute;right:12px;top:12px;z-index:3;display:none;align-items:center;gap:8px}
+#zoomBox{position:absolute;right:12px;bottom:12px;z-index:3;display:none;align-items:center;gap:8px}
 #zoomBox input{width:110px;accent-color:var(--mint)}
 #banner{position:absolute;top:14px;left:50%;transform:translateX(-50%);z-index:4;display:none}
 #modeBar{position:absolute;bottom:14px;left:0;right:0;display:none;justify-content:center;gap:10px;z-index:4}
@@ -97,6 +97,12 @@ aside::-webkit-scrollbar{display:none}
 #verdict.go{color:#bfdbfe;background:rgba(96,165,250,.14)}
 #verdict.ok{color:#03170e;background:var(--mint)}
 #verdict.over{color:#fff;background:var(--red)}
+#verdict.chk{color:#1c1300;background:var(--amber)}
+#hudCount{position:absolute;top:12px;right:12px;z-index:3;font-size:26px;font-weight:800;padding:6px 14px;letter-spacing:-.5px}
+#hudCount.ok{background:rgba(16,185,129,.85);border-color:var(--mint);color:#03170e}
+#hudCount.over{background:rgba(239,68,68,.85);border-color:var(--red)}
+#hudCount.chk{background:rgba(251,191,36,.9);border-color:var(--amber);color:#1c1300}
+#hudCount small{font-size:14px;font-weight:700;opacity:.75;margin-left:3px}
 
 .tgt{display:flex;align-items:center;gap:10px}
 .tgt label{font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.7px;flex:1}
@@ -228,6 +234,7 @@ select.inp option{background:#10141f}
           <button class="chip" id="trayChip"><span class="dot"></span><span id="trayTxt">Tray</span></button>
           <button class="chip" id="fixChip" style="display:none"><span id="fixTxt"></span>&nbsp;·&nbsp;Undo</button>
         </div>
+        <div class="chip num" id="hudCount" style="display:none"></div>
         <div class="hudB"><div class="chip" id="hint" style="opacity:0">Tap a dot to remove it · tap an empty spot to add</div></div>
         <div id="zoomBox" class="chip"><span>Zoom</span><input type="range" id="zoom"></div>
         <div id="banner" class="chip"></div>
@@ -326,6 +333,40 @@ const PillEngine = (() => {
     return [sr / c, sg / c, sb / c];
   }
 
+  // Lighting-aware background: median tray colour in a coarse grid over the tray, interpolated per pixel.
+  function bgGrid(px, w, h, R) {
+    const gx = 8, gy = 6, cw = (R.x1 - R.x0 + 1) / gx, ch = (R.y1 - R.y0 + 1) / gy, cols = new Float32Array(gx * gy * 3);
+    for (let j = 0; j < gy; j++) for (let i = 0; i < gx; i++) {
+      const xs = Math.floor(R.x0 + i * cw), xe = Math.floor(R.x0 + (i + 1) * cw), ys = Math.floor(R.y0 + j * ch), ye = Math.floor(R.y0 + (j + 1) * ch);
+      const keys = [];
+      for (let y = ys; y < ye; y += 3) for (let x = xs; x < xe; x += 3) { const o = (y * w + x) * 4; keys.push(((px[o] * 0.3 + px[o + 1] * 0.59 + px[o + 2] * 0.11) | 0) * 16777216 + px[o] * 65536 + px[o + 1] * 256 + px[o + 2]); }
+      const ks = Float64Array.from(keys).sort();
+      const samp = Array.from(ks, k => { const c = k % 16777216; return [Math.floor(k / 16777216), c >> 16, (c >> 8) & 255, c & 255]; });
+      const mid = samp[samp.length >> 1] || [0, 0, 0, 0];
+      cols.set([mid[1], mid[2], mid[3]], (j * gx + i) * 3);
+    }
+    // a cell that disagrees sharply with its neighbours (crowded with pills / shadow) takes their median instead
+    const fixed = new Float32Array(cols);
+    for (let j = 0; j < gy; j++) for (let i = 0; i < gx; i++) {
+      const nb = [];
+      for (const [a, b] of [[i - 1, j], [i + 1, j], [i, j - 1], [i, j + 1], [i - 1, j - 1], [i + 1, j + 1], [i - 1, j + 1], [i + 1, j - 1]]) if (a >= 0 && b >= 0 && a < gx && b < gy) nb.push((b * gx + a) * 3);
+      const med = [0, 1, 2].map(k => { const v = nb.map(o => cols[o + k]).sort((x, y) => x - y); return v[v.length >> 1]; });
+      const o = (j * gx + i) * 3, dd = Math.hypot(cols[o] - med[0], cols[o + 1] - med[1], cols[o + 2] - med[2]);
+      if (dd > 30) fixed.set(med, o);
+    }
+    return { gx, gy, cw, ch, cols: fixed, R };
+  }
+  function bgAt(G, x, y, out) {
+    let fx = (x - G.R.x0) / G.cw - 0.5, fy = (y - G.R.y0) / G.ch - 0.5;
+    fx = Math.max(0, Math.min(G.gx - 1, fx)); fy = Math.max(0, Math.min(G.gy - 1, fy));
+    const i0 = Math.floor(fx), j0 = Math.floor(fy), i1 = Math.min(G.gx - 1, i0 + 1), j1 = Math.min(G.gy - 1, j0 + 1), ax = fx - i0, ay = fy - j0;
+    for (let k = 0; k < 3; k++) {
+      const a = G.cols[(j0 * G.gx + i0) * 3 + k], b = G.cols[(j0 * G.gx + i1) * 3 + k], c = G.cols[(j1 * G.gx + i0) * 3 + k], d = G.cols[(j1 * G.gx + i1) * 3 + k];
+      out[k] = (a * (1 - ax) + b * ax) * (1 - ay) + (c * (1 - ax) + d * ax) * ay;
+    }
+    return out;
+  }
+
   // Exposure drift compensation for a calibrated per-pixel model
   function gainVsModel(px, model, n) {
     const ratios = [];
@@ -342,22 +383,39 @@ const PillEngine = (() => {
   }
 
   function buildMask(px, w, h, opt, model) {
-    const n = w * h, mask = new Uint8Array(n);
+    const n = w * h, mask = new Uint8Array(n), dist = new Float32Array(n);
     const thr2 = opt.threshold * opt.threshold;
+    const weak = opt.weakThr ? new Uint8Array(n) : null, wk2 = opt.weakThr ? opt.weakThr * opt.weakThr : 0;
     const R = opt.roi;
-    let bg = null, gain = 1;
+    let bg = null, gain = 1, G = null; const tmp = [0, 0, 0];
     if (model) gain = gainVsModel(px, model, n);
-    else bg = autoBackground(px, w, h, R);
-    for (let i = 0; i < n; i++) {
-      const o = i * 4;
-      const xx = i % w, yy = (i / w) | 0;
-      if (xx < R.x0 || xx > R.x1 || yy < R.y0 || yy > R.y1) continue;
+    else {
+      const IR = opt.bgRoi || R, mx = Math.round((IR.x1 - IR.x0) * 0.06), my = Math.round((IR.y1 - IR.y0) * 0.06);
+      const GR = { x0: IR.x0 + mx, y0: IR.y0 + my, x1: IR.x1 - mx, y1: IR.y1 - my }; // stay off the tray rim / counter slivers
+      bg = autoBackground(px, w, h, GR);
+      const st = opt.state || {}, key = GR.x0 + ',' + GR.y0 + ',' + GR.x1 + ',' + GR.y1;
+      if (st._G && st._Gkey === key && st._Gage < 5) { G = st._G; st._Gage++; }
+      else { G = bgGrid(px, w, h, GR); st._G = G; st._Gkey = key; st._Gage = 0; }
+    }
+    // precompute horizontal interpolation once per frame
+    let I0, I1, AX; if (G) { I0 = new Int32Array(w); I1 = new Int32Array(w); AX = new Float32Array(w); for (let x = 0; x < w; x++) { let fx = (x - G.R.x0) / G.cw - 0.5; fx = Math.max(0, Math.min(G.gx - 1, fx)); I0[x] = Math.floor(fx); I1[x] = Math.min(G.gx - 1, I0[x] + 1); AX[x] = fx - I0[x]; } }
+    const rowBg = new Float32Array(w * 3);
+    for (let yy = R.y0; yy <= R.y1; yy++) {
+      if (G) {
+        let fy = (yy - G.R.y0) / G.ch - 0.5; fy = Math.max(0, Math.min(G.gy - 1, fy));
+        const j0 = Math.floor(fy), j1 = Math.min(G.gy - 1, j0 + 1), ay = fy - j0, C = G.cols, gx = G.gx;
+        for (let xx = R.x0; xx <= R.x1; xx++) { const a0 = (j0 * gx + I0[xx]) * 3, b0 = (j0 * gx + I1[xx]) * 3, c0 = (j1 * gx + I0[xx]) * 3, d0 = (j1 * gx + I1[xx]) * 3, ax = AX[xx];
+          for (let k = 0; k < 3; k++) rowBg[xx * 3 + k] = (C[a0 + k] * (1 - ax) + C[b0 + k] * ax) * (1 - ay) + (C[c0 + k] * (1 - ax) + C[d0 + k] * ax) * ay; }
+      }
+    for (let xx = R.x0; xx <= R.x1; xx++) {
+      const i = yy * w + xx, o = i * 4;
       let br, bgc, bb;
       if (model) { const m = i * 3; br = model[m] * gain; bgc = model[m + 1] * gain; bb = model[m + 2] * gain; }
-      else { br = bg[0]; bgc = bg[1]; bb = bg[2]; }
+      else { br = rowBg[xx * 3]; bgc = rowBg[xx * 3 + 1]; bb = rowBg[xx * 3 + 2]; }
       const r = px[o], g = px[o + 1], b = px[o + 2];
       const dr = r - br, dg = g - bgc, db = b - bb;
       const d2 = dr * dr + dg * dg + db * db;
+      if (weak && d2 > wk2) weak[i] = 1;
       if (d2 <= thr2) continue;
       if (opt.shadow) {
         // shadow = same hue as tray, just darker
@@ -367,9 +425,10 @@ const PillEngine = (() => {
           if (cd < 0.07) continue;
         }
       }
-      mask[i] = 1;
+      mask[i] = 1; dist[i] = Math.sqrt(d2);
     }
-    return { mask, bg, gain };
+    }
+    return { mask, dist, weak, bg, gain };
   }
 
   function erode(m, w, h) {
@@ -389,7 +448,7 @@ const PillEngine = (() => {
     return o;
   }
   // fill holes (imprints, score lines, glare spots) = background not reachable from the border
-  function fillHoles(m, w, h) {
+  function fillHoles(m, w, h, maxHole) {
     const seen = new Uint8Array(m.length), stack = new Int32Array(m.length);
     let sp = 0;
     const push = (i) => { if (!m[i] && !seen[i]) { seen[i] = 1; stack[sp++] = i; } };
@@ -402,21 +461,80 @@ const PillEngine = (() => {
       if (i >= w) push(i - w);
       if (i < m.length - w) push(i + w);
     }
-    for (let i = 0; i < m.length; i++) if (!m[i] && !seen[i]) m[i] = 1;
+    // fill each enclosed region only if it's pill-imprint sized (a ring of counter around the tray is not a "hole")
+    const lim = maxHole || Infinity, reg = new Int32Array(m.length);
+    for (let s0 = 0; s0 < m.length; s0++) {
+      if (m[s0] || seen[s0]) continue;
+      let sp2 = 0, cnt = 0; stack[sp2++] = s0; seen[s0] = 1; const list = [];
+      while (sp2) {
+        const i = stack[--sp2], x = i % w; cnt++; if (cnt <= lim) list.push(i);
+        const nb = [x > 0 ? i - 1 : -1, x < w - 1 ? i + 1 : -1, i >= w ? i - w : -1, i < m.length - w ? i + w : -1];
+        for (const j of nb) if (j >= 0 && !m[j] && !seen[j]) { seen[j] = 1; stack[sp2++] = j; }
+      }
+      if (cnt <= lim) for (const i of list) m[i] = 1;
+    }
     return m;
   }
 
-  function components(m, w, h, R) {
+  // Keep only what the tray surrounds: find the tray (largest background region) and drop anything
+  // reachable from the outside without crossing it (the counter, the tray rim, stuff next to the tray).
+  function trayExtent(m, w, h, R) {
+    const n = m.length, lab = new Int32Array(n), stack = new Int32Array(n);
+    let best = null, id = 0;
+    for (let y0 = R.y0; y0 <= R.y1; y0++) for (let x0 = R.x0; x0 <= R.x1; x0++) {
+      const s0 = y0 * w + x0; if (m[s0] || lab[s0]) continue;
+      id++; let sp = 0, a = 0, bx0 = w, bx1 = 0, by0 = h, by1 = 0; stack[sp++] = s0; lab[s0] = id;
+      while (sp) { const i = stack[--sp], x = i % w, y = (i / w) | 0; a++;
+        if (x < bx0) bx0 = x; if (x > bx1) bx1 = x; if (y < by0) by0 = y; if (y > by1) by1 = y;
+        const nb = [x > R.x0 ? i - 1 : -1, x < R.x1 ? i + 1 : -1, y > R.y0 ? i - w : -1, y < R.y1 ? i + w : -1];
+        for (const j of nb) if (j >= 0 && !m[j] && !lab[j]) { lab[j] = id; stack[sp++] = j; } }
+      if (!best || a > best.a) best = { a, x0: bx0, x1: bx1, y0: by0, y1: by1 };
+    }
+    return best;
+  }
+  function clipToTray(m, w, h, R) {
+    const n = m.length, inv = new Uint8Array(n);
+    for (let y = R.y0; y <= R.y1; y++) for (let x = R.x0; x <= R.x1; x++) { const i = y * w + x; if (!m[i]) inv[i] = 1; }
+    const lab = new Int32Array(n), stack = new Int32Array(n);
+    let best = 0, bestA = 0, id = 0;
+    for (let s0 = 0; s0 < n; s0++) {
+      if (!inv[s0] || lab[s0]) continue;
+      id++; let sp = 0, a = 0; stack[sp++] = s0; lab[s0] = id;
+      while (sp) { const i = stack[--sp], x = i % w; a++;
+        if (x > 0 && inv[i - 1] && !lab[i - 1]) { lab[i - 1] = id; stack[sp++] = i - 1; }
+        if (x < w - 1 && inv[i + 1] && !lab[i + 1]) { lab[i + 1] = id; stack[sp++] = i + 1; }
+        if (i >= w && inv[i - w] && !lab[i - w]) { lab[i - w] = id; stack[sp++] = i - w; }
+        if (i < n - w && inv[i + w] && !lab[i + w]) { lab[i + w] = id; stack[sp++] = i + w; } }
+      if (a > bestA) { bestA = a; best = id; }
+    }
+    if (!best) return m;
+    const seen = new Uint8Array(n); let sp = 0;
+    const push = (x, y) => { if (x < R.x0 || x > R.x1 || y < R.y0 || y > R.y1) return; const i = y * w + x; if (seen[i] || lab[i] === best) return; seen[i] = 1; stack[sp++] = i; };
+    for (let x = R.x0; x <= R.x1; x++) { push(x, R.y0); push(x, R.y1); }
+    for (let y = R.y0; y <= R.y1; y++) { push(R.x0, y); push(R.x1, y); }
+    while (sp) { const i = stack[--sp], x = i % w, y = (i / w) | 0; push(x - 1, y); push(x + 1, y); push(x, y - 1); push(x, y + 1); }
+    for (let i = 0; i < n; i++) if (seen[i]) m[i] = 0;
+    return m;
+  }
+
+  function components(m, w, h, R, dist, inner) {
     const lab = new Int32Array(m.length), stack = new Int32Array(m.length), comps = [];
     let next = 0;
     for (let s = 0; s < m.length; s++) {
       if (!m[s] || lab[s]) continue;
       next++;
       let sp = 0; stack[sp++] = s; lab[s] = next;
-      let area = 0, sx = 0, sy = 0, x0 = w, x1 = 0, y0 = h, y1 = 0;
+      let area = 0, sx = 0, sy = 0, x0 = w, x1 = 0, y0 = h, y1 = 0, sd = 0, nd = 0, ed = 0, ne = 0;
+      const hb = dist ? new Uint32Array(32) : null;
+      let inN = 0;
       while (sp) {
         const i = stack[--sp], x = i % w, y = (i / w) | 0;
         area++; sx += x; sy += y;
+        if (inner && x >= inner.x0 && x <= inner.x1 && y >= inner.y0 && y <= inner.y1) inN++;
+        if (dist && dist[i] > 0) {
+          sd += dist[i]; nd++; hb[Math.min(31, (dist[i] / 14) | 0)]++;
+          if (!(x > 0 && m[i - 1]) || !(x < w - 1 && m[i + 1]) || !(y > 0 && m[i - w]) || !(y < h - 1 && m[i + w])) { ed += dist[i]; ne++; }
+        }
         if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y;
         if (x > 0 && m[i - 1] && !lab[i - 1]) { lab[i - 1] = next; stack[sp++] = i - 1; }
         if (x < w - 1 && m[i + 1] && !lab[i + 1]) { lab[i + 1] = next; stack[sp++] = i + 1; }
@@ -424,9 +542,30 @@ const PillEngine = (() => {
         if (y < h - 1 && m[i + w] && !lab[i + w]) { lab[i + w] = next; stack[sp++] = i + w; }
       }
       const edge = x0 <= R.x0 + 1 || y0 <= R.y0 + 1 || x1 >= R.x1 - 1 || y1 >= R.y1 - 1;
-      comps.push({ area, cx: sx / area, cy: sy / area, x0, x1, y0, y1, edge });
+      let p75 = 0; if (hb && nd) { let acc = 0; for (let k = 0; k < 32; k++) { acc += hb[k]; if (acc >= nd * 0.75) { p75 = (k + 0.5) * 14; break; } } }
+      // soft = edge brightness vs the bright core: a pill has a crisp edge (~1), a reflection fades out (~0.3)
+      comps.push({ area, inFrac: inner ? inN / area : 1, meanD: nd ? sd / nd : 0, cx: sx / area, cy: sy / area, x0, x1, y0, y1, edge, soft: nd > 8 && ne > 4 && p75 ? Math.min(1, (ed / ne) / p75) : 1 });
+    }
+    if (dist) {
+      // row extents -> convex hull -> solidity (one pill is convex; overlapping pills have a waist)
+      for (const c of comps) { const hgt = c.y1 - c.y0 + 1; c._mn = new Int32Array(hgt).fill(1e9); c._mx = new Int32Array(hgt).fill(-1); }
+      for (let i = 0; i < m.length; i++) { const L = lab[i]; if (!L) continue; const c = comps[L - 1], x = i % w, ry = ((i / w) | 0) - c.y0; if (x < c._mn[ry]) c._mn[ry] = x; if (x > c._mx[ry]) c._mx[ry] = x; }
+      for (const c of comps) { c.solidity = c.area < 30 ? 1 : c.area / hullArea(c); delete c._mn; delete c._mx; }
     }
     return comps;
+  }
+  function hullArea(c) {
+    const pts = [];
+    for (let r = 0; r < c._mn.length; r++) { if (c._mx[r] < 0) continue; const y = c.y0 + r; pts.push([c._mn[r], y], [c._mx[r], y]); }
+    pts.sort((a, b) => a[0] - b[0] || a[1] - b[1]);
+    const cr = (o, a, b) => (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0]);
+    const lo = [], up = [];
+    for (const p of pts) { while (lo.length >= 2 && cr(lo[lo.length - 2], lo[lo.length - 1], p) <= 0) lo.pop(); lo.push(p); }
+    for (let i = pts.length - 1; i >= 0; i--) { const p = pts[i]; while (up.length >= 2 && cr(up[up.length - 2], up[up.length - 1], p) <= 0) up.pop(); up.push(p); }
+    const hull = lo.slice(0, -1).concat(up.slice(0, -1));
+    // hull through pixel centres + half the perimeter + 1 ≈ the pixel area a convex shape would cover (Pick's theorem)
+    let a = 0, per = 0; for (let i = 0; i < hull.length; i++) { const p = hull[i], q = hull[(i + 1) % hull.length]; a += p[0] * q[1] - q[0] * p[1]; per += Math.hypot(q[0] - p[0], q[1] - p[1]); }
+    return Math.max(1, Math.abs(a) / 2 + per / 2 + 1);
   }
 
   function median(a) { if (!a.length) return 0; const s = [...a].sort((x, y) => x - y); return s[s.length >> 1]; }
@@ -436,11 +575,28 @@ const PillEngine = (() => {
     opt = Object.assign({}, opt);
     const r = opt.roi || {};
     opt.roi = { x0: Math.max(0, r.x0 | 0), y0: Math.max(0, r.y0 | 0), x1: Math.min(w - 1, r.x1 == null ? w - 1 : r.x1 | 0), y1: Math.min(h - 1, r.y1 == null ? h - 1 : r.y1 | 0) };
-    const { mask, bg, gain } = buildMask(px, w, h, opt, model);
+    // look a little past the tray edge so a pill straddling it is seen whole; count it if its centre is inside
+    const inner = opt.roi, ep = Math.round(w * 0.03);
+    opt.roi = { x0: Math.max(0, inner.x0 - ep), y0: Math.max(0, inner.y0 - ep), x1: Math.min(w - 1, inner.x1 + ep), y1: Math.min(h - 1, inner.y1 + ep) };
+    if (inner.x0 <= 1 && inner.y0 <= 1 && inner.x1 >= w - 2 && inner.y1 >= h - 2) opt.roi = inner;
+    const { mask, dist, weak, bg, gain } = buildMask(px, w, h, Object.assign({}, opt, { bgRoi: inner, state }), model);
     let m = dilate(erode(mask, w, h), w, h);
-    m = fillHoles(m, w, h);
-    const comps = components(m, w, h, opt.roi);
-    const total = (opt.roi.x1 - opt.roi.x0 + 1) * (opt.roi.y1 - opt.roi.y0 + 1);
+    m = erode(dilate(m, w, h), w, h); // close 1-2px gaps (score lines, imprints) so one tablet stays one blob
+    let trayBox = null;
+    let uneven = false;
+    if (opt.roi !== inner) { trayBox = trayExtent(m, w, h, opt.roi);
+      // only part of the tray reads as "tray" (uneven light/shadow): don't clip, warn instead
+      if (trayBox && (trayBox.x1 - trayBox.x0) * (trayBox.y1 - trayBox.y0) < (inner.x1 - inner.x0) * (inner.y1 - inner.y0) * 0.7) { uneven = true; trayBox = null; }
+      if (trayBox) for (let y = opt.roi.y0; y <= opt.roi.y1; y++) for (let x = opt.roi.x0; x <= opt.roi.x1; x++) if (x < trayBox.x0 || x > trayBox.x1 || y < trayBox.y0 || y > trayBox.y1) m[y * w + x] = 0; }
+    m = fillHoles(m, w, h, Math.max(200, (inner.x1 - inner.x0) * (inner.y1 - inner.y0) * 0.01));
+    const comps = components(m, w, h, opt.roi, dist, inner);
+    const total = (inner.x1 - inner.x0 + 1) * (inner.y1 - inner.y0 + 1);
+    for (const c of comps) if (c.inFrac < 0.5 || c.cx < inner.x0 || c.cx > inner.x1 || c.cy < inner.y0 || c.cy > inner.y1) c.out = true;
+    if (trayBox) for (const c of comps) {
+      const tv = c.x0 <= trayBox.x0 + 1 || c.x1 >= trayBox.x1 - 1, th = c.y0 <= trayBox.y0 + 1 || c.y1 >= trayBox.y1 - 1;
+      if (tv && th) c.corner = true;
+      if ((c.x1 - c.x0 > (trayBox.x1 - trayBox.x0) * 0.6) || (c.y1 - c.y0 > (trayBox.y1 - trayBox.y0) * 0.6)) c.out = true; // a strip along the rim
+    }
     const removes = opt.removes || [];
     for (const c of comps) {
       if (removes.some(p => p.x >= c.x0 - 3 && p.x <= c.x1 + 3 && p.y >= c.y0 - 3 && p.y <= c.y1 + 3)) c.removed = true;
@@ -449,16 +605,22 @@ const PillEngine = (() => {
     let blocked = false;
 
     const cands = [];
+    let glare = 0;
     for (const c of comps) {
+      if (c.out) { c.kind = null; continue; }
+      if (c.corner && c.area < minA * 6) { c.kind = null; continue; }
       if (c.area < minA) { c.kind = 'noise'; continue; }
       if (c.area > total * 0.2) { c.kind = 'block'; blocked = true; continue; }
+      // very fuzzy edges = maybe a light reflection. Never drop it (blurry real pills look soft too): count it and ask.
+      // (edge-softness glare test removed: under real camera blur pills and glare look the same)
       cands.push(c);
     }
     // single-pill size
     let unit = state.lockedUnit || 0;
     if (!unit && cands.length) {
-      const med = median(cands.map(c => c.area));
-      const core = cands.filter(c => c.area > med * 0.6 && c.area < med * 1.45).map(c => c.area);
+      const ucands = cands.filter(c => !c.glareLike).length >= 3 ? cands.filter(c => !c.glareLike) : cands;
+      const med = median(ucands.map(c => c.area));
+      const core = ucands.filter(c => c.area > med * 0.6 && c.area < med * 1.45).map(c => c.area);
       // prefer the smaller cluster when most blobs are pairs: use lower-quartile guard
       let est = median(core.length ? core : [med]);
       const small = cands.filter(c => c.area > est * 0.35 && c.area < est * 0.7).map(c => c.area);
@@ -467,10 +629,16 @@ const PillEngine = (() => {
         const sm = median(small), sd = Math.sqrt(small.reduce((s, a) => s + (a - sm) ** 2, 0) / small.length);
         if (sd / sm < 0.2) est = sm;
       }
+      est = Math.max(est, 50 * (w * h) / (640 * 480));
       unit = state.unit ? state.unit * 0.85 + est * 0.15 : est;
       state.unit = unit;
     }
-    let n = 0, frags = 0;
+    // sanity: real touching pairs always have a waist. Many smooth "pairs" = the pill size is half what it should be.
+    if (unit && !state.lockedUnit) {
+      const smooth2 = cands.filter(c => { const r = c.area / unit; return r > 1.7 && r < 2.35 && (c.solidity || 1) > 0.93; }).length;
+      if (cands.length >= 4 && smooth2 >= cands.length * 0.4) { unit *= 2; state.unit = unit; }
+    }
+    let n = 0, frags = 0, unsure = 0;
     let removedN = 0;
     for (const c of cands) {
       if (!unit) { c.kind = 'pill'; c.n = 1; n++; continue; }
@@ -479,12 +647,35 @@ const PillEngine = (() => {
       if (r > opt.maxMultiple) { c.kind = 'block'; blocked = true; continue; }
       if (r < opt.fragMin) { c.kind = 'noise'; continue; }
       if (r < 0.62) { c.kind = 'frag'; c.n = 1; frags++; n++; continue; }
+      const sol = c.solidity == null ? 1 : c.solidity;
+      // big smooth blob = not a pile of pills (piles are lumpy): bottle cap, glare patch, paper
+      if (r > 4 && sol > 0.93) { c.kind = 'block'; blocked = true; continue; }
       c.n = Math.max(1, Math.round(r));
+      const waist = sol < opt.solidity && sol >= 0.75;
+      // two pills overlapping: a bit more than 1 pill of area, with a visible waist
+      if (c.n === 1 && r > 1.08 && waist) { c.n = 2; if (r < 1.2) c.unsure = true; }
+      // halfway between whole numbers with no waist (stacked) or a strange shape -> a human should look
+      const fr = r - Math.floor(r);
+      if (r > 1.2 && fr > 0.3 && fr < 0.7 && !waist) c.unsure = true;
+      if (c.n === 1 && r > 1.25 && !waist) c.unsure = true;
+      if (sol < 0.75 && r > 1.05) c.unsure = true;
       c.kind = c.n > 1 ? 'clump' : 'pill';
+      if (c.glareLike) c.unsure = true;
+      if (c.unsure) unsure++;
       n += c.n;
     }
-    for (const c of cands) if (c.removed && c.n && c.kind !== 'block' && c.kind !== 'noise') { if (c.kind === 'frag') frags--; n -= c.n; removedN += c.n; c.kind = 'removed'; }
-    return { count: n, comps, unit, blocked, frags, bg, gain, removedN };
+    // low contrast: many more pill-sized blobs at a much lower threshold than we counted
+    let lowContrast = false;
+    const md = median(cands.filter(c => c.n).map(c => c.meanD));
+    if (cands.length >= 3 && md && md < opt.threshold * 1.5) lowContrast = true; // pills barely stand out from the tray
+    if (weak && !lowContrast) {
+      let wm = dilate(erode(weak, w, h), w, h); wm = erode(dilate(wm, w, h), w, h);
+      const wc = components(wm, w, h, opt.roi);
+      const lc = wc.filter(c => c.area >= minA * 2 && c.area < total * 0.05).length;
+      if (lc >= n + 4 && lc > n * 1.4) lowContrast = true;
+    }
+    for (const c of cands) if (c.removed && c.n && c.kind !== 'block' && c.kind !== 'noise') { if (c.kind === 'frag') frags--; if (c.unsure) unsure--; n -= c.n; removedN += c.n; c.kind = 'removed'; }
+    return { count: n, comps, unit, blocked, frags, bg, gain, removedN, unsure, glare, lowContrast, uneven, roi: inner };
   }
 
   // Top few distinct dominant colors (coarse histogram peaks)
@@ -516,41 +707,49 @@ const PillEngine = (() => {
     return out;
   }
 
-  // Find the tray: among the dominant colors, the big region that covers the middle of the picture.
+  // Find the tray: grow outward from the middle over small cells, allowing gradual shading (window light)
+  // but stopping at a sharp colour change (tray -> counter). Pills inside are holes that get filled.
   function detectTray(px, w, h, threshold) {
-    const s = 4, gw = Math.floor(w / s), gh = Math.floor(h / s), n = gw * gh;
-    const t2 = (threshold * 1.4) ** 2;
-    const cx0 = Math.floor(gw * 0.35), cx1 = Math.ceil(gw * 0.65), cy0 = Math.floor(gh * 0.35), cy1 = Math.ceil(gh * 0.65);
-    let best = null;
-    for (const dc of dominantColors(px, w, h, 3)) {
-      const bg = dc.color, near = new Uint8Array(n);
-      for (let gy = 0; gy < gh; gy++) for (let gx = 0; gx < gw; gx++) {
-        const o = ((gy * s + 2) * w + gx * s + 2) * 4;
-        const dr = px[o] - bg[0], dg = px[o + 1] - bg[1], db = px[o + 2] - bg[2];
-        if (dr * dr + dg * dg + db * db < t2) near[gy * gw + gx] = 1;
-      }
-      const lab = new Int32Array(n), stack = new Int32Array(n);
-      // label only the largest component touching the central box
-      let id = 0;
-      for (let gy = cy0; gy < cy1; gy++) for (let gx = cx0; gx < cx1; gx++) {
-        const st = gy * gw + gx; if (!near[st] || lab[st]) continue;
-        id++; let sp = 0; stack[sp++] = st; lab[st] = id;
-        let area = 0, cen = 0, x0 = gw, x1 = 0, y0 = gh, y1 = 0;
-        while (sp) {
-          const i = stack[--sp], x = i % gw, y = (i / gw) | 0; area++;
-          if (x >= cx0 && x < cx1 && y >= cy0 && y < cy1) cen++;
-          if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y;
-          if (x > 0 && near[i - 1] && !lab[i - 1]) { lab[i - 1] = id; stack[sp++] = i - 1; }
-          if (x < gw - 1 && near[i + 1] && !lab[i + 1]) { lab[i + 1] = id; stack[sp++] = i + 1; }
-          if (y > 0 && near[i - gw] && !lab[i - gw]) { lab[i - gw] = id; stack[sp++] = i - gw; }
-          if (y < gh - 1 && near[i + gw] && !lab[i + gw]) { lab[i + gw] = id; stack[sp++] = i + gw; }
-        }
-        const score = cen;
-        if (area > n * 0.12 && (!best || score > best.score)) best = { score, area, x0, x1, y0, y1, bg };
+    const cs = 16, gw = Math.floor(w / cs), gh = Math.floor(h / cs), n = gw * gh;
+    // robust cell colour: brightness-sorted, take the 30th percentile sample (pills are usually lighter or darker blobs)
+    const mean = new Float32Array(n * 3), lum = new Float32Array(n);
+    for (let j = 0; j < gh; j++) for (let i = 0; i < gw; i++) {
+      const smp = [];
+      for (let y = j * cs + 1; y < (j + 1) * cs; y += 3) for (let x = i * cs + 1; x < (i + 1) * cs; x += 3) { const o = (y * w + x) * 4; smp.push([px[o] + px[o + 1] + px[o + 2], px[o], px[o + 1], px[o + 2]]); }
+      smp.sort((a, b) => a[0] - b[0]);
+      const k = smp[Math.floor(smp.length / 2)], c = (j * gw + i);
+      mean[c * 3] = k[1]; mean[c * 3 + 1] = k[2]; mean[c * 3 + 2] = k[3]; lum[c] = k[0];
+    }
+    const d = (a, b) => Math.hypot(mean[a * 3] - mean[b * 3], mean[a * 3 + 1] - mean[b * 3 + 1], mean[a * 3 + 2] - mean[b * 3 + 2]);
+    // seed: the colour that most central cells agree on
+    const cx0 = Math.floor(gw * 0.3), cx1 = Math.ceil(gw * 0.7), cy0 = Math.floor(gh * 0.3), cy1 = Math.ceil(gh * 0.7);
+    const central = []; for (let j = cy0; j < cy1; j++) for (let i = cx0; i < cx1; i++) central.push(j * gw + i);
+    let seed = -1, bestV = -1;
+    for (const a of central) { let v = 0; for (const b of central) if (d(a, b) < threshold * 0.8) v++; if (v > bestV) { bestV = v; seed = a; } }
+    if (seed < 0 || bestV < central.length * 0.25) return null;
+    // start from every central cell that agrees with the consensus colour; compare against their average
+    const inT = new Uint8Array(n), stack = []; let sr = 0, sg = 0, sb = 0, sn = 0;
+    for (const a of central) if (d(a, seed) < threshold * 0.8) { inT[a] = 1; stack.push(a); sr += mean[a * 3]; sg += mean[a * 3 + 1]; sb += mean[a * 3 + 2]; sn++; }
+    sr /= sn; sg /= sn; sb /= sn;
+    const dS = (q) => Math.hypot(mean[q * 3] - sr, mean[q * 3 + 1] - sg, mean[q * 3 + 2] - sb);
+    const step = threshold * 0.55, cap = threshold * 3.2;
+    while (stack.length) {
+      const c = stack.pop(), x = c % gw, y = (c / gw) | 0;
+      for (const [nx, ny] of [[x - 1, y], [x + 1, y], [x, y - 1], [x, y + 1]]) {
+        if (nx < 0 || ny < 0 || nx >= gw || ny >= gh) continue;
+        const q = ny * gw + nx; if (inT[q]) continue;
+        if ((d(c, q) < step || dS(q) < threshold * 0.6) && dS(q) < cap) { inT[q] = 1; stack.push(q); }
       }
     }
-    if (!best) return null;
-    return { x0: best.x0 * s, y0: best.y0 * s, x1: Math.min(w - 1, (best.x1 + 1) * s - 1), y1: Math.min(h - 1, (best.y1 + 1) * s - 1), frac: best.area / n, bg: best.bg };
+    // fill enclosed holes (cells covered by pills)
+    const out = new Uint8Array(n), st2 = [];
+    for (let i = 0; i < gw; i++) { st2.push(i, (gh - 1) * gw + i); } for (let j = 0; j < gh; j++) { st2.push(j * gw, j * gw + gw - 1); }
+    while (st2.length) { const c = st2.pop(); if (out[c] || inT[c]) continue; out[c] = 1; const x = c % gw, y = (c / gw) | 0; if (x > 0) st2.push(c - 1); if (x < gw - 1) st2.push(c + 1); if (y > 0) st2.push(c - gw); if (y < gh - 1) st2.push(c + gw); }
+    let x0 = gw, x1 = -1, y0 = gh, y1 = -1, area = 0;
+    for (let c = 0; c < n; c++) if (!out[c]) { area++; const x = c % gw, y = (c / gw) | 0; if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y; }
+    if (area < n * 0.12) return null;
+    // a tray touching the frame edge extends to it; otherwise take the cell boundary
+    return { x0: x0 === 0 ? 0 : x0 * cs, y0: y0 === 0 ? 0 : y0 * cs, x1: x1 === gw - 1 ? w - 1 : Math.min(w - 1, (x1 + 1) * cs - 1), y1: y1 === gh - 1 ? h - 1 : Math.min(h - 1, (y1 + 1) * cs - 1), frac: area / n, bg: [sr, sg, sb] };
   }
 
   // ---------- NDC / barcode helpers ----------
@@ -657,7 +856,7 @@ const tiny = document.createElement('canvas'); tiny.width = 40; tiny.height = 30
 let stream = null, track = null, mode = 'count', lastTs = 0, fpsT = 0, fpsN = 0, fps = 0, frameNo = 0;
 let eng = {}, bgModel = null, calib = null, last = null, hist = [], shown = 0, stable = false, prevKey = '', lastShownFinal = -1;
 let audio = null, busy = false, detector = null, zx = null, tess = null, lastVr = null;
-let tray = null, trayMiss = 0, editTray = false, drag = null;
+let tray = null, trayMiss = 0, editTray = false, drag = null, trayLocked = false, trayStableN = 0;
 let removes = [], adds = [], actions = [];
 let flash = null, steady = { prev: null, since: 0, reading: false };
 const rec = { bottleNdc10: '', bottleNdcHy: '', lot: '', exp: '', pkg: '' };
@@ -740,7 +939,7 @@ function trayMenu() {
   if (editTray) { editTray = false; renderTools(); updateTrayChip(); toast('Tray area saved'); return; }
   sheet(`<h2>Tray & sizing</h2><p class="sub">Only pills inside the corner brackets are counted.</p>
     <div style="display:flex;flex-direction:column;gap:10px">
-      <button class="btn ${S.trayMode === 'auto' ? 'pri' : ''}" data-v="auto" style="text-align:left">Find the tray automatically</button>
+      <button class="btn ${S.trayMode === 'auto' ? 'pri' : ''}" data-v="auto" style="text-align:left">${S.trayMode === 'auto' && trayLocked ? 'Find the tray again (moved the tray or camera)' : 'Find the tray automatically'}</button>
       <button class="btn ${S.trayMode === 'manual' && !(S.trayRect && S.trayRect.x1 - S.trayRect.x0 > .99) ? 'pri' : ''}" data-v="edit" style="text-align:left">Drag the corners myself</button>
       <button class="btn" data-v="full" style="text-align:left">Count the whole picture</button>
       <div style="height:6px"></div>
@@ -748,7 +947,7 @@ function trayMenu() {
       <button class="btn" data-v="cal" style="text-align:left">${bgModel ? 'Clear tray calibration' : 'Calibrate with the tray empty'}</button>
     </div>
     <div class="acts"><button class="btn" data-v="">Close</button></div>`).then(v => {
-    if (v === 'auto') { S.trayMode = 'auto'; S.trayRect = null; tray = null; trayMiss = 0; }
+    if (v === 'auto') { S.trayMode = 'auto'; S.trayRect = null; tray = null; trayMiss = 0; trayLocked = false; trayStableN = 0; }
     if (v === 'full') { S.trayMode = 'manual'; S.trayRect = { x0: 0, y0: 0, x1: 1, y1: 1 }; }
     if (v === 'edit') { S.trayMode = 'manual'; S.trayRect = tray ? normRect(tray) : (S.trayRect && S.trayRect.x1 - S.trayRect.x0 < .99 ? S.trayRect : { x0: .1, y0: .1, x1: .9, y1: .9 }); editTray = true; toast('Drag the corners onto the tray, then tap <b>Done</b>'); }
     if (v === 'lock') toggleLock();
@@ -768,7 +967,8 @@ function updateTrayChip() {
   const c = $('trayChip'); let cls = 'chip', txt;
   if (editTray) { cls += ' edit'; txt = 'Done adjusting'; }
   else if (S.trayMode === 'manual') { cls += ' ok'; txt = S.trayRect && S.trayRect.x1 - S.trayRect.x0 > .99 ? 'Whole picture' : 'Tray set'; }
-  else if (tray) { cls += ' ok'; txt = 'Tray locked'; }
+  else if (tray && trayLocked) { cls += ' ok'; txt = 'Tray locked'; }
+  else if (tray) { cls += ' warn'; txt = 'Finding tray…'; }
   else { cls += ' warn'; txt = stream ? 'Looking for tray…' : 'Tray'; }
   c.className = cls; $('trayTxt').textContent = txt;
 }
@@ -788,6 +988,7 @@ async function startCamera() {
     video.srcObject = stream; await video.play().catch(() => {});
     await new Promise(r => { if (video.videoWidth) r(); else video.onloadedmetadata = () => r(); });
     $('startCover').style.display = 'none';
+    tray = null; trayLocked = false; trayStableN = 0;
     setupZoom(); fit(); resetCount(); keepAwake(); updateTrayChip();
     const h = $('hint'); h.style.opacity = 1; setTimeout(() => h.style.opacity = 0, 6000);
   } catch (e) { $('startErr').textContent = 'Camera blocked (' + (e.name || e.message) + '). Allow the camera for this site, then try again.'; }
@@ -800,7 +1001,7 @@ function setupZoom() {
       z.min = cap.zoom.min; z.max = Math.min(cap.zoom.max, cap.zoom.min * 4); z.step = cap.zoom.step || 0.1;
       z.value = S.zoom || track.getSettings().zoom || cap.zoom.min;
       if (S.zoom) track.applyConstraints({ advanced: [{ zoom: S.zoom }] }).catch(() => {});
-      z.oninput = () => { S.zoom = +z.value; saveS(); track.applyConstraints({ advanced: [{ zoom: S.zoom }] }).catch(() => {}); tray = null; hist = []; };
+      z.oninput = () => { S.zoom = +z.value; saveS(); track.applyConstraints({ advanced: [{ zoom: S.zoom }] }).catch(() => {}); tray = null; trayLocked = false; trayStableN = 0; hist = []; };
       box.style.display = 'flex';
     } else box.style.display = 'none';
   } catch { box.style.display = 'none'; }
@@ -825,12 +1026,14 @@ function fit() {
   const dpr = Math.min(2, window.devicePixelRatio || 1);
   overlay.width = Math.round(w * dpr); overlay.height = Math.round(h * dpr);
   const pw = +S.res, ph = Math.round(pw / ar);
-  if (proc.width !== pw || proc.height !== ph) { proc.width = pw; proc.height = ph; bgModel = null; eng = {}; tray = null; renderTools(); }
+  if (proc.width !== pw || proc.height !== ph) { proc.width = pw; proc.height = ph; bgModel = null; eng = {}; tray = null; trayLocked = false; trayStableN = 0; renderTools(); }
 }
 new ResizeObserver(() => fit()).observe($('stageWrap'));
 
 // ---------- loop ----------
-function engineOpts() { return { threshold: +S.thr, shadow: !!S.shadow, minAreaFrac: S.min / 100000, maxMultiple: 14, fragMin: 0.3, roi: currentRoi(), removes }; }
+let lowC = false, lowCAt = 0;
+function engineOpts() { return { threshold: +S.thr, shadow: !!S.shadow, minAreaFrac: S.min / 100000, maxMultiple: 14, fragMin: 0.3, solidity: 0.9, weakThr: frameNo % 6 === 0 ? S.thr * 0.4 : 0, roi: currentRoi(), removes }; }
+const needsCheck = () => !!(last && (last.blocked || last.frags || last.unsure || last.glare || lowC || last.uneven));
 function loop(ts) {
   requestAnimationFrame(loop);
   if (!stream || !video.videoWidth || ts - lastTs < 40) return;
@@ -851,16 +1054,21 @@ function processFrame() {
     if (++calib.frames >= 15) { for (let i = 0; i < calib.sum.length; i++) calib.sum[i] /= calib.frames; bgModel = calib.sum; calib = null; resetCount(); renderTools(); toast('Tray calibrated · start pouring'); beep(660, 120); }
     return;
   }
-  if (S.trayMode === 'auto' && !editTray && (frameNo % 8 === 1 || !tray) && !(last && last.blocked)) {
+  // find the tray, then lock it once it's been consistent so a hand reaching in can't shrink it
+  if (S.trayMode === 'auto' && !editTray && !trayLocked && (frameNo % 4 === 1 || !tray) && !(last && last.blocked)) {
     const t = PillEngine.detectTray(id.data, w, h, +S.thr);
     if (t) {
       trayMiss = 0;
+      const same = tray && Math.abs(t.x0 - tray.x0) + Math.abs(t.y0 - tray.y0) + Math.abs(t.x1 - tray.x1) + Math.abs(t.y1 - tray.y1) < w * 0.05;
+      trayStableN = same ? trayStableN + 1 : 0;
       if (!tray) tray = t;
       else { const a = 0.6; tray = { x0: Math.round(tray.x0 * a + t.x0 * (1 - a)), y0: Math.round(tray.y0 * a + t.y0 * (1 - a)), x1: Math.round(tray.x1 * a + t.x1 * (1 - a)), y1: Math.round(tray.y1 * a + t.y1 * (1 - a)) }; }
-    } else if (++trayMiss > 6) tray = null;
+      if (trayStableN >= 5) { trayLocked = true; tick(); }
+    } else if (++trayMiss > 6) { tray = null; trayStableN = 0; }
     updateTrayChip();
   }
   last = PillEngine.count(id.data, w, h, engineOpts(), eng, bgModel);
+  if (last.lowContrast) { lowC = true; lowCAt = frameNo; } else if (frameNo - lowCAt > 30) lowC = false;
   hist.push(last.count); if (hist.length > S.smooth) hist.shift();
   const freq = {}; let best = hist[hist.length - 1], bestN = 0;
   for (let i = hist.length - 1; i >= 0; i--) { const v = hist[i]; freq[v] = (freq[v] || 0) + 1; if (freq[v] > bestN) { bestN = freq[v]; best = v; } }
@@ -876,7 +1084,11 @@ function updateCount() {
   $('ofTarget').textContent = t ? `of ${t}` : '';
   const st = $('status'); let cls = '', txt;
   if (!last) txt = stream ? 'Starting…' : 'Camera off';
-  else if (last.blocked) { cls = 'warn'; txt = 'Hand or bottle in view'; }
+  else if (last.blocked) { cls = 'warn'; txt = 'Hand or object in view'; }
+  else if (lowC) { cls = 'warn'; txt = 'Pills blend into the tray · use a contrasting tray'; }
+  else if (last.uneven) { cls = 'warn'; txt = 'Uneven light on the tray'; }
+  else if (last.glare) { cls = 'warn'; txt = 'Glare on the tray · move the light'; }
+  else if (last.unsure) { cls = 'warn'; txt = `Check ${last.unsure} spot${last.unsure > 1 ? 's' : ''} marked ? (stacked/overlapping)`; }
   else if (last.frags) { cls = 'warn'; txt = `${last.frags} broken / half tab${last.frags > 1 ? 's' : ''} · check`; }
   else if (stable) { cls = 'stable'; txt = 'Stable'; }
   else txt = 'Counting…';
@@ -884,12 +1096,14 @@ function updateCount() {
   const prog = $('ringProg'), vd = $('verdict');
   let state = 'none';
   if (t > 0) {
-    const d = fc - t; state = d < 0 ? 'go' : d === 0 ? 'ok' : 'over';
-    vd.textContent = d < 0 ? `${-d} to go` : d === 0 ? '✓ Match' : `${d} over · remove`;
+    const d = fc - t; state = d < 0 ? 'go' : d === 0 ? (needsCheck() ? 'chk' : 'ok') : 'over';
+    vd.textContent = d < 0 ? `${-d} to go` : d === 0 ? (state === 'chk' ? 'Match? · check tray' : '✓ Match') : `${d} over · remove`;
     vd.className = state;
     prog.style.strokeDashoffset = RING_C * (1 - Math.min(1, fc / t));
   } else { vd.textContent = 'No target'; vd.className = ''; prog.style.strokeDashoffset = RING_C; }
-  prog.style.stroke = state === 'ok' ? 'var(--mint)' : state === 'over' ? 'var(--red)' : 'var(--blue)';
+  prog.style.stroke = state === 'ok' ? 'var(--mint)' : state === 'over' ? 'var(--red)' : state === 'chk' ? 'var(--amber)' : 'var(--blue)';
+  const hc = $('hudCount'); hc.style.display = stream ? 'block' : 'none';
+  hc.innerHTML = `${fc}${t ? `<small>/ ${t}</small>` : ''}`; hc.className = 'chip num ' + (state === 'ok' && stable ? 'ok' : state === 'over' ? 'over' : state === 'chk' ? 'chk' : '');
   prog.style.filter = `drop-shadow(0 0 6px ${state === 'ok' ? 'rgba(52,211,153,.6)' : state === 'over' ? 'rgba(248,113,113,.55)' : 'rgba(96,165,250,.4)'})`;
   $('ringCard').style.setProperty('--glow', state === 'ok' ? 'rgba(52,211,153,.18)' : state === 'over' ? 'rgba(248,113,113,.15)' : 'transparent');
   $('stage').className = state === 'ok' && stable ? 'match' : state === 'over' && stable ? 'over' : '';
@@ -920,7 +1134,7 @@ function draw(ts) {
     const x0 = R.x0 * sx, y0 = R.y0 * sy, x1 = (R.x1 + 1) * sx, y1 = (R.y1 + 1) * sy;
     const full = R.x0 <= 1 && R.y0 <= 1 && R.x1 >= proc.width - 2 && R.y1 >= proc.height - 2;
     if (!full) { octx.fillStyle = 'rgba(4,6,12,.55)'; holeRect(octx, W, H, x0, y0, x1 - x0, y1 - y0, 14 * dpr); }
-    const matched = stable && getTarget() && finalCount() === getTarget();
+    const matched = stable && getTarget() && finalCount() === getTarget() && !needsCheck();
     if (!full || editTray) { const ins = 3 * dpr; brackets(octx, x0 + ins, y0 + ins, x1 - ins, y1 - ins, editTray || matched ? '#34d399' : 'rgba(255,255,255,.92)', 4 * dpr, 30 * dpr, 14 * dpr); }
     if (editTray) for (const [x, y] of [[x0, y0], [x1, y0], [x1, y1], [x0, y1]]) { octx.fillStyle = '#34d399'; octx.beginPath(); octx.arc(Math.min(Math.max(x, 14 * dpr), W - 14 * dpr), Math.min(Math.max(y, 14 * dpr), H - 14 * dpr), 12 * dpr, 0, 7); octx.fill(); octx.strokeStyle = '#fff'; octx.lineWidth = 3 * dpr; octx.stroke(); }
     if (last && !calib && !editTray) {
@@ -929,6 +1143,7 @@ function draw(ts) {
         if (!c.kind || c.kind === 'noise') continue;
         const x = c.cx * sx, y = c.cy * sy;
         if (c.kind === 'block') { octx.setLineDash([6 * dpr, 6 * dpr]); octx.strokeStyle = 'rgba(255,255,255,.35)'; octx.lineWidth = 2 * dpr; rr(octx, c.x0 * sx, c.y0 * sy, (c.x1 - c.x0) * sx, (c.y1 - c.y0) * sy, 12 * dpr); octx.stroke(); octx.setLineDash([]); continue; }
+        if (c.kind === 'glare') { octx.setLineDash([4 * dpr, 4 * dpr]); octx.strokeStyle = 'rgba(251,191,36,.9)'; octx.lineWidth = 2 * dpr; octx.beginPath(); octx.arc(x, y, Math.max(10 * dpr, Math.sqrt(c.area / Math.PI) * sx), 0, 7); octx.stroke(); octx.setLineDash([]); continue; }
         if (c.kind === 'removed') { octx.strokeStyle = '#f87171'; octx.lineWidth = 3 * dpr; const d = 7 * dpr; octx.beginPath(); octx.moveTo(x - d, y - d); octx.lineTo(x + d, y + d); octx.moveTo(x + d, y - d); octx.lineTo(x - d, y + d); octx.stroke(); continue; }
         const col = c.kind === 'pill' ? '#34d399' : c.kind === 'clump' ? '#60a5fa' : '#fbbf24';
         const r = (c.kind === 'pill' ? 5.5 : 10) * dpr;
@@ -936,6 +1151,7 @@ function draw(ts) {
         octx.fillStyle = col; octx.beginPath(); octx.arc(x, y, r, 0, 7); octx.fill();
         octx.shadowBlur = 0; octx.lineWidth = 2 * dpr; octx.strokeStyle = 'rgba(255,255,255,.95)'; octx.stroke();
         if (c.kind !== 'pill') { octx.fillStyle = '#06101f'; octx.font = `800 ${11 * dpr}px Inter,sans-serif`; octx.fillText(c.kind === 'clump' ? c.n : '½', x, y + 0.5 * dpr); }
+        if (c.unsure) { const rx = x + 11 * dpr, ry = y - 11 * dpr; octx.fillStyle = '#fbbf24'; octx.beginPath(); octx.arc(rx, ry, 8 * dpr, 0, 7); octx.fill(); octx.strokeStyle = '#fff'; octx.lineWidth = 1.5 * dpr; octx.stroke(); octx.fillStyle = '#1c1300'; octx.font = `900 ${11 * dpr}px Inter,sans-serif`; octx.fillText('?', rx, ry + 0.5 * dpr); }
       }
       for (const a of adds) {
         const x = a.x * sx, y = a.y * sy;
@@ -1219,6 +1435,10 @@ $('bSave').onclick = async () => {
   if (vr === false) warn.push('Stock bottle NDC doesn\'t match the label');
   if (last.blocked) warn.push('Hand or bottle was in view'); else if (!stable) warn.push('Count hadn\'t settled yet');
   if (last.frags) warn.push(`${last.frags} possible broken / half tablet${last.frags > 1 ? 's' : ''}`);
+  if (last.unsure) warn.push(`${last.unsure} spot${last.unsure > 1 ? 's' : ''} marked ? (stacked or overlapping pills)`);
+  if (last.glare) warn.push('Glare on the tray was ignored · make sure no pills are under it');
+  if (lowC) warn.push('Pills blend into the tray color');
+  if (last.uneven) warn.push('Uneven light on the tray');
   if (warn.length) {
     const ok = await sheet(`<h2>Check before saving</h2><p class="sub">Save anyway, or go back and fix it.</p><ul class="warnList">${warn.map(w => `<li><span style="width:20px;flex:none">${ICON.warn}</span>${esc(w)}</li>`).join('')}</ul><div class="acts"><button class="btn" data-v="false">Go back</button><button class="btn pri" data-v="true">Save anyway</button></div>`);
     if (!ok) return;
@@ -1294,10 +1514,11 @@ function labels() { $('storeName').textContent = S.store || ''; }
 
 // ---------- help ----------
 $('bHelp').onclick = () => sheet(`<h2>Getting great counts</h2><p class="sub">A couple minutes of setup makes counts fast and reliable.</p>
-<div class="legend"><span><i style="background:#34d399"></i>1 pill</span><span><i style="background:#60a5fa"></i>touching (number shown)</span><span><i style="background:#fbbf24"></i>½ broken / half tab</span><span><i style="background:#a78bfa"></i>added by you</span><span style="color:#f87171">✕ removed by you</span></div>
+<div class="legend"><span><i style="background:#34d399"></i>1 pill</span><span><i style="background:#60a5fa"></i>touching (number shown)</span><span><i style="background:#fbbf24"></i>½ broken / half tab</span><span><i style="background:#a78bfa"></i>added by you</span><span style="color:#f87171">✕ removed by you</span><span><i style="background:#fbbf24"></i>? check this spot</span></div>
 <ol class="help">
+<li><b>Start with the tray empty and your hands out of view</b> so the tray locks cleanly. Then pour.</li>
 <li><b>Mount it overhead.</b> Camera straight down, 10–14 in. above the tray. A fixed height keeps saved pill sizes accurate.</li>
-<li><b>Matte, solid tray.</b> Navy or black for light pills, white for dark pills. The corner brackets lock onto it, and everything outside is ignored.</li>
+<li><b>Matte, solid tray.</b> Navy or black for light pills, white for dark pills. <b>Avoid shiny trays:</b> a glare spot can look exactly like a white pill. The corner brackets lock onto the tray and everything outside is ignored.</li>
 <li><b>Even light.</b> A small LED panel overhead cuts shadows and glare.</li>
 <li><b>Single layer.</b> Touching pills are split by size, but stacked pills can't be seen. Spread them with the spatula.</li>
 <li><b>Fix misses with a tap.</b> Tap a dot to remove it, tap an empty spot to add a pill. Undo is at the top-left of the camera.</li>
