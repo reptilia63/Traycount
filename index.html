@@ -210,6 +210,7 @@ select.inp option{background:#10141f}
   .nb.save{font-size:16px}
   .nb.save svg{display:none}
   .store{display:none}
+  #trainChip .lbl{display:none}
   .setg{grid-template-columns:1fr}
 }
 </style>
@@ -220,6 +221,7 @@ select.inp option{background:#10141f}
     <div class="logo"><i></i>TrayCount</div>
     <span class="store" id="storeName"></span>
     <div class="sp"></div>
+    <button class="chip" id="trainChip" style="display:none"><span class="dot" style="background:#a78bfa"></span><span class="num" id="trainN">0</span><span class="lbl">&nbsp;training photos</span></button>
     <button class="ib" id="bLog" aria-label="Count log"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg></button>
     <button class="ib" id="bHelp" aria-label="Setup tips"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3M12 17h.01"/></svg></button>
     <button class="ib" id="bSettings" aria-label="Settings"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></svg></button>
@@ -843,7 +845,7 @@ const ZXING_URL = 'https://unpkg.com/@zxing/library@0.21.3/umd/index.min.js';
 const TESS_URL = 'https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js';
 const RING_C = 2 * Math.PI * 96;
 
-const DEF = { initials: '', store: 'Family Pharmacy', cameraId: '', res: 640, thr: 45, min: 8, smooth: 8, shadow: true, sound: true, debug: false, trayMode: 'auto', trayRect: null, zoom: null, autoLabel: true };
+const DEF = { initials: '', store: 'Family Pharmacy', cameraId: '', res: 640, thr: 45, min: 8, smooth: 8, shadow: true, sound: true, debug: false, trayMode: 'auto', trayRect: null, zoom: null, autoLabel: true, collect: true };
 const ls = { get(k, d) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch { return d; } }, set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} } };
 const S = Object.assign({}, DEF, ls.get('tc_settings', {}));
 const saveS = () => ls.set('tc_settings', S);
@@ -1409,12 +1411,75 @@ function verify() {
 }
 
 // ---------- storage ----------
-const DB = (() => {
-  let dbp = null, mem = [];
-  const open = () => dbp || (dbp = new Promise((res, rej) => { try { const r = indexedDB.open('traycount', 1); r.onupgradeneeded = () => r.result.createObjectStore('counts', { keyPath: 'id' }); r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error); } catch (e) { rej(e); } }));
-  const tx = async (m, fn) => { const db = await open(); return new Promise((res, rej) => { const t = db.transaction('counts', m), r = fn(t.objectStore('counts')); t.oncomplete = () => res(r && r.result); t.onerror = () => rej(t.error); }); };
-  return { put: (o) => tx('readwrite', s => s.put(o)).catch(() => { mem.push(o); }), all: () => tx('readonly', s => s.getAll()).catch(() => mem), clear: () => tx('readwrite', s => s.clear()).catch(() => { mem = []; }) };
-})();
+let dbp = null;
+const openDB = () => dbp || (dbp = new Promise((res, rej) => { try { const r = indexedDB.open('traycount', 2); r.onupgradeneeded = () => { const d = r.result; if (!d.objectStoreNames.contains('counts')) d.createObjectStore('counts', { keyPath: 'id' }); if (!d.objectStoreNames.contains('train')) d.createObjectStore('train', { keyPath: 'id' }); }; r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error); } catch (e) { rej(e); } }));
+function store(name) {
+  let mem = [];
+  const tx = async (m, fn) => { const db = await openDB(); return new Promise((res, rej) => { const t = db.transaction(name, m), r = fn(t.objectStore(name)); t.oncomplete = () => res(r && r.result); t.onerror = () => rej(t.error); }); };
+  return { put: (o) => tx('readwrite', s => s.put(o)).catch(() => { mem.push(o); }), all: () => tx('readonly', s => s.getAll()).catch(() => mem), clear: () => tx('readwrite', s => s.clear()).catch(() => { mem = []; }), del: (id) => tx('readwrite', s => s.delete(id)).catch(() => {}), count: () => tx('readonly', s => s.count()).catch(() => mem.length) };
+}
+const DB = store('counts'), TRAIN = store('train');
+
+// ---------- training photos ----------
+// Full-resolution tray photo + the confirmed count + where each pill was found (incl. hand fixes) = labelled data.
+function rawPhoto() {
+  return new Promise(res => {
+    const vw = video.videoWidth, vh = video.videoHeight, c = document.createElement('canvas'); c.width = vw; c.height = vh;
+    c.getContext('2d').drawImage(video, 0, 0, vw, vh); c.toBlob(b => res({ blob: b, w: vw, h: vh }), 'image/jpeg', 0.92);
+  });
+}
+function pillPoints(vw) {
+  const s = vw / proc.width, pts = [];
+  if (last) for (const c of last.comps) {
+    if (!c.kind || c.kind === 'noise' || c.kind === 'block') continue;
+    pts.push({ x: Math.round(c.cx * s), y: Math.round(c.cy * s), n: c.kind === 'removed' ? 0 : (c.n || 1), kind: c.kind, unsure: !!c.unsure, box: [Math.round(c.x0 * s), Math.round(c.y0 * s), Math.round(c.x1 * s), Math.round(c.y1 * s)] });
+  }
+  for (const a of adds) pts.push({ x: Math.round(a.x * s), y: Math.round(a.y * s), n: 1, kind: 'added_by_hand' });
+  return pts;
+}
+async function updateTrainChip() {
+  const n = await TRAIN.count(); const el = $('trainChip'); if (!el) return;
+  el.style.display = S.collect ? 'inline-flex' : 'none'; $('trainN').textContent = n;
+}
+async function exportTraining(close) {
+  const rows = (await TRAIN.all()).filter(r => !r.exported).sort((a, b) => a.id - b.id);
+  if (!rows.length) return toast('No new training photos to export');
+  toast('Building zip…', 60000);
+  try { if (!window.JSZip) await loadScript('https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js'); } catch { return toast('Zip tool couldn\'t load · check internet'); }
+  const batch = rows.slice(0, 150), zip = new JSZip(), stamp = new Date().toISOString().slice(0, 16).replace(/[-:T]/g, '');
+  const csv = [['id', 'time', 'image', 'true_count', 'app_count', 'app_was_right', 'ndc', 'drug', 'pill_px', 'flags', 'initials'].join(',')];
+  for (const r of batch) {
+    const name = `${r.id}.jpg`; zip.file('images/' + name, r.blob);
+    const { blob, ...lab } = r; zip.file('labels/' + r.id + '.json', JSON.stringify(lab, null, 1));
+    csv.push([r.id, r.ts, name, r.trueCount, r.appCount, r.trueCount === r.appCount ? 'yes' : 'no', r.ndc, `"${(r.drug || '').replace(/"/g, '""')}"`, r.unitPx, `"${r.flags}"`, r.initials].join(','));
+  }
+  zip.file('manifest.csv', csv.join('\r\n'));
+  zip.file('README.txt', 'TrayCount training batch. images/ = full-resolution tray photos. labels/ = confirmed count + detected pill points (n = pills at that point, 0 = removed by hand). manifest.csv = one row per photo.');
+  const out = await zip.generateAsync({ type: 'blob' });
+  const a = document.createElement('a'); a.href = URL.createObjectURL(out); a.download = `traycount-training-${stamp}-${batch.length}.zip`; document.body.appendChild(a); a.click(); a.remove();
+  for (const r of batch) { r.exported = true; await TRAIN.put(r); }
+  $('toast').classList.remove('show');
+  toast(`Exported ${batch.length} photo${batch.length === 1 ? '' : 's'}${rows.length > batch.length ? ` · ${rows.length - batch.length} more to export` : ''}. Upload the zip to Google Drive.`, 5000);
+  if (close) close(); openTraining();
+}
+async function openTraining() {
+  const rows = await TRAIN.all(), n = rows.length, ex = rows.filter(r => r.exported).length, wrong = rows.filter(r => r.trueCount !== r.appCount).length;
+  let usage = ''; try { const e = await navigator.storage.estimate(); usage = `${Math.round(e.usage / 1048576)} MB used of ${Math.round(e.quota / 1048576)} MB available`; } catch {}
+  sheet(`<h2>Training photos</h2><p class="sub">Each saved count stores a full-resolution photo with the confirmed count. These train TrayCount on your own pills and tray.</p>
+    <div class="card" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center">
+      <div><div class="num" style="font-size:28px;font-weight:800">${n}</div><div class="t2">photos</div></div>
+      <div><div class="num" style="font-size:28px;font-weight:800;color:#fbbf24">${wrong}</div><div class="t2">app was wrong</div></div>
+      <div><div class="num" style="font-size:28px;font-weight:800">${n - ex}</div><div class="t2">not exported yet</div></div>
+    </div>
+    <p class="sub" style="margin-top:10px">${usage}. Goal: about 2,500 photos across your common drugs, ideally including tricky ones (tiny white tabs, capsules, crowded trays).</p>
+    <p class="sub"><b>To send them:</b> tap Export, then upload the zip from your Downloads to the Google Drive folder <b>TrayCount training</b>. Exports are batches of 150.</p>
+    <div class="acts"><button class="btn danger" id="trDel">Delete exported (${ex})</button><button class="btn" data-v="">Close</button><button class="btn pri" id="trExp">Export new photos</button></div>`, {
+    onOpen: (b, close) => {
+      b.querySelector('#trExp').onclick = () => exportTraining(close);
+      b.querySelector('#trDel').onclick = async () => { const ok = await sheet(`<h2>Delete ${ex} exported photos?</h2><p class="sub">Only delete after you've uploaded the zip files to Google Drive.</p><div class="acts"><button class="btn" data-v="false">Cancel</button><button class="btn danger" data-v="true">Delete</button></div>`); if (ok) for (const r of rows.filter(r => r.exported)) await TRAIN.del(r.id); updateTrainChip(); openTraining(); };
+    }
+  });
+}
 function snapshot() {
   const vw = video.videoWidth, vh = video.videoHeight, w = Math.min(1024, vw), h = Math.round(w * vh / vw), band = 52;
   const c = document.createElement('canvas'); c.width = w; c.height = h + band; const x = c.getContext('2d');
@@ -1443,9 +1508,26 @@ $('bSave').onclick = async () => {
     const ok = await sheet(`<h2>Check before saving</h2><p class="sub">Save anyway, or go back and fix it.</p><ul class="warnList">${warn.map(w => `<li><span style="width:20px;flex:none">${ICON.warn}</span>${esc(w)}</li>`).join('')}</ul><div class="acts"><button class="btn" data-v="false">Go back</button><button class="btn pri" data-v="true">Save anyway</button></div>`);
     if (!ok) return;
   }
-  const r = { id: Date.now(), ts: new Date().toISOString(), rx: RX.rx.trim(), drug: RX.drug.trim(), labelNdc: RX.labelNdc.trim(), bottleNdc: rec.bottleNdcHy || RX.bottleNdc.trim(), lot: rec.lot, exp: rec.exp, verified: vr === null ? '' : vr ? 'MATCH' : 'MISMATCH', target: t || '', count: fc, fixes: removes.length + adds.length ? `${removes.length} removed, ${adds.length} added by hand` : '', initials: S.initials, notes: warn.join('; '), photo: snapshot() };
+  let trueCount = fc;
+  if (S.collect) {
+    const ans = await sheet(`<h2>Is ${fc} the right count?</h2><p class="sub">Check the tray first. This photo trains TrayCount, so an honest answer matters most when the app got it wrong.</p>
+      <div style="display:flex;flex-direction:column;gap:10px"><button class="btn pri" data-v="yes" style="font-size:18px;padding:16px">✓ Yes, ${fc} is correct</button><button class="btn" data-v="no" style="font-size:16px;padding:14px">No, enter the real count</button></div>
+      <div class="acts"><button class="btn" data-v="skip">Save without photo</button><button class="btn" data-v="">Cancel</button></div>`);
+    if (!ans) return;
+    if (ans === 'no') {
+      const v = await sheet(`<h2>Real count</h2><p class="sub">Count the tray by hand and enter it.</p><input class="inp num" inputmode="numeric" style="font-size:28px;text-align:center" value="${fc}"><div class="acts"><button class="btn" data-v="">Cancel</button><button class="btn pri" data-v="__input">Save</button></div>`, { onOpen: b => setTimeout(() => { const i = b.querySelector('input'); i.focus(); i.select(); }, 300) });
+      const n = parseInt(v, 10); if (isNaN(n) || n < 0) return; trueCount = n;
+    }
+    if (ans !== 'skip') {
+      const ph = await rawPhoto();
+      const flags = [last.blocked && 'object', last.frags && 'half', last.unsure && 'unsure', lowC && 'lowcontrast', last.uneven && 'uneven'].filter(Boolean).join(' ');
+      await TRAIN.put({ id: Date.now(), ts: new Date().toISOString(), blob: ph.blob, w: ph.w, h: ph.h, trueCount, appCount: fc, autoCount: shown, handAdds: adds.length, handRemoves: removes.length, unitPx: Math.round((last.unit || 0) * (ph.w / proc.width) ** 2), ndc: rec.bottleNdcHy || RX.bottleNdc || RX.labelNdc || '', drug: RX.drug || '', flags, tray: currentRoi() && (() => { const R = currentRoi(), s = ph.w / proc.width; return [R.x0 * s, R.y0 * s, (R.x1 + 1) * s, (R.y1 + 1) * s].map(Math.round); })(), points: pillPoints(ph.w), initials: S.initials, device: navigator.userAgent.slice(0, 120), settings: { thr: S.thr, res: S.res, zoom: S.zoom } });
+      updateTrainChip();
+    }
+  }
+  const r = { id: Date.now(), ts: new Date().toISOString(), rx: RX.rx.trim(), drug: RX.drug.trim(), labelNdc: RX.labelNdc.trim(), bottleNdc: rec.bottleNdcHy || RX.bottleNdc.trim(), lot: rec.lot, exp: rec.exp, verified: vr === null ? '' : vr ? 'MATCH' : 'MISMATCH', target: t || '', count: trueCount, appCount: fc, fixes: removes.length + adds.length ? `${removes.length} removed, ${adds.length} added by hand` : '', initials: S.initials, notes: warn.join('; '), photo: snapshot() };
   await DB.put(r);
-  chime(); toast(`<span style="color:#34d399">✓</span> Saved <b>${fc}</b>${r.rx ? ' for Rx ' + esc(r.rx) : ''}`);
+  chime(); toast(`<span style="color:#34d399">✓</span> Saved <b>${trueCount}</b>${r.rx ? ' for Rx ' + esc(r.rx) : ''}${trueCount !== fc ? ` (app said ${fc})` : ''}`);
   newRx();
 };
 
@@ -1461,7 +1543,7 @@ async function openLog() {
         const q = b.querySelector('#lgSearch').value.trim().toLowerCase();
         const rows = q ? logRows.filter(r => [r.rx, r.drug, r.labelNdc, r.bottleNdc, r.initials].join(' ').toLowerCase().includes(q)) : logRows;
         b.querySelector('#lgList').innerHTML = rows.length ? rows.map(r => `<div class="logItem"><img src="${r.photo}" data-id="${r.id}"><div class="m">
-          <div class="t1"><span class="big num">${r.count}</span>${r.target ? `<span class="t2">of ${r.target}</span>` : ''}${r.verified === 'MATCH' ? '<span class="tag ok">NDC ✓</span>' : r.verified === 'MISMATCH' ? '<span class="tag bad">NDC ✗</span>' : ''}${r.fixes ? '<span class="tag na">hand-fixed</span>' : ''}</div>
+          <div class="t1"><span class="big num">${r.count}</span>${r.target ? `<span class="t2">of ${r.target}</span>` : ''}${r.appCount != null && r.appCount !== r.count ? `<span class="tag bad">app said ${r.appCount}</span>` : ''}${r.verified === 'MATCH' ? '<span class="tag ok">NDC ✓</span>' : r.verified === 'MISMATCH' ? '<span class="tag bad">NDC ✗</span>' : ''}${r.fixes ? '<span class="tag na">hand-fixed</span>' : ''}</div>
           <div class="t2">${r.rx ? 'Rx ' + esc(r.rx) + ' · ' : ''}${esc(r.drug || r.bottleNdc || r.labelNdc || 'No Rx details')}</div>
           <div class="t2">${new Date(r.ts).toLocaleString([], { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' })} · ${esc(r.initials)}${r.notes ? ' · ' + esc(r.notes) : ''}</div></div></div>`).join('') : '<p class="sub">No counts saved yet.</p>';
         b.querySelectorAll('img[data-id]').forEach(img => img.onclick = () => { const r = logRows.find(x => x.id == img.dataset.id); sheet(`<img src="${r.photo}" style="width:100%;border-radius:14px"><div class="acts"><button class="btn pri" data-v="1">Back</button></div>`, { wide: true }).then(openLog); });
@@ -1492,6 +1574,7 @@ $('bSettings').onclick = () => sheet(`<h2>Settings</h2><p class="sub">Saved on t
     <div><label class="t">Steadiness <span id="vSm">${S.smooth}</span></label><input type="range" id="sSm" min="3" max="20" value="${S.smooth}"><div class="note">Frames the count must hold before "Stable".</div></div>
     <div style="display:flex;flex-direction:column;gap:8px">
       <label class="tog">Ignore shadows<input type="checkbox" id="sShadow" ${S.shadow ? 'checked' : ''}></label>
+      <label class="tog">Collect training photos<input type="checkbox" id="sCollect" ${S.collect ? 'checked' : ''}></label>
       <label class="tog">Read label automatically<input type="checkbox" id="sAuto" ${S.autoLabel ? 'checked' : ''}></label>
       <label class="tog">Sounds<input type="checkbox" id="sSound" ${S.sound ? 'checked' : ''}></label>
       <label class="tog">Diagnostics<input type="checkbox" id="sDebug" ${S.debug ? 'checked' : ''}></label>
@@ -1506,7 +1589,7 @@ $('bSettings').onclick = () => sheet(`<h2>Settings</h2><p class="sub">Saved on t
     q('sRes').onchange = e => { S.res = +e.target.value; saveS(); fit(); };
     q('sCamera').onchange = e => { S.cameraId = e.target.value; S.zoom = null; saveS(); startCamera(); };
     [['sThr', 'thr', 'vThr'], ['sMin', 'min', 'vMin'], ['sSm', 'smooth', 'vSm']].forEach(([id, k, v]) => q(id).oninput = e => { S[k] = +e.target.value; q(v).textContent = S[k]; saveS(); hist = []; });
-    [['sShadow', 'shadow'], ['sAuto', 'autoLabel'], ['sSound', 'sound'], ['sDebug', 'debug']].forEach(([id, k]) => q(id).onchange = e => { S[k] = e.target.checked; saveS(); });
+    [['sShadow', 'shadow'], ['sAuto', 'autoLabel'], ['sSound', 'sound'], ['sDebug', 'debug'], ['sCollect', 'collect']].forEach(([id, k]) => q(id).onchange = e => { S[k] = e.target.checked; saveS(); updateTrainChip(); if (k === 'collect' && S[k]) try { navigator.storage.persist(); } catch {} });
     q('sForget').onclick = () => { unitMem = {}; ls.set('tc_units', unitMem); toast('Saved pill sizes cleared'); };
   }
 });
@@ -1529,9 +1612,11 @@ $('bHelp').onclick = () => sheet(`<h2>Getting great counts</h2><p class="sub">A 
 // ---------- boot ----------
 $('bStart').onclick = startCamera;
 $('ringProg').style.strokeDasharray = RING_C; $('ringProg').style.strokeDashoffset = RING_C;
-renderRx(); renderTools(); labels(); updateTrayChip(); updateCount();
+renderRx(); renderTools(); labels(); updateTrayChip(); updateCount(); updateTrainChip();
+$('trainChip').onclick = openTraining;
+try { if (S.collect && navigator.storage && navigator.storage.persist) navigator.storage.persist(); } catch {}
 requestAnimationFrame(loop);
-window.__tc = { get last() { return last; }, get tray() { return tray; }, onBarcode, verify, syncTarget, setRx, get adds() { return adds; }, get removes() { return removes; } };
+window.__tc = { TRAIN, openTraining, exportTraining, get last() { return last; }, get tray() { return tray; }, onBarcode, verify, syncTarget, setRx, get adds() { return adds; }, get removes() { return removes; } };
 })();
 </script>
 </body>
