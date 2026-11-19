@@ -845,7 +845,7 @@ const ZXING_URL = 'https://unpkg.com/@zxing/library@0.21.3/umd/index.min.js';
 const TESS_URL = 'https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js';
 const RING_C = 2 * Math.PI * 96;
 
-const DEF = { initials: '', store: 'Family Pharmacy', cameraId: '', res: 640, thr: 45, min: 8, smooth: 8, shadow: true, sound: true, debug: false, trayMode: 'auto', trayRect: null, zoom: null, autoLabel: true, collect: true };
+const DEF = { initials: '', store: 'Family Pharmacy', cameraId: '', res: 640, thr: 45, min: 8, smooth: 8, shadow: true, sound: true, debug: false, trayMode: 'auto', trayRect: null, zoom: null, autoLabel: true, collect: true, engine: 'ai' };
 const ls = { get(k, d) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch { return d; } }, set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} } };
 const S = Object.assign({}, DEF, ls.get('tc_settings', {}));
 const saveS = () => ls.set('tc_settings', S);
@@ -1045,6 +1045,68 @@ function loop(ts) {
   else if (mode === 'label') labelSteady(ts);
   draw(ts);
 }
+// ---------- AI pill detector (on-device, onnxruntime-web) ----------
+const ORT_VER = '1.20.1', ORT_BASE = `https://cdn.jsdelivr.net/npm/onnxruntime-web@${ORT_VER}/dist/`;
+const ai = { session: null, loading: false, failed: false, busy: false, inW: 640, inH: 480, ep: '', ms: 0, conf: 0.35 };
+const aiCanvas = document.createElement('canvas'); aiCanvas.width = ai.inW; aiCanvas.height = ai.inH; const aiCtx = aiCanvas.getContext('2d', { willReadFrequently: true });
+async function loadAI() {
+  if (ai.session || ai.loading || ai.failed) return;
+  ai.loading = true; updateCount();
+  try {
+    const gpu = !!navigator.gpu;
+    await loadScript(ORT_BASE + (gpu ? 'ort.webgpu.min.js' : 'ort.min.js'));
+    ort.env.wasm.wasmPaths = ORT_BASE; ort.env.wasm.numThreads = 1;
+    const tryEP = async (eps) => ort.InferenceSession.create('model.onnx?v=1', { executionProviders: eps, graphOptimizationLevel: 'all' });
+    try { ai.session = await tryEP(gpu ? ['webgpu'] : ['wasm']); ai.ep = gpu ? 'gpu' : 'cpu'; }
+    catch (e) { ai.session = await tryEP(['wasm']); ai.ep = 'cpu'; }
+  } catch (e) { console.warn('AI load failed', e); ai.failed = true; toast('AI model couldn\'t load · using classic counter', 4000); }
+  ai.loading = false; hist = []; updateCount();
+}
+function nms(boxes, iou) {
+  boxes.sort((a, b) => b.s - a.s); const out = [];
+  for (const b of boxes) {
+    let ok = true;
+    for (const k of out) { const ix = Math.max(0, Math.min(b.x1, k.x1) - Math.max(b.x0, k.x0)), iy = Math.max(0, Math.min(b.y1, k.y1) - Math.max(b.y0, k.y0)), inter = ix * iy; if (inter / ((b.x1 - b.x0) * (b.y1 - b.y0) + (k.x1 - k.x0) * (k.y1 - k.y0) - inter) > iou) { ok = false; break; } }
+    if (ok) out.push(b);
+  }
+  return out;
+}
+async function runAI() {
+  ai.busy = true;
+  try {
+    const vw = video.videoWidth, vh = video.videoHeight, sc = Math.min(ai.inW / vw, ai.inH / vh), dw = vw * sc, dh = vh * sc, px = (ai.inW - dw) / 2, py = (ai.inH - dh) / 2;
+    aiCtx.fillStyle = 'rgb(114,114,114)'; aiCtx.fillRect(0, 0, ai.inW, ai.inH); aiCtx.drawImage(video, px, py, dw, dh);
+    const d = aiCtx.getImageData(0, 0, ai.inW, ai.inH).data, n = ai.inW * ai.inH, f = new Float32Array(3 * n);
+    for (let i = 0; i < n; i++) { f[i] = d[i * 4] / 255; f[n + i] = d[i * 4 + 1] / 255; f[2 * n + i] = d[i * 4 + 2] / 255; }
+    const t0 = performance.now();
+    const out = await ai.session.run({ [ai.session.inputNames[0]]: new ort.Tensor('float32', f, [1, 3, ai.inH, ai.inW]) });
+    ai.ms = ai.ms ? ai.ms * 0.8 + (performance.now() - t0) * 0.2 : performance.now() - t0;
+    const o = out[ai.session.outputNames[0]], N = o.dims[2], a = o.data, boxes = [];
+    for (let i = 0; i < N; i++) { const s = a[4 * N + i]; if (s < ai.conf) continue; const cx = a[i], cy = a[N + i], bw = a[2 * N + i], bh = a[3 * N + i]; boxes.push({ s, x0: cx - bw / 2, y0: cy - bh / 2, x1: cx + bw / 2, y1: cy + bh / 2 }); }
+    const keep = nms(boxes, 0.5);
+    // to processing-canvas coordinates (what the overlay and tray brackets use)
+    const k = proc.width / vw, R = currentRoi(), comps = [];
+    let nIn = 0;
+    for (const b of keep) {
+      const c = { x0: (b.x0 - px) / sc * k, y0: (b.y0 - py) / sc * k, x1: (b.x1 - px) / sc * k, y1: (b.y1 - py) / sc * k, s: b.s };
+      c.cx = (c.x0 + c.x1) / 2; c.cy = (c.y0 + c.y1) / 2; c.area = Math.PI * (c.x1 - c.x0) * (c.y1 - c.y0) / 4;
+      if (c.cx < R.x0 || c.cx > R.x1 || c.cy < R.y0 || c.cy > R.y1) continue;
+      c.kind = 'pill'; c.n = 1; c.unsure = b.s < 0.5;
+      if (removes.some(p => p.x >= c.x0 - 2 && p.x <= c.x1 + 2 && p.y >= c.y0 - 2 && p.y <= c.y1 + 2)) { c.kind = 'removed'; }
+      else nIn++;
+      comps.push(c);
+    }
+    const areas = comps.map(c => c.area).sort((x, y) => x - y);
+    last = { count: nIn, comps, unit: areas[areas.length >> 1] || 200, blocked: false, frags: 0, unsure: comps.filter(c => c.unsure && c.kind !== 'removed').length, glare: 0, lowContrast: false, uneven: false, gain: 1, ai: true };
+    hist.push(last.count); if (hist.length > S.smooth) hist.shift();
+    const freq = {}; let best = hist[hist.length - 1], bestN = 0;
+    for (let i = hist.length - 1; i >= 0; i--) { const v = hist[i]; freq[v] = (freq[v] || 0) + 1; if (freq[v] > bestN) { bestN = freq[v]; best = v; } }
+    shown = best; stable = hist.length >= Math.max(3, Math.round(S.smooth / 2)) && hist.slice(-Math.max(3, Math.round(S.smooth / 2))).every(v => v === hist[hist.length - 1]);
+    updateCount();
+  } catch (e) { console.warn(e); }
+  ai.busy = false;
+}
+
 function processFrame() {
   const w = proc.width, h = proc.height;
   pctx.drawImage(video, 0, 0, w, h);
@@ -1069,6 +1131,11 @@ function processFrame() {
     } else if (++trayMiss > 6) { tray = null; trayStableN = 0; }
     updateTrayChip();
   }
+  if (S.engine === 'ai' && !ai.failed) {
+    if (!ai.session) { loadAI(); return; }
+    if (!ai.busy) runAI();
+    return;
+  }
   last = PillEngine.count(id.data, w, h, engineOpts(), eng, bgModel);
   if (last.lowContrast) { lowC = true; lowCAt = frameNo; } else if (frameNo - lowCAt > 30) lowC = false;
   hist.push(last.count); if (hist.length > S.smooth) hist.shift();
@@ -1085,7 +1152,8 @@ function updateCount() {
   if (fc !== lastShownFinal) { cEl.textContent = fc; if (lastShownFinal >= 0 && stream) { cEl.classList.add('bump'); setTimeout(() => cEl.classList.remove('bump'), 140); if (fc > lastShownFinal) tick(); } lastShownFinal = fc; }
   $('ofTarget').textContent = t ? `of ${t}` : '';
   const st = $('status'); let cls = '', txt;
-  if (!last) txt = stream ? 'Starting…' : 'Camera off';
+  if (S.engine === 'ai' && ai.loading) txt = 'Loading AI model (first time ~12 MB)…';
+  else if (!last) txt = stream ? 'Starting…' : 'Camera off';
   else if (last.blocked) { cls = 'warn'; txt = 'Hand or object in view'; }
   else if (lowC) { cls = 'warn'; txt = 'Pills blend into the tray · use a contrasting tray'; }
   else if (last.uneven) { cls = 'warn'; txt = 'Uneven light on the tray'; }
@@ -1129,7 +1197,8 @@ function draw(ts) {
   const W = overlay.width, H = overlay.height, dpr = W / Math.max(1, overlay.clientWidth);
   octx.clearRect(0, 0, W, H);
   const dbg = $('debug'); dbg.style.display = S.debug ? 'block' : 'none';
-  if (S.debug && last) dbg.textContent = `${fps} fps · pill ≈ ${Math.round(last.unit || 0)}px${eng.lockedUnit ? ' (locked)' : ''} · ${bgModel ? 'calibrated' : 'auto'} · gain ${last.gain.toFixed(2)}`;
+  if (S.debug && last && last.ai) dbg.textContent = `AI ${ai.ep} · ${Math.round(ai.ms)} ms/frame · ${last.comps.length} found`;
+  else if (S.debug && last) dbg.textContent = `${fps} fps · pill ≈ ${Math.round(last.unit || 0)}px${eng.lockedUnit ? ' (locked)' : ''} · ${bgModel ? 'calibrated' : 'auto'} · gain ${last.gain.toFixed(2)}`;
   const sx = W / proc.width, sy = H / proc.height;
   if (mode === 'count') {
     const R = currentRoi();
@@ -1568,6 +1637,7 @@ $('bSettings').onclick = () => sheet(`<h2>Settings</h2><p class="sub">Saved on t
     <div><label class="t">Your initials</label><input class="inp" id="sInitials" maxlength="5" style="text-transform:uppercase" value="${esc(S.initials)}"></div>
     <div><label class="t">Store name</label><input class="inp" id="sStore" value="${esc(S.store)}"></div>
     <div><label class="t">Camera</label><select class="inp" id="sCamera"><option>Current camera</option></select></div>
+    <div><label class="t">Counting engine</label><select class="inp" id="sEngine"><option value="ai">AI pill detector (recommended)</option><option value="classic">Classic (color-based)</option></select></div>
     <div><label class="t">Detail</label><select class="inp" id="sRes"><option value="480">Fast</option><option value="640">Standard</option><option value="800">Fine (tiny pills)</option></select></div>
     <div><label class="t">Sensitivity <span id="vThr">${S.thr}</span></label><input type="range" id="sThr" min="18" max="90" value="${S.thr}"><div class="note">Lower picks up pills close to the tray color. Higher ignores glare and dust.</div></div>
     <div><label class="t">Ignore specks <span id="vMin">${S.min}</span></label><input type="range" id="sMin" min="1" max="40" value="${S.min}"><div class="note">Raise if crumbs or glare get dots.</div></div>
@@ -1583,7 +1653,8 @@ $('bSettings').onclick = () => sheet(`<h2>Settings</h2><p class="sub">Saved on t
   <div class="acts"><button class="btn" id="sForget">Forget saved pill sizes</button><button class="btn pri" data-v="1">Done</button></div>`, {
   onOpen: (b) => {
     const q = (id) => b.querySelector('#' + id);
-    q('sRes').value = String(S.res); listCameras();
+    q('sRes').value = String(S.res); q('sEngine').value = S.engine; listCameras();
+    q('sEngine').onchange = e => { S.engine = e.target.value; saveS(); hist = []; last = null; ai.failed = false; updateCount(); };
     q('sInitials').oninput = e => { S.initials = e.target.value.toUpperCase().trim(); saveS(); };
     q('sStore').oninput = e => { S.store = e.target.value; saveS(); labels(); };
     q('sRes').onchange = e => { S.res = +e.target.value; saveS(); fit(); };
